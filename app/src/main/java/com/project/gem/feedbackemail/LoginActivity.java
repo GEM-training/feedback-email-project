@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,8 +15,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.project.gem.feedbackemail.model.Dealer;
+import com.project.gem.feedbackemail.model.ResponseDTO;
+import com.project.gem.feedbackemail.model.TokenInfo;
+import com.project.gem.feedbackemail.retrofit.RestClient;
 
 import org.w3c.dom.Text;
+
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 public class LoginActivity extends AppCompatActivity {
     private AutoCompleteTextView mUsernameView;
@@ -43,9 +56,46 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("phuongtd" , "mslmvmvlkf");
                 String username = mUsernameView.getText().toString();
                 String password = mPasswordView.getText().toString();
-                if(validateForm(username, password)){
+
+                Log.d("phuongtd" , "username: " + username);
+                if(true){
+
+                    RestClient.GitApiInterface service = RestClient.getClient();
+                    Call<ResponseDTO> call = service.login(username.trim(), password.trim());
+
+                    call.enqueue(new Callback<ResponseDTO>() {
+                        @Override
+                        public void onResponse(Response<ResponseDTO> response) {
+                            if(response.isSuccess()){
+                                Log.d("phuongtd" , "Status: "+ response.code());
+
+                                ResponseDTO dto = response.body();
+
+
+                                if(dto.getStatus().equals("success")){
+                                    TokenInfo tokenInfo = new Gson().fromJson(new Gson().toJson(dto.getData()) , TokenInfo.class);
+                                    Toast.makeText(LoginActivity.this , tokenInfo.getAccess_token() , Toast.LENGTH_LONG).show();
+
+                                    Log.d("phuongtd", "Dealer: " + new Gson().toJson(tokenInfo.getUser().getDealer()));
+                                    Log.d("phuongtd", "Customer: " + new Gson().toJson(tokenInfo.getUser().getCustomer()));
+                                    Log.d("phuongtd", "Staff: " + new Gson().toJson(tokenInfo.getUser().getStaff()));
+                                } else {
+                                    String mess = dto.getMessage();
+                                    Toast.makeText(LoginActivity.this , mess , Toast.LENGTH_LONG).show();
+                                }
+                            } else {
+                                Log.d("phuongtd" , "Status: "+ response.code());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable t) {
+                            Log.d("phuongtd" , "Fail");
+                        }
+                    });
 
                 }else{
                     showError();
