@@ -29,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loginRemember();
         setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -102,5 +103,12 @@ public class LoginActivity extends AppCompatActivity {
 
     private void login(){
 
+    }
+    private void loginRemember(){
+        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+        String token = sharedPreferences.getString(TOKEN_KEY, "");
+        if(token != ""){
+
+        }
     }
 }
