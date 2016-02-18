@@ -34,7 +34,7 @@ public class RestClient {
 
             OkHttpClient okClient = new OkHttpClient();
             okClient.setReadTimeout(60, TimeUnit.SECONDS);
-            okClient.setConnectTimeout(5, TimeUnit.SECONDS);
+            okClient.setConnectTimeout(60, TimeUnit.SECONDS);
 
             okClient.interceptors().add(new Interceptor() {
                 @Override
