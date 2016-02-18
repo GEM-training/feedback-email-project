@@ -56,7 +56,6 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("phuongtd" , "mslmvmvlkf");
                 String username = mUsernameView.getText().toString();
                 String password = mPasswordView.getText().toString();
 
@@ -73,7 +72,6 @@ public class LoginActivity extends AppCompatActivity {
                                 Log.d("phuongtd" , "Status: "+ response.code());
 
                                 ResponseDTO dto = response.body();
-
 
                                 if(dto.getStatus().equals("success")){
                                     TokenInfo tokenInfo = new Gson().fromJson(new Gson().toJson(dto.getData()) , TokenInfo.class);

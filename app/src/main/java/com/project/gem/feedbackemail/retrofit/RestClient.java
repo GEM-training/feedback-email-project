@@ -50,7 +50,7 @@ public class RestClient {
     }
 
     public interface GitApiInterface {
-        @POST("/spring/login")
+        @POST("/login")
         Call<ResponseDTO> login(@Query("username") String username , @Query("password") String password) ;
 
     }
