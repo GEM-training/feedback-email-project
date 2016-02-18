@@ -12,4 +12,8 @@ public class Constant {
     public final static String RESPONSE_STATUS_ERROR = "error";
     public final static String LOGIN_FAIL = "login fail";
 
+    public  static  String MY_TOKEN ;
+
+    public static final String STRING_ACCESS_TOKEN = "access_token";
+
 }

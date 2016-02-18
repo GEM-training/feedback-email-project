@@ -1,6 +1,7 @@
-package com.project.gem.feedbackemail;
+package com.project.gem.feedbackemail.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,18 +19,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.project.gem.feedbackemail.model.Dealer;
+import com.project.gem.feedbackemail.R;
 import com.project.gem.feedbackemail.model.ResponseDTO;
 import com.project.gem.feedbackemail.model.TokenInfo;
 import com.project.gem.feedbackemail.retrofit.RestClient;
 import com.project.gem.feedbackemail.util.Constant;
 
-import org.w3c.dom.Text;
-
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
-import retrofit.Retrofit;
 
 public class LoginActivity extends AppCompatActivity {
     private AutoCompleteTextView mUsernameView;
@@ -37,12 +35,14 @@ public class LoginActivity extends AppCompatActivity {
     private AppCompatCheckBox mRememberCb;
     private ProgressBar mProgressView;
     private Button btnLogin;
-    private final String ERROR = "Username and password more than 6 character";
+    private final String LENGTH_ERROR = "Username and password more than 6 character";
+    private final String INVALID = "Invalid username or password";
     private TextView tvError;
     private final String TOKEN_KEY = "token";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loginRemember();
         setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -57,54 +57,16 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("phuongtd" , "mslmvmvlkf");
                 String username = mUsernameView.getText().toString();
                 String password = mPasswordView.getText().toString();
 
                 Log.d("phuongtd" , "username: " + username);
-                if(true){
 
-                    RestClient.GitApiInterface service = RestClient.getClient();
-                    Call<ResponseDTO> call = service.login(username.trim(), password.trim());
-
-                    call.enqueue(new Callback<ResponseDTO>() {
-                        @Override
-                        public void onResponse(Response<ResponseDTO> response) {
-                            if(response.isSuccess()){
-                                Log.d("phuongtd" , "Status: "+ response.code());
-
-                                ResponseDTO dto = response.body();
-
-
-                                if(dto.getStatus().equals(Constant.RESPONSE_STATUS_SUSSCESS)){
-                                    TokenInfo tokenInfo = new Gson().fromJson(new Gson().toJson(dto.getData()) , TokenInfo.class);
-
-                                    saveToken(tokenInfo.getAccess_token());
-
-                                    Toast.makeText(LoginActivity.this , tokenInfo.getAccess_token() , Toast.LENGTH_LONG).show();
-
-                                    Log.d("phuongtd", "Dealer: " + new Gson().toJson(tokenInfo.getUser().getDealer()));
-                                    Log.d("phuongtd", "Customer: " + new Gson().toJson(tokenInfo.getUser().getCustomer()));
-                                    Log.d("phuongtd", "Staff: " + new Gson().toJson(tokenInfo.getUser().getStaff()));
-
-
-                                } else {
-                                    String mess = dto.getMessage();
-                                    Toast.makeText(LoginActivity.this , mess , Toast.LENGTH_LONG).show();
-                                }
-                            } else {
-                                Log.d("phuongtd" , "Status: "+ response.code());
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Throwable t) {
-                            Log.d("phuongtd" , "Fail");
-                        }
-                    });
+                if(validateForm(username, password)){
+                    login(username, password);
 
                 }else{
-                    showError();
+                    showError(LENGTH_ERROR);
                 }
             }
         });
@@ -146,9 +108,9 @@ public class LoginActivity extends AppCompatActivity {
         editor.commit();
     }
 
-    private void showError(){
+    private void showError(String message){
         tvError.setVisibility(View.VISIBLE);
-        tvError.setText(ERROR);
+        tvError.setText(message);
         tvError.postDelayed(new Runnable() {
             public void run() {
                 tvError.setVisibility(View.GONE);
@@ -156,7 +118,53 @@ public class LoginActivity extends AppCompatActivity {
         }, 5000);
     }
 
-    private void login(){
+    private void login(String username, String password){
+        RestClient.GitApiInterface service = RestClient.getClient();
+        Call<ResponseDTO> call = service.login(username.trim(), password.trim());
 
+
+
+        call.enqueue(new Callback<ResponseDTO>() {
+            @Override
+            public void onResponse(Response<ResponseDTO> response) {
+                if (response.isSuccess()) {
+                    Log.d("phuongtd", "Status: " + response.code());
+
+                    ResponseDTO dto = response.body();
+
+                    if (dto.getStatus().equals("success")) {
+                        TokenInfo tokenInfo = new Gson().fromJson(new Gson().toJson(dto.getData()), TokenInfo.class);
+                        Toast.makeText(LoginActivity.this, tokenInfo.getAccess_token(), Toast.LENGTH_LONG).show();
+
+                        Constant.MY_TOKEN = tokenInfo.getAccess_token();
+
+                        Intent intent =new Intent(LoginActivity.this , HomeActivity.class);
+                        startActivity(intent);
+
+                        finish();
+
+                        if (mRememberCb.isChecked()) {
+                            saveToken(tokenInfo.getAccess_token());
+                        }
+                    } else {
+                        showError(dto.getMessage());
+                    }
+                } else {
+                    Log.d("phuongtd", "Status error: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.d("phuongtd", "Fail");
+            }
+        });
+    }
+    private void loginRemember(){
+        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+        String token = sharedPreferences.getString(TOKEN_KEY, "");
+        if(token != ""){
+
+        }
     }
 }
