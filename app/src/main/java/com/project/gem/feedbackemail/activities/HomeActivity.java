@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.project.gem.feedbackemail.R;
@@ -23,6 +24,8 @@ import retrofit.Response;
 public class HomeActivity extends Activity {
 
     private Button btLogout;
+
+    private TextView tvUsername;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,12 +33,19 @@ public class HomeActivity extends Activity {
 
         btLogout = (Button) findViewById(R.id.bt_logout);
 
+        tvUsername = (TextView) findViewById(R.id.tv_username);
+
         btLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 logout();
             }
         });
+
+        Intent intent = getIntent();
+        Bundle  bundle = intent.getExtras();
+
+        tvUsername.setText(bundle.get("username").toString());
     }
 
     public void logout(){
@@ -55,7 +65,9 @@ public class HomeActivity extends Activity {
                         Toast.makeText(HomeActivity.this , "Logout Success", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(HomeActivity.this , LoginActivity.class);
 
+
                         startActivity(intent);
+                        finish();
                     } else {
                         Toast.makeText(HomeActivity.this , "Khong the logout tren Server", Toast.LENGTH_LONG).show();
                     }

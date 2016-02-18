@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.Toolbar;
@@ -29,6 +30,8 @@ import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
 
+import android.provider.Settings.Secure;
+
 public class LoginActivity extends AppCompatActivity {
     private AutoCompleteTextView mUsernameView;
     private EditText mPasswordView;
@@ -36,9 +39,14 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressBar mProgressView;
     private Button btnLogin;
     private final String LENGTH_ERROR = "Username and password more than 6 character";
-    private final String INVALID = "Invalid username or password";
+    private final String ERROR_CONNECT = "Can not Connect";
     private TextView tvError;
     private final String TOKEN_KEY = "token";
+
+
+    private String android_id = Settings.Secure.getString(getContentResolver(),
+            Settings.Secure.ANDROID_ID);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +54,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
 
         mUsernameView = (AutoCompleteTextView) findViewById(R.id.username);
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -120,9 +130,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void login(String username, String password){
         RestClient.GitApiInterface service = RestClient.getClient();
-        Call<ResponseDTO> call = service.login(username.trim(), password.trim());
-
-
+        Call<ResponseDTO> call = service.login(username.trim(), password.trim(), android_id);
 
         call.enqueue(new Callback<ResponseDTO>() {
             @Override
@@ -138,7 +146,14 @@ public class LoginActivity extends AppCompatActivity {
 
                         Constant.MY_TOKEN = tokenInfo.getAccess_token();
 
+
+                        Bundle bundle  = new Bundle();
+                        bundle.putString("username" , tokenInfo.getUser().getUsername() );
+
+
                         Intent intent =new Intent(LoginActivity.this , HomeActivity.class);
+                        intent.putExtras(bundle);
+
                         startActivity(intent);
 
                         finish();
@@ -156,7 +171,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Throwable t) {
-                Log.d("phuongtd", "Fail");
+                showError(ERROR_CONNECT);
             }
         });
     }
