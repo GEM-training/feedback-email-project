@@ -1,8 +1,10 @@
-package com.project.gem.feedbackemail;
+package com.project.gem.feedbackemail.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.Toolbar;
@@ -18,17 +20,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.project.gem.feedbackemail.model.Dealer;
+import com.project.gem.feedbackemail.R;
 import com.project.gem.feedbackemail.model.ResponseDTO;
 import com.project.gem.feedbackemail.model.TokenInfo;
 import com.project.gem.feedbackemail.retrofit.RestClient;
-
-import org.w3c.dom.Text;
+import com.project.gem.feedbackemail.util.Constant;
 
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
-import retrofit.Retrofit;
+
+import android.provider.Settings.Secure;
 
 public class LoginActivity extends AppCompatActivity {
     private AutoCompleteTextView mUsernameView;
@@ -39,7 +41,11 @@ public class LoginActivity extends AppCompatActivity {
     private final String LENGTH_ERROR = "Username and password more than 6 character";
     private final String ERROR_CONNECT = "Can not Connect";
     private TextView tvError;
-    private final String TOKEN_KEY = "token";
+
+
+    private String android_id;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +53,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        android_id = Settings.Secure.getString(getContentResolver(),
+                Settings.Secure.ANDROID_ID);
 
         mUsernameView = (AutoCompleteTextView) findViewById(R.id.username);
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -61,10 +70,12 @@ public class LoginActivity extends AppCompatActivity {
                 String username = mUsernameView.getText().toString();
                 String password = mPasswordView.getText().toString();
 
-                Log.d("phuongtd" , "username: " + username);
-                if(validateForm(username, password)){
+                Log.d("phuongtd", "username: " + username);
+
+                if (validateForm(username, password)) {
                     login(username, password);
-                }else{
+
+                } else {
                     showError(LENGTH_ERROR);
                 }
             }
@@ -104,14 +115,10 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.share_preferences_file),
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(TOKEN_KEY, token);
+        editor.putString(Constant.TOKEN_KEY, token);
         editor.commit();
     }
-    private void deleteToken(){
-        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.share_preferences_file),
-                Context.MODE_PRIVATE);
-        sharedPreferences.edit().remove(TOKEN_KEY).commit();
-    }
+
 
     private void showError(String message){
         tvError.setVisibility(View.VISIBLE);
@@ -125,28 +132,42 @@ public class LoginActivity extends AppCompatActivity {
 
     private void login(String username, String password){
         RestClient.GitApiInterface service = RestClient.getClient();
-        Call<ResponseDTO> call = service.login(username.trim(), password.trim());
+        Call<ResponseDTO> call = service.login(username.trim(), password.trim(), android_id);
 
         call.enqueue(new Callback<ResponseDTO>() {
             @Override
             public void onResponse(Response<ResponseDTO> response) {
-                if(response.isSuccess()){
-                    Log.d("phuongtd" , "Status: "+ response.code());
+                if (response.isSuccess()) {
+                    Log.d("phuongtd", "Status: " + response.code());
 
                     ResponseDTO dto = response.body();
 
+                    if (dto.getStatus().equals("success")) {
+                        TokenInfo tokenInfo = new Gson().fromJson(new Gson().toJson(dto.getData()), TokenInfo.class);
+                        Toast.makeText(LoginActivity.this, tokenInfo.getAccess_token(), Toast.LENGTH_LONG).show();
 
-                    if(dto.getStatus().equals("success")){
-                        TokenInfo tokenInfo = new Gson().fromJson(new Gson().toJson(dto.getData()) , TokenInfo.class);
-                        Toast.makeText(LoginActivity.this , tokenInfo.getAccess_token() , Toast.LENGTH_LONG).show();
-                        if(mRememberCb.isChecked()){
+                        Constant.MY_TOKEN = tokenInfo.getAccess_token();
+
+
+                        Bundle bundle  = new Bundle();
+                        bundle.putString("username" , tokenInfo.getUser().getUsername() );
+
+
+                        Intent intent =new Intent(LoginActivity.this , HomeActivity.class);
+                        intent.putExtras(bundle);
+
+                        startActivity(intent);
+
+                        finish();
+
+                        if (mRememberCb.isChecked()) {
                             saveToken(tokenInfo.getAccess_token());
                         }
                     } else {
                         showError(dto.getMessage());
                     }
                 } else {
-                    Log.d("phuongtd" , "Status: "+ response.code());
+                    Log.d("phuongtd", "Status error: " + response.code());
                 }
             }
 
@@ -159,9 +180,11 @@ public class LoginActivity extends AppCompatActivity {
     private void loginRemember(){
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.share_preferences_file),
                 Context.MODE_PRIVATE);
-        String token = sharedPreferences.getString(TOKEN_KEY, "");
+        String token = sharedPreferences.getString(Constant.TOKEN_KEY, "");
         if(token != ""){
-
+            Constant.MY_TOKEN = token;
+            Intent intent =new Intent(LoginActivity.this , HomeActivity.class);
+            startActivity(intent);
         }
     }
 }

@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".LoginActivity"
+    tools:context=".activities.LoginActivity"
     tools:showIn="@layout/activity_login">
 
     <ProgressBar
@@ -67,7 +67,7 @@
             <android.support.v7.widget.AppCompatCheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Remember"
+                android:text="Keep Login"
                 android:id="@+id/cb_remember"/>
             <TextView
                 android:layout_width="wrap_content"
