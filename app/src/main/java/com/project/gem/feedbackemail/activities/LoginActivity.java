@@ -112,10 +112,16 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void saveToken(String token){
-        SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.share_preferences_file),
+                Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(TOKEN_KEY, token);
         editor.commit();
+    }
+    private void deleteToken(){
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.share_preferences_file),
+                Context.MODE_PRIVATE);
+        sharedPreferences.edit().remove(TOKEN_KEY).commit();
     }
 
     private void showError(String message){
@@ -176,7 +182,8 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
     private void loginRemember(){
-        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.share_preferences_file),
+                Context.MODE_PRIVATE);
         String token = sharedPreferences.getString(TOKEN_KEY, "");
         if(token != ""){
 
