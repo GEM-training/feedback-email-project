@@ -22,6 +22,7 @@ import com.project.gem.feedbackemail.model.Dealer;
 import com.project.gem.feedbackemail.model.ResponseDTO;
 import com.project.gem.feedbackemail.model.TokenInfo;
 import com.project.gem.feedbackemail.retrofit.RestClient;
+import com.project.gem.feedbackemail.util.Constant;
 
 import org.w3c.dom.Text;
 
@@ -75,13 +76,18 @@ public class LoginActivity extends AppCompatActivity {
                                 ResponseDTO dto = response.body();
 
 
-                                if(dto.getStatus().equals("success")){
+                                if(dto.getStatus().equals(Constant.RESPONSE_STATUS_SUSSCESS)){
                                     TokenInfo tokenInfo = new Gson().fromJson(new Gson().toJson(dto.getData()) , TokenInfo.class);
+
+                                    saveToken(tokenInfo.getAccess_token());
+
                                     Toast.makeText(LoginActivity.this , tokenInfo.getAccess_token() , Toast.LENGTH_LONG).show();
 
                                     Log.d("phuongtd", "Dealer: " + new Gson().toJson(tokenInfo.getUser().getDealer()));
                                     Log.d("phuongtd", "Customer: " + new Gson().toJson(tokenInfo.getUser().getCustomer()));
                                     Log.d("phuongtd", "Staff: " + new Gson().toJson(tokenInfo.getUser().getStaff()));
+
+
                                 } else {
                                     String mess = dto.getMessage();
                                     Toast.makeText(LoginActivity.this , mess , Toast.LENGTH_LONG).show();
