@@ -41,11 +41,10 @@ public class LoginActivity extends AppCompatActivity {
     private final String LENGTH_ERROR = "Username and password more than 6 character";
     private final String ERROR_CONNECT = "Can not Connect";
     private TextView tvError;
-    private final String TOKEN_KEY = "token";
 
 
-    private String android_id = Settings.Secure.getString(getContentResolver(),
-            Settings.Secure.ANDROID_ID);
+    private String android_id;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +54,8 @@ public class LoginActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        android_id = Settings.Secure.getString(getContentResolver(),
+                Settings.Secure.ANDROID_ID);
 
         mUsernameView = (AutoCompleteTextView) findViewById(R.id.username);
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -70,12 +70,12 @@ public class LoginActivity extends AppCompatActivity {
                 String username = mUsernameView.getText().toString();
                 String password = mPasswordView.getText().toString();
 
-                Log.d("phuongtd" , "username: " + username);
+                Log.d("phuongtd", "username: " + username);
 
-                if(validateForm(username, password)){
+                if (validateForm(username, password)) {
                     login(username, password);
 
-                }else{
+                } else {
                     showError(LENGTH_ERROR);
                 }
             }
@@ -115,14 +115,10 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.share_preferences_file),
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(TOKEN_KEY, token);
+        editor.putString(Constant.TOKEN_KEY, token);
         editor.commit();
     }
-    private void deleteToken(){
-        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.share_preferences_file),
-                Context.MODE_PRIVATE);
-        sharedPreferences.edit().remove(TOKEN_KEY).commit();
-    }
+
 
     private void showError(String message){
         tvError.setVisibility(View.VISIBLE);
@@ -184,9 +180,11 @@ public class LoginActivity extends AppCompatActivity {
     private void loginRemember(){
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.share_preferences_file),
                 Context.MODE_PRIVATE);
-        String token = sharedPreferences.getString(TOKEN_KEY, "");
+        String token = sharedPreferences.getString(Constant.TOKEN_KEY, "");
         if(token != ""){
-
+            Constant.MY_TOKEN = token;
+            Intent intent =new Intent(LoginActivity.this , HomeActivity.class);
+            startActivity(intent);
         }
     }
 }

@@ -1,7 +1,9 @@
 package com.project.gem.feedbackemail.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -42,10 +44,10 @@ public class HomeActivity extends Activity {
             }
         });
 
-        Intent intent = getIntent();
-        Bundle  bundle = intent.getExtras();
-
-        tvUsername.setText(bundle.get("username").toString());
+//        Intent intent = getIntent();
+//        Bundle  bundle = intent.getExtras();
+//
+//        tvUsername.setText(bundle.get("username").toString());
     }
 
     public void logout(){
@@ -56,23 +58,24 @@ public class HomeActivity extends Activity {
             @Override
             public void onResponse(Response<ResponseDTO> response) {
 
-                Log.d("phuongtd" , "Status logout: " + response.code());
+                Log.d("phuongtd", "Status logout: " + response.code());
 
-                if(response.isSuccess()){
+                if (response.isSuccess()) {
                     ResponseDTO dto = response.body();
 
-                    if(dto.getStatus().equals(Constant.RESPONSE_STATUS_SUSSCESS)){
-                        Toast.makeText(HomeActivity.this , "Logout Success", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(HomeActivity.this , LoginActivity.class);
+                    if (dto.getStatus().equals(Constant.RESPONSE_STATUS_SUSSCESS)) {
+                        Toast.makeText(HomeActivity.this, "Logout Success", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
 
+                        deleteToken();
 
                         startActivity(intent);
                         finish();
                     } else {
-                        Toast.makeText(HomeActivity.this , "Khong the logout tren Server", Toast.LENGTH_LONG).show();
+                        Toast.makeText(HomeActivity.this, "Khong the logout tren Server", Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(HomeActivity.this , response.message(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(HomeActivity.this, response.message(), Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -81,5 +84,11 @@ public class HomeActivity extends Activity {
 
             }
         });
+    }
+
+    private void deleteToken(){
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.share_preferences_file),
+                Context.MODE_PRIVATE);
+        sharedPreferences.edit().remove(Constant.TOKEN_KEY).commit();
     }
 }
