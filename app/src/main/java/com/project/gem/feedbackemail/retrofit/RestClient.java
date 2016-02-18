@@ -9,6 +9,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import retrofit.Call;
 import retrofit.GsonConverterFactory;
@@ -32,6 +33,9 @@ public class RestClient {
         if (gitApiInterface == null) {
 
             OkHttpClient okClient = new OkHttpClient();
+            okClient.setReadTimeout(60, TimeUnit.SECONDS);
+            okClient.setConnectTimeout(5, TimeUnit.SECONDS);
+
             okClient.interceptors().add(new Interceptor() {
                 @Override
                 public Response intercept(Chain chain) throws IOException {

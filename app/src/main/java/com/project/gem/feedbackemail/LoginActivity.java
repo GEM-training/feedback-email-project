@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressBar mProgressView;
     private Button btnLogin;
     private final String LENGTH_ERROR = "Username and password more than 6 character";
-    private final String INVALID = "Invalid username or password";
+    private final String ERROR_CONNECT = "Can not Connect";
     private TextView tvError;
     private final String TOKEN_KEY = "token";
     @Override
@@ -146,7 +146,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Throwable t) {
-                Log.d("phuongtd" , "Fail");
+                showError(ERROR_CONNECT);
             }
         });
     }
