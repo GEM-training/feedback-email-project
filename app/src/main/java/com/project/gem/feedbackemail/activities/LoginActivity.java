@@ -143,7 +143,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Response<ResponseDTO> response) {
                 if (response.isSuccess()) {
-                    Log.d("phuongtd", "Status: " + response.code());
 
                     ResponseDTO dto = response.body();
 
