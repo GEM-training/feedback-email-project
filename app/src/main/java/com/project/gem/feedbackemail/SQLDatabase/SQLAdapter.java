@@ -132,11 +132,11 @@ public class SQLAdapter {
     }
 
     //---opens the database---
-    public SQLAdapter open() throws SQLException
+    public SQLiteDatabase open() throws SQLException
     {
         db = DBHelper.getWritableDatabase();
 
-        return this;
+        return db;
     }
 
     //---closes the database---
@@ -144,11 +144,6 @@ public class SQLAdapter {
     {
         DBHelper.close();
     }
-
-    public SQLiteDatabase getDatabase(){
-        return db;
-    }
-
 
 
 }

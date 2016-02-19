@@ -20,4 +20,9 @@ public class Constant {
 
     public static final String SQL_DB_NAME = "nhom1db";
 
+    public static final String CURRENT_USER_ID = "current_user_id";
+
+
+
+
 }

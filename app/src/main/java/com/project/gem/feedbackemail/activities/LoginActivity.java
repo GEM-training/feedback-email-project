@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.project.gem.feedbackemail.R;
+import com.project.gem.feedbackemail.SQLDatabase.UserAdapter;
 import com.project.gem.feedbackemail.model.ResponseDTO;
 import com.project.gem.feedbackemail.model.TokenInfo;
 import com.project.gem.feedbackemail.retrofit.RestClient;
@@ -115,11 +116,19 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
-    private void saveToken(String token){
+    private  void saveToken(String token){
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.share_preferences_file),
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(Constant.TOKEN_KEY, token);
+        editor.commit();
+    }
+
+    private void saveCurrentUserId(int currentId){
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.share_preferences_file),
+                Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(Constant.CURRENT_USER_ID, currentId);
         editor.commit();
     }
 
@@ -152,14 +161,26 @@ public class LoginActivity extends AppCompatActivity {
 
                         Constant.MY_TOKEN = tokenInfo.getAccess_token();
 
+                        /*Luu lai userid va access_token cua user hien tai*/
 
-                        Bundle bundle  = new Bundle();
-                        bundle.putString("username" , tokenInfo.getUser().getUsername() );
+                        saveToken(tokenInfo.getAccess_token());
+                        saveCurrentUserId(tokenInfo.getUser().getUserId());
+
+
+                        /* Luu lai thong tin nguoi dung neu lan dau dang nhap */
+                        UserAdapter userAdapter= new UserAdapter(LoginActivity.this);
+                        int insert = (int) userAdapter.insertUser(tokenInfo.getUser());
+
+                        if(insert == -2){
+                            Log.d("phuongtd" , "User da ton tai khong Insert !");
+                        } else if(insert == -1){
+                            Log.d("phuongtd" , "Insert loi");
+                        } else {
+                            Log.d("phuongtd" , "Insert success");
+                        }
 
 
                         Intent intent =new Intent(LoginActivity.this , MainActivity.class);
-                        intent.putExtras(bundle);
-
                         startActivity(intent);
 
                         finish();
