@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.project.gem.feedbackemail.R;
+import com.project.gem.feedbackemail.SQLDatabase.DealerAdapter;
 import com.project.gem.feedbackemail.SQLDatabase.UserAdapter;
 import com.project.gem.feedbackemail.model.Dealer;
 import com.project.gem.feedbackemail.model.ResponseDTO;
@@ -77,12 +78,12 @@ public class FragmentProfileDealer extends Fragment {
 
                 });
             } else {
-                UserAdapter userAdapter = new UserAdapter(getContext());
-                User user = userAdapter.getUserById(userId);
+                DealerAdapter dealerAdapter = new DealerAdapter(getContext());
+                Dealer dealer = dealerAdapter.getDealerById(userId);
 
-                tvName.setText(user.getDealer().getName());
-                tvId.setText(user.getDealer().getDealerId());
-                tvCountry.setText(user.getDealer().getAddress());
+                tvName.setText(dealer.getName());
+                tvId.setText(dealer.getDealerId());
+                tvCountry.setText(dealer.getAddress());
             }
         }
 
