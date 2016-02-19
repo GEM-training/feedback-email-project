@@ -18,4 +18,6 @@ public class Constant {
 
     public static final String TOKEN_KEY = "token";
 
+    public static final String SQL_DB_NAME = "nhom1db";
+
 }
