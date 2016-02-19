@@ -36,12 +36,17 @@ public class MainActivity extends AppCompatActivity
     private FragmentManager fm;
     private FragmentTransaction ft;
 
+    SharedPreferences sharedPreferences ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        sharedPreferences = getSharedPreferences(getString(R.string.share_preferences_file),
+                Context.MODE_PRIVATE);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -130,7 +135,7 @@ public class MainActivity extends AppCompatActivity
 
     public void logout(){
         RestClient.GitApiInterface service = RestClient.getClient();
-        Call<ResponseDTO> call = service.logout(Constant.MY_TOKEN);
+        Call<ResponseDTO> call = service.logout(sharedPreferences.getString(Constant.TOKEN_KEY , ""));
 
         call.enqueue(new Callback<ResponseDTO>() {
             @Override
