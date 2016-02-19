@@ -18,9 +18,7 @@ public class User implements Serializable {
 
     private Staff staff;
 
-
     private Dealer dealer;
-
 
     private Customer customer;
 

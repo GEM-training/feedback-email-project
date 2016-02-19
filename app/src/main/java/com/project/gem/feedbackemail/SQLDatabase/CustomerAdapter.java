@@ -28,18 +28,19 @@ public class CustomerAdapter {
         sqlAdapter.close();
     }
 
-    public long insert(Dealer dealer){
+    public long insert(Customer customer){
 
-        if(getCustomerById(dealer.getDealerId())!= null){
+        if(getCustomerById(customer.getId())!= null){
             return -2;
         }
         open();
         ContentValues initialValues = new ContentValues();
-        initialValues.put(SQLAdapter.DEALER_ID, dealer.getDealerId());
-        initialValues.put(SQLAdapter.DEALER_NAME ,dealer.getName());
-        initialValues.put(SQLAdapter.DEALER_ADDRESS , dealer.getAddress());
+        initialValues.put(SQLAdapter.CUSTOMER_ID, customer.getId());
+        initialValues.put(SQLAdapter.CUSTOMER_NAME ,customer.getName());
+        initialValues.put(SQLAdapter.CUSTOMER_ADDRESS , customer.getAddress());
+        initialValues.put(SQLAdapter.CUSTOMER_PHONE , customer.getPhone());
 
-        long kq =  db.insert(SQLAdapter.NAME_TABLE_DEALER, null, initialValues);
+        long kq =  db.insert(SQLAdapter.NAME_TABLE_CUSTOMER, null, initialValues);
         close();
 
         return kq;
