@@ -22,9 +22,13 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.project.gem.feedbackemail.R;
+import com.project.gem.feedbackemail.SQLDatabase.CustomerAdapter;
+import com.project.gem.feedbackemail.SQLDatabase.DealerAdapter;
+import com.project.gem.feedbackemail.SQLDatabase.StaffAdapter;
 import com.project.gem.feedbackemail.SQLDatabase.UserAdapter;
 import com.project.gem.feedbackemail.model.ResponseDTO;
 import com.project.gem.feedbackemail.model.TokenInfo;
+import com.project.gem.feedbackemail.model.User;
 import com.project.gem.feedbackemail.model.UserInfo;
 import com.project.gem.feedbackemail.retrofit.RestClient;
 import com.project.gem.feedbackemail.util.Constant;
@@ -161,6 +165,8 @@ public class LoginActivity extends AppCompatActivity {
 
                         Constant.MY_TOKEN = tokenInfo.getAccess_token();
 
+
+
                         /*Luu lai userid va access_token cua user hien tai*/
 
                         saveToken(tokenInfo.getAccess_token());
@@ -168,16 +174,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
                         /* Luu lai thong tin nguoi dung neu lan dau dang nhap */
-                        UserAdapter userAdapter= new UserAdapter(LoginActivity.this);
-                        int insert = (int) userAdapter.insertUser(tokenInfo.getUser());
 
-                        if(insert == -2){
-                            Log.d("phuongtd" , "User da ton tai khong Insert !");
-                        } else if(insert == -1){
-                            Log.d("phuongtd" , "Insert loi");
-                        } else {
-                            Log.d("phuongtd" , "Insert success");
-                        }
+                        insertUserIntoSQLite(tokenInfo);
 
                         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.share_preferences_file),
                                 Context.MODE_PRIVATE);
@@ -218,5 +216,62 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+    }
+
+    private void insertUserIntoSQLite(TokenInfo tokenInfo){
+
+        UserAdapter userAdapter= new UserAdapter(LoginActivity.this);
+        int insertUser = (int) userAdapter.insertUser(tokenInfo.getUser());
+
+        if(insertUser == Constant.DUPLICATE_INSERT){
+            Log.d("phuongtd" , "User da ton tai khong Insert !");
+        } else if(insertUser == Constant.INSERT_ERROR){
+            Log.d("phuongtd" , "User Insert loi");
+        } else {
+            Log.d("phuongtd" , "User Insert success");
+        }
+
+        if(tokenInfo.getUser().getDealer() != null){
+            DealerAdapter dealerAdapter = new DealerAdapter(LoginActivity.this);
+            int insertStaff = (int) dealerAdapter.insert(tokenInfo.getUser().getDealer());
+
+            if(insertStaff == Constant.DUPLICATE_INSERT){
+                Log.d("phuongtd" , "Dealer da ton tai khong Insert !");
+            } else if(insertStaff == Constant.INSERT_ERROR){
+                Log.d("phuongtd" , "Dealer Insert loi");
+            } else {
+                Log.d("phuongtd" , "Dealer Insert success");
+            }
+        }
+
+        if(tokenInfo.getUser().getCustomer() != null){
+            CustomerAdapter customerAdapter = new CustomerAdapter(LoginActivity.this);
+            int innsertCustomer = (int) customerAdapter.insert(tokenInfo.getUser().getCustomer());
+
+            if(innsertCustomer == Constant.DUPLICATE_INSERT){
+                Log.d("phuongtd" , "Customer da ton tai khong Insert !");
+            } else if(innsertCustomer == Constant.INSERT_ERROR){
+                Log.d("phuongtd" , "Customer Insert loi");
+            } else {
+                Log.d("phuongtd" , "Customer Insert success");
+            }
+        }
+
+        if(tokenInfo.getUser().getStaff() != null){
+            StaffAdapter staffAdapter = new StaffAdapter(LoginActivity.this);
+            int insertStaff = (int) staffAdapter.insert(tokenInfo.getUser().getStaff());
+
+            if(insertStaff == Constant.DUPLICATE_INSERT){
+                Log.d("phuongtd" , "Staff da ton tai khong Insert !");
+            } else if(insertStaff == Constant.INSERT_ERROR){
+                Log.d("phuongtd" , "Staff Insert loi");
+            } else {
+                Log.d("phuongtd" , "Staff Insert success");
+            }
+        }
+
+        User userOffLine = userAdapter.getUserById(tokenInfo.getUser().getUserId());
+
+        Log.d("phuongtd", "User offline: " + new Gson().toJson(userOffLine));
     }
 }

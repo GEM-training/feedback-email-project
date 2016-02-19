@@ -25,6 +25,11 @@ public class Constant {
     public static final String CURRENT_USER_ID = "current_user_id";
 
 
+     /*
+     *
+     * SQL Status*/
 
+    public static final int INSERT_ERROR = -1;
+    public static final int DUPLICATE_INSERT = -2;
 
 }

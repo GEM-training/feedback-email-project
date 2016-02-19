@@ -86,7 +86,8 @@ public class UserAdapter {
         u.setUsername(username);
         u.setPassword(password);
 
-
+        CustomerAdapter customerAdapter = new CustomerAdapter(context);
+        u.setCustomer(customerAdapter.getCustomerById(c.getInt(3)));
 
         DealerAdapter dealerAdapter = new DealerAdapter(context);
         u.setDealer(dealerAdapter.getDealerById(c.getInt(4)));
@@ -94,8 +95,6 @@ public class UserAdapter {
 
         StaffAdapter staffAdapter = new StaffAdapter(context);
         u.setStaff(staffAdapter.getStaffById(c.getInt(5)));
-
-
 
         close();
         return u;
@@ -132,7 +131,6 @@ public class UserAdapter {
 
         DealerAdapter dealerAdapter = new DealerAdapter(context);
         u.setDealer(dealerAdapter.getDealerById(c.getInt(4)));
-
 
         StaffAdapter staffAdapter = new StaffAdapter(context);
         u.setStaff(staffAdapter.getStaffById(c.getInt(5)));
