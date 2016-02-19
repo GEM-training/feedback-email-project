@@ -36,6 +36,16 @@ public class User implements Serializable {
         this.customer = customer;
     }
 
+    public int getIdPersonOfUser(){
+        if(dealer != null)
+            return dealer.getDealerId();
+        if(customer != null)
+            return customer.getId();
+        if(staff != null)
+            return staff.getStaffId();
+        return -1;
+    }
+
     public int getUserId() {
         return userId;
     }
