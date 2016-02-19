@@ -8,6 +8,7 @@ import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.Toolbar;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     private final String LENGTH_ERROR = "Username and password more than 6 character";
     private final String ERROR_CONNECT = "Can not Connect";
     private TextView tvError;
+    private TextView tvRegister;
 
 
     private String android_id;
@@ -62,6 +64,8 @@ public class LoginActivity extends AppCompatActivity {
         mProgressView = (ProgressBar) findViewById(R.id.login_progress);
         mRememberCb = (AppCompatCheckBox) findViewById(R.id.cb_remember);
         tvError = (TextView) findViewById(R.id.tvError);
+        tvRegister = (TextView) findViewById(R.id.tv_register);
+        tvRegister.setMovementMethod(LinkMovementMethod.getInstance());
 
         btnLogin = (Button) findViewById(R.id.user_sign_in_button);
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -153,7 +157,7 @@ public class LoginActivity extends AppCompatActivity {
                         bundle.putString("username" , tokenInfo.getUser().getUsername() );
 
 
-                        Intent intent =new Intent(LoginActivity.this , HomeActivity.class);
+                        Intent intent =new Intent(LoginActivity.this , MainActivity.class);
                         intent.putExtras(bundle);
 
                         startActivity(intent);
@@ -183,7 +187,7 @@ public class LoginActivity extends AppCompatActivity {
         String token = sharedPreferences.getString(Constant.TOKEN_KEY, "");
         if(token != ""){
             Constant.MY_TOKEN = token;
-            Intent intent =new Intent(LoginActivity.this , HomeActivity.class);
+            Intent intent =new Intent(LoginActivity.this , MainActivity.class);
             startActivity(intent);
             finish();
         }
