@@ -6,6 +6,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -29,6 +32,9 @@ import retrofit.Response;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private FragmentManager fm;
+    private FragmentTransaction ft;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +60,12 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().getItem(0).setChecked(true);
+        fm = getSupportFragmentManager();
+        ft = fm.beginTransaction();
+        FragmentProfile fragmentProfile = new FragmentProfile();
+        ft.replace(R.id.content_menu, fragmentProfile);
+        ft.commit();
     }
 
     @Override
@@ -95,7 +107,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            FragmentProfile fragmentProfile = new FragmentProfile();
+            setContentForMenu(fragmentProfile);
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -155,5 +168,10 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.share_preferences_file),
                 Context.MODE_PRIVATE);
         sharedPreferences.edit().remove(Constant.TOKEN_KEY).commit();
+    }
+    private void setContentForMenu(Fragment fragment){
+        ft = fm.beginTransaction();
+        ft.replace(R.id.content_menu, fragment);
+        ft.commit();
     }
 }
