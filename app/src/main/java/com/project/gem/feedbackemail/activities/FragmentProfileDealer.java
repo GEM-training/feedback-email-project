@@ -51,7 +51,6 @@ public class FragmentProfileDealer extends Fragment {
                 Context.MODE_PRIVATE);
         int userId = sharedPreferences.getInt(Constant.USER_ID, -1);
 
-        //final List<Dealer> dealers = new ArrayList<Dealer>();
 
         if (userId != -1) {
             if (NetworkUtil.isNetworkAvaiable(getContext())) {
@@ -86,7 +85,6 @@ public class FragmentProfileDealer extends Fragment {
                 tvCountry.setText(dealer.getAddress());
             }
         }
-
 
         return view;
 
