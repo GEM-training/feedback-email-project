@@ -67,7 +67,7 @@ public class FragmentProfileDealer extends Fragment {
                         Dealer dealer = new Gson().fromJson(new Gson().toJson(responseDTO.getData()), Dealer.class);
 
                         tvName.setText(dealer.getName());
-                        tvId.setText(1 + "");
+                        tvId.setText(dealer.getDealerId() + "");
                         tvCountry.setText(dealer.getAddress());
                     }
 
@@ -82,7 +82,9 @@ public class FragmentProfileDealer extends Fragment {
                 Dealer dealer = dealerAdapter.getDealerById(userId);
 
                 tvName.setText(dealer.getName());
+                
                 tvId.setText(dealer.getDealerId()+"");
+
                 tvCountry.setText(dealer.getAddress());
             }
         }
