@@ -38,7 +38,7 @@
             <item
                 android:id="@+id/logout"
                 android:title="Logout"
-                android:icon="@drawable/ic_menu_manage"/>
+                android:icon="@drawable/logout"/>
         </menu>
     </item>
 

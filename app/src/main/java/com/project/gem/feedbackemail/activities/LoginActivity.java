@@ -25,6 +25,7 @@ import com.project.gem.feedbackemail.R;
 import com.project.gem.feedbackemail.SQLDatabase.UserAdapter;
 import com.project.gem.feedbackemail.model.ResponseDTO;
 import com.project.gem.feedbackemail.model.TokenInfo;
+import com.project.gem.feedbackemail.model.UserInfo;
 import com.project.gem.feedbackemail.retrofit.RestClient;
 import com.project.gem.feedbackemail.util.Constant;
 
@@ -145,7 +146,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void login(String username, String password){
         RestClient.GitApiInterface service = RestClient.getClient();
-        Call<ResponseDTO> call = service.login(username.trim(), password.trim(), android_id);
+        Call<ResponseDTO> call = service.login(new UserInfo(username.trim(),password,android_id));
 
         call.enqueue(new Callback<ResponseDTO>() {
             @Override
