@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,11 +78,11 @@ public class FragmentProfileDealer extends Fragment {
 
                 });
             } else {
-                DealerAdapter dealerAdapter = new DealerAdapter(getContext());
+                DealerAdapter dealerAdapter = new DealerAdapter(getActivity());
                 Dealer dealer = dealerAdapter.getDealerById(userId);
 
                 tvName.setText(dealer.getName());
-                tvId.setText(dealer.getDealerId());
+                tvId.setText(dealer.getDealerId()+"");
                 tvCountry.setText(dealer.getAddress());
             }
         }
