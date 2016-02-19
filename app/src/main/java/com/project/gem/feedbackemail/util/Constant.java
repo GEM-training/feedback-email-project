@@ -14,6 +14,8 @@ public class Constant {
 
     public  static  String MY_TOKEN ;
 
+    public final static String USER_ID = "user_id";
+
     public static final String STRING_ACCESS_TOKEN = "access_token";
 
     public static final String TOKEN_KEY = "token";

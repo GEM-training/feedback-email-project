@@ -156,7 +156,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Response<ResponseDTO> response) {
                 if (response.isSuccess()) {
-                    Log.d("phuongtd", "Status: " + response.code());
 
                     ResponseDTO dto = response.body();
 
@@ -178,6 +177,12 @@ public class LoginActivity extends AppCompatActivity {
 
                         insertUserIntoSQLite(tokenInfo);
 
+                        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.share_preferences_file),
+                                Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                        editor.putInt(Constant.USER_ID, tokenInfo.getUser().getIdPersonOfUser());
+                        editor.commit();
 
                         Intent intent =new Intent(LoginActivity.this , MainActivity.class);
                         startActivity(intent);

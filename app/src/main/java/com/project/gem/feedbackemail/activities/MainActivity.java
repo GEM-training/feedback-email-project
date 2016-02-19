@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.getMenu().getItem(0).setChecked(true);
         fm = getSupportFragmentManager();
         ft = fm.beginTransaction();
-        FragmentProfile fragmentProfile = new FragmentProfile();
+        FragmentProfileDealer fragmentProfile = new FragmentProfileDealer();
         ft.replace(R.id.content_menu, fragmentProfile);
         ft.commit();
     }
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            FragmentProfile fragmentProfile = new FragmentProfile();
+            FragmentProfileDealer fragmentProfile = new FragmentProfileDealer();
             setContentForMenu(fragmentProfile);
         } else if (id == R.id.nav_gallery) {
 

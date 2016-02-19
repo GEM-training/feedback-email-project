@@ -66,6 +66,9 @@ public class RestClient {
         @GET("/logout")
         Call<ResponseDTO> logout(@Header(Constant.STRING_ACCESS_TOKEN) String access_token);
 
+        @GET("/dealer/{id}")
+        Call<ResponseDTO> getInfo(@Header(Constant.STRING_ACCESS_TOKEN) String access_token,@Path("id") int id);
+
     }
 
 }
