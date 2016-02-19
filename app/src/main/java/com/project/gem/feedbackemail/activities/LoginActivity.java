@@ -67,6 +67,14 @@ public class LoginActivity extends AppCompatActivity {
         tvRegister = (TextView) findViewById(R.id.tv_register);
         tvRegister.setMovementMethod(LinkMovementMethod.getInstance());
 
+        tvRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(LoginActivity.this, SignupActivity.class);
+                startActivity(i);
+            }
+        });
+
         btnLogin = (Button) findViewById(R.id.user_sign_in_button);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +85,7 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d("phuongtd", "username: " + username);
 
                 if (validateForm(username, password)) {
+                    mProgressView.setVisibility(View.VISIBLE);
                     login(username, password);
 
                 } else {
@@ -169,9 +178,11 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     } else {
                         showError(dto.getMessage());
+                        mProgressView.setVisibility(View.GONE);
                     }
                 } else {
                     Log.d("phuongtd", "Status error: " + response.code());
+                    mProgressView.setVisibility(View.GONE);
                 }
             }
 
