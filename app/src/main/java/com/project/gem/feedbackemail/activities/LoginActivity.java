@@ -1,3 +1,4 @@
+/*
 package com.project.gem.feedbackemail.activities;
 
 import android.content.Context;
@@ -22,20 +23,24 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.project.gem.feedbackemail.R;
+import com.project.gem.feedbackemail.SQLDatabase.CustomerAdapter;
+import com.project.gem.feedbackemail.SQLDatabase.DealerAdapter;
+import com.project.gem.feedbackemail.SQLDatabase.StaffAdapter;
 import com.project.gem.feedbackemail.SQLDatabase.UserAdapter;
 import com.project.gem.feedbackemail.model.ResponseDTO;
-import com.project.gem.feedbackemail.model.TokenInfo;
-import com.project.gem.feedbackemail.model.UserInfo;
+import com.gem.nhom1.feedbackemail.network.entities.User;
+import com.gem.nhom1.feedbackemail.network.entities.UserInfo;
 import com.project.gem.feedbackemail.retrofit.RestClient;
 import com.project.gem.feedbackemail.util.Constant;
+import com.project.gem.feedbackemail.util.NetworkUtil;
 
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
 
-import android.provider.Settings.Secure;
-
 public class LoginActivity extends AppCompatActivity {
+
+
     private AutoCompleteTextView mUsernameView;
     private EditText mPasswordView;
     private AppCompatCheckBox mRememberCb;
@@ -155,64 +160,95 @@ public class LoginActivity extends AppCompatActivity {
 
     private void login(String username, String password){
         RestClient.GitApiInterface service = RestClient.getClient();
-        Call<ResponseDTO> call = service.login(new UserInfo(username.trim(),password,android_id));
 
-        call.enqueue(new Callback<ResponseDTO>() {
-            @Override
-            public void onResponse(Response<ResponseDTO> response) {
-                if (response.isSuccess()) {
-                    Log.d("phuongtd", "Status: " + response.code());
+        if(NetworkUtil.isNetworkAvaiable(getBaseContext())) {
+            Call<ResponseDTO> call = service.login(new UserInfo(username.trim(), password, android_id));
 
-                    ResponseDTO dto = response.body();
+            call.enqueue(new Callback<ResponseDTO>() {
+                @Override
+                public void onResponse(Response<ResponseDTO> response) {
+                    if (response.isSuccess()) {
 
-                    if (dto.getStatus().equals("success")) {
-                        TokenInfo tokenInfo = new Gson().fromJson(new Gson().toJson(dto.getData()), TokenInfo.class);
-                        Toast.makeText(LoginActivity.this, tokenInfo.getAccess_token(), Toast.LENGTH_LONG).show();
+                        ResponseDTO dto = response.body();
 
-                        Constant.MY_TOKEN = tokenInfo.getAccess_token();
+                        if (dto.getStatus().equals("success")) {
+                            TokenInfo tokenInfo = new Gson().fromJson(new Gson().toJson(dto.getData()), TokenInfo.class);
+                            Toast.makeText(LoginActivity.this, tokenInfo.getAccess_token(), Toast.LENGTH_LONG).show();
 
-                        /*Luu lai userid va access_token cua user hien tai*/
-
-                        saveToken(tokenInfo.getAccess_token());
-                        saveCurrentUserId(tokenInfo.getUser().getUserId());
+                            Constant.MY_TOKEN = tokenInfo.getAccess_token();
 
 
-                        /* Luu lai thong tin nguoi dung neu lan dau dang nhap */
-                        UserAdapter userAdapter= new UserAdapter(LoginActivity.this);
-                        int insert = (int) userAdapter.insertUser(tokenInfo.getUser());
 
-                        if(insert == -2){
-                            Log.d("phuongtd" , "User da ton tai khong Insert !");
-                        } else if(insert == -1){
-                            Log.d("phuongtd" , "Insert loi");
-                        } else {
-                            Log.d("phuongtd" , "Insert success");
-                        }
+                            */
+/*Luu lai userid va access_token cua user hien tai*//*
 
 
-                        Intent intent =new Intent(LoginActivity.this , MainActivity.class);
-                        startActivity(intent);
-
-                        finish();
-
-                        if (mRememberCb.isChecked()) {
                             saveToken(tokenInfo.getAccess_token());
+                           // saveCurrentUserId(tokenInfo.getUser().getUserId());
+
+
+                            */
+/* Luu lai thong tin nguoi dung neu lan dau dang nhap *//*
+
+
+                            insertUserIntoSQLite(tokenInfo);
+
+                            SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.share_preferences_file),
+                                    Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                            editor.putInt(Constant.USER_ID, tokenInfo.getUser().getIdPersonOfUser());
+                            editor.commit();
+
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+
+                            finish();
+
+                            if (mRememberCb.isChecked()) {
+                                saveToken(tokenInfo.getAccess_token());
+                            }
+                        } else {
+                            showError(dto.getMessage());
                         }
                     } else {
+<<<<<<< HEAD
                         showError(dto.getMessage());
                         mProgressView.setVisibility(View.GONE);
                     }
                 } else {
                     Log.d("phuongtd", "Status error: " + response.code());
                     mProgressView.setVisibility(View.GONE);
+=======
+                        Log.d("phuongtd", "Status error: " + response.code());
+                    }
+>>>>>>> 6847d04e9b4dd6a2952ae9909f326756f3c5e6a2
                 }
-            }
 
-            @Override
-            public void onFailure(Throwable t) {
-                showError(ERROR_CONNECT);
+                @Override
+                public void onFailure(Throwable t) {
+                    showError(ERROR_CONNECT);
+                }
+            });
+        } else {
+            UserAdapter userAdapter = new UserAdapter(getApplication());
+            User user = userAdapter.getUserByUserNamePassWord(username,password);
+            if(user != null){
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+
+                SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.share_preferences_file),
+                        Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                editor.putInt(Constant.USER_ID, user.getIdPersonOfUser());
+                editor.commit();
+
+                finish();
+            } else {
+                showError("Username or password is incorrect");
             }
-        });
+        }
     }
     private void loginRemember(){
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.share_preferences_file),
@@ -225,4 +261,62 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         }
     }
+
+    private void insertUserIntoSQLite(TokenInfo tokenInfo){
+
+        UserAdapter userAdapter= new UserAdapter(LoginActivity.this);
+        int insertUser = (int) userAdapter.insertUser(tokenInfo.getUser());
+
+        if(insertUser == Constant.DUPLICATE_INSERT){
+            Log.d("phuongtd", "User da ton tai khong Insert !");
+        } else if(insertUser == Constant.INSERT_ERROR){
+            Log.d("phuongtd" , "User Insert loi");
+        } else {
+            Log.d("phuongtd" , "User Insert success");
+        }
+
+        if(tokenInfo.getUser().getDealer() != null){
+            DealerAdapter dealerAdapter = new DealerAdapter(LoginActivity.this);
+            int insertStaff = (int) dealerAdapter.insert(tokenInfo.getUser().getDealer());
+
+            if(insertStaff == Constant.DUPLICATE_INSERT){
+                Log.d("phuongtd" , "Dealer da ton tai khong Insert !");
+            } else if(insertStaff == Constant.INSERT_ERROR){
+                Log.d("phuongtd" , "Dealer Insert loi");
+            } else {
+                Log.d("phuongtd" , "Dealer Insert success");
+            }
+        }
+
+        if(tokenInfo.getUser().getCustomer() != null){
+            CustomerAdapter customerAdapter = new CustomerAdapter(LoginActivity.this);
+            int innsertCustomer = (int) customerAdapter.insert(tokenInfo.getUser().getCustomer());
+
+            if(innsertCustomer == Constant.DUPLICATE_INSERT){
+                Log.d("phuongtd" , "Customer da ton tai khong Insert !");
+            } else if(innsertCustomer == Constant.INSERT_ERROR){
+                Log.d("phuongtd" , "Customer Insert loi");
+            } else {
+                Log.d("phuongtd" , "Customer Insert success");
+            }
+        }
+
+        if(tokenInfo.getUser().getStaff() != null){
+            StaffAdapter staffAdapter = new StaffAdapter(LoginActivity.this);
+            int insertStaff = (int) staffAdapter.insert(tokenInfo.getUser().getStaff());
+
+            if(insertStaff == Constant.DUPLICATE_INSERT){
+                Log.d("phuongtd" , "Staff da ton tai khong Insert !");
+            } else if(insertStaff == Constant.INSERT_ERROR){
+                Log.d("phuongtd" , "Staff Insert loi");
+            } else {
+                Log.d("phuongtd" , "Staff Insert success");
+            }
+        }
+
+        User userOffLine = userAdapter.getUserById(tokenInfo.getUser().getUserId());
+
+        Log.d("phuongtd", "User offline: " + new Gson().toJson(userOffLine));
+    }
 }
+*/

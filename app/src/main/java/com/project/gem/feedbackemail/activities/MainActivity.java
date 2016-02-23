@@ -1,3 +1,5 @@
+
+/*
 package com.project.gem.feedbackemail.activities;
 
 import android.content.Context;
@@ -25,6 +27,7 @@ import com.project.gem.feedbackemail.R;
 import com.project.gem.feedbackemail.model.ResponseDTO;
 import com.project.gem.feedbackemail.retrofit.RestClient;
 import com.project.gem.feedbackemail.util.Constant;
+import com.project.gem.feedbackemail.util.NetworkUtil;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -44,6 +47,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
 
         sharedPreferences = getSharedPreferences(getString(R.string.share_preferences_file),
                 Context.MODE_PRIVATE);
@@ -68,7 +73,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.getMenu().getItem(0).setChecked(true);
         fm = getSupportFragmentManager();
         ft = fm.beginTransaction();
-        FragmentProfile fragmentProfile = new FragmentProfile();
+        FragmentProfileDealer fragmentProfile = new FragmentProfileDealer();
         ft.replace(R.id.content_menu, fragmentProfile);
         ft.commit();
     }
@@ -112,7 +117,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            FragmentProfile fragmentProfile = new FragmentProfile();
+            FragmentProfileDealer fragmentProfile = new FragmentProfileDealer();
             setContentForMenu(fragmentProfile);
         } else if (id == R.id.nav_gallery) {
 
@@ -134,39 +139,52 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void logout(){
-        RestClient.GitApiInterface service = RestClient.getClient();
-        Call<ResponseDTO> call = service.logout(sharedPreferences.getString(Constant.TOKEN_KEY , ""));
 
-        call.enqueue(new Callback<ResponseDTO>() {
-            @Override
-            public void onResponse(Response<ResponseDTO> response) {
+        if (NetworkUtil.isNetworkAvaiable(MainActivity.this)) {
+            RestClient.GitApiInterface service = RestClient.getClient();
+            Call<ResponseDTO> call = service.logout(sharedPreferences.getString(Constant.TOKEN_KEY, ""));
 
-                Log.d("phuongtd", "Status logout: " + response.code());
+            call.enqueue(new Callback<ResponseDTO>() {
+                @Override
+                public void onResponse(Response<ResponseDTO> response) {
 
-                if (response.isSuccess()) {
-                    ResponseDTO dto = response.body();
+                    Log.d("phuongtd", "Status logout: " + response.code());
 
-                    if (dto.getStatus().equals(Constant.RESPONSE_STATUS_SUSSCESS)) {
-                        Toast.makeText(MainActivity.this, "Logout Success", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    if (response.isSuccess()) {
+                        ResponseDTO dto = response.body();
 
-                        deleteToken();
+                        if (dto.getStatus().equals(Constant.RESPONSE_STATUS_SUSSCESS)) {
+                            Toast.makeText(MainActivity.this, "Logout Success", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
 
-                        startActivity(intent);
-                        finish();
+                            deleteToken();
+
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Toast.makeText(MainActivity.this, "Khong the logout tren Server", Toast.LENGTH_LONG).show();
+                        }
                     } else {
-                        Toast.makeText(MainActivity.this, "Khong the logout tren Server", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this, response.message(), Toast.LENGTH_LONG).show();
                     }
-                } else {
-                    Toast.makeText(MainActivity.this, response.message(), Toast.LENGTH_LONG).show();
                 }
-            }
 
-            @Override
-            public void onFailure(Throwable t) {
+                @Override
+                public void onFailure(Throwable t) {
 
-            }
-        });
+                }
+            });
+        } else {
+
+            Toast.makeText(MainActivity.this, "Logout Success", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+
+            deleteToken();
+            deleteCurrentUserId();
+
+            startActivity(intent);
+            finish();
+        }
     }
 
     private void deleteToken(){
@@ -174,9 +192,17 @@ public class MainActivity extends AppCompatActivity
                 Context.MODE_PRIVATE);
         sharedPreferences.edit().remove(Constant.TOKEN_KEY).commit();
     }
+
+    private void deleteCurrentUserId(){
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.share_preferences_file),
+                Context.MODE_PRIVATE);
+        sharedPreferences.edit().remove(Constant.CURRENT_USER_ID).commit();
+    }
     private void setContentForMenu(Fragment fragment){
         ft = fm.beginTransaction();
         ft.replace(R.id.content_menu, fragment);
         ft.commit();
     }
 }
+*/
+
