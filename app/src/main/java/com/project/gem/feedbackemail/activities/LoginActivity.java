@@ -1,3 +1,4 @@
+/*
 package com.project.gem.feedbackemail.activities;
 
 import android.content.Context;
@@ -27,9 +28,8 @@ import com.project.gem.feedbackemail.SQLDatabase.DealerAdapter;
 import com.project.gem.feedbackemail.SQLDatabase.StaffAdapter;
 import com.project.gem.feedbackemail.SQLDatabase.UserAdapter;
 import com.project.gem.feedbackemail.model.ResponseDTO;
-import com.project.gem.feedbackemail.model.TokenInfo;
-import com.project.gem.feedbackemail.model.User;
-import com.project.gem.feedbackemail.model.UserInfo;
+import com.gem.nhom1.feedbackemail.network.entities.User;
+import com.gem.nhom1.feedbackemail.network.entities.UserInfo;
 import com.project.gem.feedbackemail.retrofit.RestClient;
 import com.project.gem.feedbackemail.util.Constant;
 import com.project.gem.feedbackemail.util.NetworkUtil;
@@ -39,6 +39,8 @@ import retrofit.Callback;
 import retrofit.Response;
 
 public class LoginActivity extends AppCompatActivity {
+
+
     private AutoCompleteTextView mUsernameView;
     private EditText mPasswordView;
     private AppCompatCheckBox mRememberCb;
@@ -168,13 +170,17 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-                            /*Luu lai userid va access_token cua user hien tai*/
+                            */
+/*Luu lai userid va access_token cua user hien tai*//*
+
 
                             saveToken(tokenInfo.getAccess_token());
-                            saveCurrentUserId(tokenInfo.getUser().getUserId());
+                           // saveCurrentUserId(tokenInfo.getUser().getUserId());
 
 
-                            /* Luu lai thong tin nguoi dung neu lan dau dang nhap */
+                            */
+/* Luu lai thong tin nguoi dung neu lan dau dang nhap *//*
+
 
                             insertUserIntoSQLite(tokenInfo);
 
@@ -212,6 +218,13 @@ public class LoginActivity extends AppCompatActivity {
             if(user != null){
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
+
+                SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.share_preferences_file),
+                        Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                editor.putInt(Constant.USER_ID, user.getIdPersonOfUser());
+                editor.commit();
 
                 finish();
             } else {
@@ -288,3 +301,4 @@ public class LoginActivity extends AppCompatActivity {
         Log.d("phuongtd", "User offline: " + new Gson().toJson(userOffLine));
     }
 }
+*/

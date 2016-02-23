@@ -1,3 +1,4 @@
+/*
 package com.project.gem.feedbackemail.activities;
 
 import android.content.Context;
@@ -5,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,26 +16,21 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.project.gem.feedbackemail.R;
 import com.project.gem.feedbackemail.SQLDatabase.DealerAdapter;
-import com.project.gem.feedbackemail.SQLDatabase.UserAdapter;
-import com.project.gem.feedbackemail.model.Dealer;
+import com.gem.nhom1.feedbackemail.network.entities.Dealer;
 import com.project.gem.feedbackemail.model.ResponseDTO;
-import com.project.gem.feedbackemail.model.User;
-import com.project.gem.feedbackemail.model.UserInfo;
 import com.project.gem.feedbackemail.retrofit.RestClient;
 import com.project.gem.feedbackemail.util.Constant;
 import com.project.gem.feedbackemail.util.NetworkUtil;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
 
+*/
 /**
  * Created by nghicv on 19/02/2016.
  */
+/*
 public class FragmentProfileDealer extends Fragment {
     @Nullable
     @Override
@@ -82,7 +77,7 @@ public class FragmentProfileDealer extends Fragment {
                 Dealer dealer = dealerAdapter.getDealerById(userId);
 
                 tvName.setText(dealer.getName());
-                
+
                 tvId.setText(dealer.getDealerId()+"");
 
                 tvCountry.setText(dealer.getAddress());
@@ -93,3 +88,4 @@ public class FragmentProfileDealer extends Fragment {
 
     }
 }
+*/

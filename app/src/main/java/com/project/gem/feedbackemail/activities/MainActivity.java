@@ -1,3 +1,5 @@
+
+/*
 package com.project.gem.feedbackemail.activities;
 
 import android.content.Context;
@@ -45,6 +47,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
 
         sharedPreferences = getSharedPreferences(getString(R.string.share_preferences_file),
                 Context.MODE_PRIVATE);
@@ -200,3 +204,5 @@ public class MainActivity extends AppCompatActivity
         ft.commit();
     }
 }
+*/
+

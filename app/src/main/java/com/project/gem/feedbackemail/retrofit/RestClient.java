@@ -1,10 +1,13 @@
+/*
 package com.project.gem.feedbackemail.retrofit;
 
+*/
 /**
  * Created by phuongtd on 16/02/2016.
- */
+ *//*
+
 import com.project.gem.feedbackemail.model.ResponseDTO;
-import com.project.gem.feedbackemail.model.UserInfo;
+import com.gem.nhom1.feedbackemail.network.entities.UserInfo;
 import com.project.gem.feedbackemail.util.Constant;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
@@ -24,11 +27,13 @@ import retrofit.http.POST;
 import retrofit.http.Path;
 import retrofit.http.Query;
 
+*/
 /**
  * Created by Ashiq Uz Zoha on 9/13/15.
  * Dhrubok Infotech Services Ltd.
  * ashiq.ayon@gmail.com
- */
+ *//*
+
 public class RestClient {
 
     private static GitApiInterface gitApiInterface ;
@@ -72,3 +77,4 @@ public class RestClient {
     }
 
 }
+*/
