@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.gem.nhom1.feedbackemail.screen.login.LoginActivity"
+            android:name="com.gem.nhom1.feedbackemail.screen.splash.SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -31,7 +31,10 @@
         <activity android:name="com.gem.nhom1.feedbackemail.screen.dealerDetail.DealerDetailActivity"></activity>
         <activity android:name="com.gem.nhom1.feedbackemail.screen.staffDetail.StaffDetailActivity"></activity>
 
-        <activity android:name="com.gem.nhom1.feedbackemail.screen.customer.CustomerActivity"></activity>
+        <activity android:name="com.gem.nhom1.feedbackemail.screen.customer.CustomerActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name="com.gem.nhom1.feedbackemail.screen.login.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

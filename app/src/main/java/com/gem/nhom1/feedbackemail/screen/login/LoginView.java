@@ -12,6 +12,4 @@ public interface LoginView extends BaseView<LoginPresenter> {
     public void onLoginSuccess(TokenInfoDTO  tokenInfoDTO);
 
     public void onLoginSuccessOffLine(User user);
-
-    public void detechedSuccess(User user);
 }

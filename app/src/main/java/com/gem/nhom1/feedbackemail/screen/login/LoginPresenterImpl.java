@@ -71,18 +71,6 @@ public class LoginPresenterImpl implements LoginPresenter {
 
     }
 
-    @Override
-    public void detechedAcount() {
-        if(PreferenceUtils.getToken(mView.getContextBase())!="" && PreferenceUtils.getCurrentUserId(mView.getContextBase())!=-1){
-            UserAdapter userAdapter = new UserAdapter(mView.getContextBase());
-
-            User user = userAdapter.getUserById(PreferenceUtils.getCurrentUserId(mView.getContextBase()));
-
-            if(user != null)
-            mView.detechedSuccess(user);
-        }
-    }
-
     public boolean validateForm(String username, String passWord){
         if(username.length() < 6 || passWord.length() < 6){
             return false;
