@@ -85,11 +85,13 @@ public class CustomerActivity extends BaseActivity<CustomerPresenter> implements
             ft = fm.beginTransaction();
             ft.replace(R.id.content_menu, customerProfile);
             ft.commit();
+            toolbar.setTitle("Profiles");
         } else if (id == R.id.nav_dealers) {
             FragmentDealerList dealerList = new FragmentDealerList();
             ft = fm.beginTransaction();
             ft.replace(R.id.content_menu, dealerList);
             ft.commit();
+            toolbar.setTitle("Dealer list");
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
