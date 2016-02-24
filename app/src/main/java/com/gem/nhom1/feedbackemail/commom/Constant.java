@@ -42,4 +42,9 @@ public class Constant {
     public static User user = null;
     public static boolean offLineMode = false;
 
+
+    //////////////////////////////////////////////////////////////
+
+    public static String CURRENT_ACCESS_TOKEN = "";
+
 }

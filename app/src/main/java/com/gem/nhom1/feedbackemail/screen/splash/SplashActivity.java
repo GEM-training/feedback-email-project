@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.gem.nhom1.feedbackemail.SQLDatabase.UserAdapter;
 import com.gem.nhom1.feedbackemail.commom.Constant;
+import com.gem.nhom1.feedbackemail.commom.util.NetworkUtil;
 import com.gem.nhom1.feedbackemail.commom.util.PreferenceUtils;
 import com.gem.nhom1.feedbackemail.network.entities.User;
 import com.gem.nhom1.feedbackemail.screen.customer.CustomerActivity;
@@ -46,10 +47,14 @@ public class SplashActivity extends AppCompatActivity {
             User user = userAdapter.getUserById(PreferenceUtils.getCurrentUserId(SplashActivity.this));
 
             if(user != null){
-                Constant.offLineMode = true;
+                if(NetworkUtil.isNetworkAvaiable(SplashActivity.this))
+                {
+                    Constant.offLineMode = false;
+                } else {
+                    Constant.offLineMode = true;
+                }
                 Constant.user = user;
-
-                Toast.makeText(SplashActivity.this , "Deteched Success" , Toast.LENGTH_SHORT).show();
+                Constant.CURRENT_ACCESS_TOKEN = PreferenceUtils.getToken(SplashActivity.this);
 
                 if(user.getCustomer()!=null){
                     Intent intent = new Intent(SplashActivity.this , CustomerActivity.class);

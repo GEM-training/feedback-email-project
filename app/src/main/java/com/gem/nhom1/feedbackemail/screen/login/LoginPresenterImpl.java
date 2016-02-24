@@ -100,6 +100,8 @@ public class LoginPresenterImpl implements LoginPresenter {
                 PreferenceUtils.saveCurrentUserId(mView.getContextBase(), tokenInfoDTO.getUser().getUserId());
             }
 
+            Constant.CURRENT_ACCESS_TOKEN = tokenInfoDTO.getAccess_token();
+
         }
     };
 

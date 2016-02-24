@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.gem.nhom1.feedbackemail.network.entities.Dealer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by phuongtd on 19/02/2016.
  */
@@ -77,8 +80,45 @@ public class DealerAdapter {
         close();
         return dealer;
 
+    }
+
+    public List<Dealer> getListDealer(int startId , int pageZise){
+        open();
+
+        List<Dealer> list = new ArrayList<Dealer>();
+
+        String[] tableColumns = new String[] {
+                SQLAdapter.DEALER_ID , SQLAdapter.DEALER_NAME , SQLAdapter.DEALER_ADDRESS
+        };
+        String whereClause = SQLAdapter.DEALER_ID + " > ?";
+        String[] whereArgs = new String[] {
+                startId+""
+        };
+        String orderBy = SQLAdapter.DEALER_ID;
+        Cursor c = db.query(SQLAdapter.NAME_TABLE_DEALER, tableColumns, whereClause, whereArgs,
+                null, null, orderBy , pageZise+"");
 
 
+        if(c.getCount() ==0 ){
+            close();
+            return list;
+        }
 
+
+        c.moveToFirst();
+
+        while (c.isAfterLast()==false){
+            Dealer dealer = new Dealer();
+            dealer.setDealerId(c.getInt(0));
+            dealer.setName(c.getString(1));
+            dealer.setAddress(c.getString(2));
+            c.moveToNext();
+
+            list.add(dealer);
+        }
+
+
+        close();
+        return list;
     }
 }
