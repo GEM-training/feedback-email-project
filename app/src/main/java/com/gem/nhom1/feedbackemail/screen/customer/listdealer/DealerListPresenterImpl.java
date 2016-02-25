@@ -4,7 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
+
+import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -31,12 +32,12 @@ import java.util.List;
 public class DealerListPresenterImpl implements DealerListPresenter {
     private DealerListView mView;
     private BaseView baseView;
-    private List<Dealer> dealers = new ArrayList<Dealer>();
-
+    private int loadDefaultSize = 9;
 
     public DealerListPresenterImpl(DealerListView view){
         this.mView = view;
         baseView = (BaseView) mView.getContextBase();
+
     }
 
     @Override
@@ -45,79 +46,55 @@ public class DealerListPresenterImpl implements DealerListPresenter {
         if(Constant.offLineMode == false){
             baseView.showProgress();
 
-            ServiceBuilder.getService().getListDealer(Constant.CURRENT_ACCESS_TOKEN).enqueue(mCallback);
+            ServiceBuilder.getService().getListDealer(Constant.CURRENT_ACCESS_TOKEN , -1 , loadDefaultSize).enqueue(mCallbackMore);
 
         } else {
             Toast.makeText(mView.getContextBase() , "Get Dealer on Offline Mode" , Toast.LENGTH_SHORT).show();
             DealerAdapter dealerAdapter = new DealerAdapter(mView.getContextBase());
 
             // Lay tu id = 0 , size = 5
-            List<Dealer> dealerList = dealerAdapter.getListDealer(-1 , 5);
+            List<Dealer> list = dealerAdapter.getListDealer(-1 ,loadDefaultSize);
 
-            DealerListAdapter dealerListAdapter = new DealerListAdapter(mView.getContextBase() , dealerList);
+            DealerListAdapter dealerListAdapter = new DealerListAdapter(mView.getContextBase() , list);
 
-            mView.onLoadDealerSuccess(dealerListAdapter);
+            mView.onLoadDealerSuccess(list);
         }
 
     }
 
+
+
     @Override
-    public void onItemSelected(ListView listView) {
-        listView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Dealer dealer = dealers.get(position);
-                Intent intent = new Intent(mView.getContextBase(), ProductListActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("dealer", dealer);
-                intent.putExtras(bundle);
-                mView.getContextBase().startActivity(intent);
-            }
+    public void onLoadMore(int startIndex,int pageSize) {
+        ServiceBuilder.getService().getListDealer(Constant.CURRENT_ACCESS_TOKEN, startIndex , pageSize).enqueue(mCallbackMore);
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Dealer dealer = dealers.get(position);
-                Intent intent = new Intent(mView.getContextBase(), ProductListActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("dealer", dealer);
-                intent.putExtras(bundle);
-                mView.getContextBase().startActivity(intent);
-            }
-        });
     }
 
-    private BaseCallback mCallback = new BaseCallback<ListDealerDTO>() {
+    private BaseCallback mCallbackMore = new BaseCallback<ListDealerDTO>() {
         @Override
         public void onError(int errorCode, String errorMessage) {
             baseView.onRequestError(errorCode, errorMessage);
         }
-
         @Override
         public void onResponse(Object o) {
+
+            List<Dealer> dealerList = new ArrayList<>();
 
             baseView.onRequestSuccess();
 
             List<Dealer> dealerListTemp = new Gson().fromJson(new Gson().toJson(o) , ( new ArrayList<Dealer>()).getClass());
 
-
-            // Cap nhat cac dealer vao SQL
             DealerAdapter dealerAdapter = new DealerAdapter(mView.getContextBase());
 
-            for(int i = 0 ; i< dealerListTemp.size() ; i++){
-                dealers.add(new Gson().fromJson(new Gson().toJson(dealerListTemp.get(i)), Dealer.class));
-                Log.d("phuongtd", "Insert " + dealerAdapter.insert(dealers.get(i)));
+
+            for (int i = 0; i < dealerListTemp.size(); i++) {
+                    Dealer temp = new Gson().fromJson(new Gson().toJson(dealerListTemp.get(i)), Dealer.class);
+                    dealerList.add(temp);
+                    Log.d("phuongtd", "Insert: " + dealerAdapter.insert(temp));
+
             }
 
-            DealerListAdapter dealerListAdapter = new DealerListAdapter(mView.getContextBase() , dealers);
-
-            mView.onLoadDealerSuccess(dealerListAdapter);
+            mView.onLoadMoreSuccess(dealerList);
 
 
         }

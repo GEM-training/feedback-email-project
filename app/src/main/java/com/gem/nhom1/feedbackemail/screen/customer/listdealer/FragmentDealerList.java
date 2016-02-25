@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -15,6 +17,9 @@ import com.gem.nhom1.feedbackemail.base.BaseFragment;
 import com.gem.nhom1.feedbackemail.network.entities.Dealer;
 import com.gem.nhom1.feedbackemail.screen.customer.listproduct.ProductListActivity;
 import com.project.gem.feedbackemail.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnItemClick;
@@ -27,16 +32,62 @@ public class FragmentDealerList extends BaseFragment<DealerListPresenter> implem
 
     @Bind(R.id.list_dealer)
     ListView listView;
+    private DealerListAdapter adapter;
+    List<Dealer> listDealers;
+    int currentScrollState;
 
-    @Nullable
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        listDealers = new ArrayList<>();
+        adapter = new DealerListAdapter(getActivity(),listDealers);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         getPresenter().onLoadDealerOnStart();
-        getPresenter().onItemSelected(listView);
 
-        return view;
+        listView.setAdapter(adapter);
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            int currentFirstVisibleItem;
+            int currentVisibleItemCount;
+            int total=10;
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                currentScrollState = scrollState;
+                onScrollComplete();
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                Log.d("phuongtd", "weww");
+                currentFirstVisibleItem = firstVisibleItem;
+                currentVisibleItemCount = visibleItemCount;
+                total = totalItemCount;
+
+            }
+            public void onScrollComplete(){
+                if (this.currentVisibleItemCount+currentFirstVisibleItem==total && currentScrollState == SCROLL_STATE_IDLE) {
+                    Log.d("phuongtd", "==================");
+                    getPresenter().onLoadMore(listDealers.get(listDealers.size() -1).getDealerId() , 5);
+                }
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Dealer dealer = listDealers.get(position);
+                Intent intent = new Intent(getActivity(), ProductListActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("dealer", dealer);
+                intent.putExtras(bundle);
+                getActivity().startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -50,8 +101,15 @@ public class FragmentDealerList extends BaseFragment<DealerListPresenter> implem
     }
 
     @Override
-    public void onLoadDealerSuccess(DealerListAdapter adapter) {
-        listView.setAdapter(adapter);
+    public void onLoadDealerSuccess(List<Dealer> listDealers) {
+        listDealers.addAll(listDealers);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onLoadMoreSuccess(List<Dealer> dealerList) {
+        listDealers.addAll(dealerList);
+        adapter.notifyDataSetChanged();
     }
 
 }

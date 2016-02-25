@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ListView;
 
 import com.gem.nhom1.feedbackemail.base.BaseActivity;
@@ -18,7 +19,7 @@ import butterknife.Bind;
  */
 public class ProductListActivity extends BaseActivity<ProductListPresenter> implements ProductListView{
 
-    private Dealer dealer;
+    private Dealer dealer = new Dealer();
 
     @Bind(R.id.lv_product)
     ListView lvProduct;
@@ -30,7 +31,7 @@ public class ProductListActivity extends BaseActivity<ProductListPresenter> impl
 
     @Override
     public ProductListPresenter onCreatePresenter() {
-        return new ProductListPresenterImp(this, dealer);
+        return new ProductListPresenterImp(this);
     }
 
     @Override
@@ -46,9 +47,12 @@ public class ProductListActivity extends BaseActivity<ProductListPresenter> impl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent i = new Intent();
+        Intent i = getIntent();
         Bundle bundle = i.getExtras();
         dealer = (Dealer)bundle.getSerializable("dealer");
+        Log.d("nghicv", dealer.getName());
+
+        getPresenter().doLoadListProduct(dealer);
 
     }
 }

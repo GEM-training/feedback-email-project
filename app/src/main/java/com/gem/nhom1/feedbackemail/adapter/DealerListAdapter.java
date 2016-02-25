@@ -41,11 +41,12 @@ public class DealerListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = LayoutInflater.from(context).inflate(R.layout.list_dealer_item , parent ,false);
+        if(convertView==null)
+            convertView = LayoutInflater.from(context).inflate(R.layout.list_dealer_item , parent ,false);
 
-        TextView tv_id = (TextView) view.findViewById(R.id.tv_dealer_id);
-        TextView tv_name = (TextView) view.findViewById(R.id.tv_dealer_name);
-        TextView tv_address = (TextView) view.findViewById(R.id.tv_dealer_address);
+        TextView tv_id = (TextView) convertView.findViewById(R.id.tv_dealer_id);
+        TextView tv_name = (TextView) convertView.findViewById(R.id.tv_dealer_name);
+        TextView tv_address = (TextView) convertView.findViewById(R.id.tv_dealer_address);
 
         Dealer dealer = dealerList.get(position);
 
@@ -54,6 +55,6 @@ public class DealerListAdapter extends BaseAdapter {
         tv_address.setText(dealer.getAddress());
 
 
-        return view;
+        return convertView;
     }
 }

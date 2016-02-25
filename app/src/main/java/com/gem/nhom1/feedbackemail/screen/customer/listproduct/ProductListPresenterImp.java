@@ -21,18 +21,17 @@ import java.util.List;
  */
 public class ProductListPresenterImp implements ProductListPresenter {
     private ProductListView productListView;
-    private Dealer dealer;
 
-    public ProductListPresenterImp(ProductListView productListView, Dealer dealer) {
+    public ProductListPresenterImp(ProductListView productListView) {
         this.productListView = productListView;
-        this.dealer = dealer;
     }
 
 
     @Override
-    public void doLoadListProduct() {
+    public void doLoadListProduct(Dealer dealer) {
             productListView.showProgress();
             ServiceBuilder.getService().getListProduct(Constant.CURRENT_ACCESS_TOKEN, dealer.getDealerId()).enqueue(baseCallback);
+            Log.d("nghicv", dealer.getName());
 
     }
 
