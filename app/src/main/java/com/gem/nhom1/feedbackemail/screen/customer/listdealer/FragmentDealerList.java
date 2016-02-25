@@ -45,6 +45,7 @@ public class FragmentDealerList extends BaseFragment<DealerListPresenter> implem
         getPresenter().onLoadDealerOnStart();
 
         listView.setAdapter(adapter);
+
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             int currentFirstVisibleItem;
             int currentVisibleItemCount;
@@ -57,7 +58,6 @@ public class FragmentDealerList extends BaseFragment<DealerListPresenter> implem
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                Log.d("phuongtd", "weww");
                 currentFirstVisibleItem = firstVisibleItem;
                 currentVisibleItemCount = visibleItemCount;
                 total = totalItemCount;
@@ -65,7 +65,6 @@ public class FragmentDealerList extends BaseFragment<DealerListPresenter> implem
             }
             public void onScrollComplete(){
                 if (this.currentVisibleItemCount+currentFirstVisibleItem==total && currentScrollState == SCROLL_STATE_IDLE) {
-                    Log.d("phuongtd", "==================");
                     getPresenter().onLoadMore(listDealers.get(listDealers.size() -1).getDealerId() , 5);
                 }
             }
