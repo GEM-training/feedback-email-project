@@ -14,6 +14,4 @@ public interface DealerListView extends BaseFragmentView<DealerListPresenter> {
 
     void onLoadDealerSuccess(List<Dealer>dealerList);
 
-    void onLoadMoreSuccess(List<Dealer>dealerList);
-
 }
