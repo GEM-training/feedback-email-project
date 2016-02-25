@@ -1,5 +1,7 @@
 package com.gem.nhom1.feedbackemail.screen.customer.listdealer;
 
+import android.widget.ListView;
+
 import com.gem.nhom1.feedbackemail.base.BasePresenter;
 
 /**
@@ -7,4 +9,5 @@ import com.gem.nhom1.feedbackemail.base.BasePresenter;
  */
 public interface DealerListPresenter extends BasePresenter {
     public void onLoadDealerOnStart();
+    public void onLoadMore(ListView listView);
 }

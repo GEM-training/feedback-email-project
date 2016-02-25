@@ -28,6 +28,8 @@ public class FragmentDealerList extends BaseFragment<DealerListPresenter> implem
 
         getPresenter().onLoadDealerOnStart();
 
+        getPresenter().onLoadMore(listView);
+
         return view;
     }
 
@@ -42,7 +44,9 @@ public class FragmentDealerList extends BaseFragment<DealerListPresenter> implem
     }
 
     @Override
-    public void onLoadDealerSuccess(DealerListAdapter adapter) {
+    public void onLoadDealerSuccess(DealerListAdapter adapter , int position) {
         listView.setAdapter(adapter);
+        listView.setSelection(position);
     }
+
 }

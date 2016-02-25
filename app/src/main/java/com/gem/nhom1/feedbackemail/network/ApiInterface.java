@@ -10,6 +10,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by phuongtd on 23/02/2016.
@@ -25,5 +26,5 @@ public interface ApiInterface {
     Call<ResponseDTO> getInfo(@Header(Constant.STRING_ACCESS_TOKEN) String access_token,@Path("id") int id);
 
     @GET("/dealer/list")
-    Call<ResponseDTO> getListDealer(@Header(Constant.STRING_ACCESS_TOKEN) String access_token);
+    Call<ResponseDTO> getListDealer(@Header(Constant.STRING_ACCESS_TOKEN ) String access_token  , @Query("startIndex") int startIndex , @Query("pageSize") int pageSize);
 }

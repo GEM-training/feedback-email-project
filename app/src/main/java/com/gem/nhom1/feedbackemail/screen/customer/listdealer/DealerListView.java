@@ -9,6 +9,6 @@ import com.gem.nhom1.feedbackemail.base.BaseView;
  */
 public interface DealerListView extends BaseFragmentView<DealerListPresenter> {
 
-    public void onLoadDealerSuccess(DealerListAdapter adapter);
+    public void onLoadDealerSuccess(DealerListAdapter adapter , int position);
 
 }
