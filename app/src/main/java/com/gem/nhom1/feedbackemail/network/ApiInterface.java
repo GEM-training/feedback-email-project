@@ -23,4 +23,11 @@ public interface ApiInterface {
 
     @GET("/dealer/{id}")
     Call<ResponseDTO> getInfo(@Header(Constant.STRING_ACCESS_TOKEN) String access_token,@Path("id") int id);
+
+    @GET("/dealer/list")
+    Call<ResponseDTO> getListDealer(@Header(Constant.STRING_ACCESS_TOKEN) String access_token);
+
+    @GET("dealer/units/{id}")
+    Call<ResponseDTO> getListProduct(@Header(Constant.STRING_ACCESS_TOKEN) String access_token, @Path("id") int id);
+
 }

@@ -7,6 +7,4 @@ import com.gem.nhom1.feedbackemail.base.BasePresenter;
  */
 public interface LoginPresenter extends BasePresenter {
     void doLogin(String username, String password , boolean remember);
-
-    void detechedAcount();
 }

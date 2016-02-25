@@ -48,6 +48,8 @@ public class CustomerPresenterImpl implements  CustomerPresenter {
             mView.onRequestSuccess();
             mView.onLogoutSuccess();
 
+            Constant.CURRENT_ACCESS_TOKEN = "";
+
             PreferenceUtils.saveToken(mView.getContextBase(), "");
             PreferenceUtils.saveCurrentUserId(mView.getContextBase(), -1);
         }

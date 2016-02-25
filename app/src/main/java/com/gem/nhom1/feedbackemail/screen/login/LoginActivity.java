@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatCheckBox;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AutoCompleteTextView;
@@ -32,7 +33,7 @@ import butterknife.OnClick;
 public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginView {
 
     @Bind(R.id.username)
-    AutoCompleteTextView mUsernameView;
+    EditText mUsernameView;
 
     @Bind(R.id.password)
     EditText mPasswordView;
@@ -42,6 +43,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Bind(R.id.user_sign_in_button)
     Button btnLogin;
+
+   /* @Bind(R.id.toolbar)
+    Toolbar toolbar;*/
 
     private final String LENGTH_ERROR = "Username and password more than 6 character";
     private final String ERROR_CONNECT = "Can not Connect";
@@ -53,7 +57,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getPresenter().detechedAcount();
+        //setSupportActionBar(toolbar);
+        //getPresenter().detechedAcount();
     }
 
 
@@ -143,37 +148,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             return;
         }
 
-
-    }
-
-    @Override
-    public void detechedSuccess(User user) {
-        Toast.makeText(this , "Success Deteched" , Toast.LENGTH_LONG).show();
-
-        Constant.offLineMode = true;
-        Constant.user = user;
-
-
-        if(user.getCustomer()!=null){
-            Intent intent = new Intent(LoginActivity.this , CustomerActivity.class);
-            startActivity(intent);
-            finish();
-            return;
-        }
-
-        if(user.getDealer()!=null){
-            Intent intent = new Intent(LoginActivity.this , DealerDetailActivity.class);
-            startActivity(intent);
-            finish();
-            return;
-        }
-
-        if(user.getStaff()!=null){
-            Intent intent = new Intent(LoginActivity.this , StaffDetailActivity.class);
-            startActivity(intent);
-            finish();
-            return;
-        }
 
     }
 

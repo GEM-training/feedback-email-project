@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.gem.nhom1.feedbackemail.base.BaseActivity;
 import com.gem.nhom1.feedbackemail.base.BaseView;
+import com.gem.nhom1.feedbackemail.screen.customer.listdealer.FragmentDealerList;
 import com.gem.nhom1.feedbackemail.screen.customer.profile.FragmentProfileCustomer;
 import com.gem.nhom1.feedbackemail.screen.login.LoginActivity;
 import com.project.gem.feedbackemail.R;
@@ -39,8 +40,7 @@ public class CustomerActivity extends BaseActivity<CustomerPresenter> implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getSupportActionBar().hide();
-        //setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -85,8 +85,13 @@ public class CustomerActivity extends BaseActivity<CustomerPresenter> implements
             ft = fm.beginTransaction();
             ft.replace(R.id.content_menu, customerProfile);
             ft.commit();
-        } else if (id == R.id.nav_gallery) {
-
+            toolbar.setTitle("Profiles");
+        } else if (id == R.id.nav_dealers) {
+            FragmentDealerList dealerList = new FragmentDealerList();
+            ft = fm.beginTransaction();
+            ft.replace(R.id.content_menu, dealerList);
+            ft.commit();
+            toolbar.setTitle("Dealer list");
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {

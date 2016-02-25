@@ -1,12 +1,13 @@
 package com.gem.nhom1.feedbackemail.network.entities;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
  * Created by phuong on 1/19/2016.
  */
-public class Dealer {
+public class Dealer implements Serializable{
 
     private int dealerId;
 
