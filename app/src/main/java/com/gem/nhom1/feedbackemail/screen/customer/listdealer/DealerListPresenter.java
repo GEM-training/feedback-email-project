@@ -9,5 +9,5 @@ import com.gem.nhom1.feedbackemail.base.BasePresenter;
  */
 public interface DealerListPresenter extends BasePresenter {
     public void onLoadDealerOnStart();
-    public void onLoadMore(ListView listView);
+    public void onLoadMore(int startIndex,int pageSize);
 }
