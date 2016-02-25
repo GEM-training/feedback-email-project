@@ -23,10 +23,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--<activity
-            android:name=".activities.MainActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar"></activity>-->
 
         <activity android:name="com.gem.nhom1.feedbackemail.screen.dealerDetail.DealerDetailActivity"></activity>
         <activity android:name="com.gem.nhom1.feedbackemail.screen.staffDetail.StaffDetailActivity"></activity>
@@ -35,6 +31,7 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name="com.gem.nhom1.feedbackemail.screen.login.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name="com.gem.nhom1.feedbackemail.screen.customer.listproduct.ProductListActivity"/>
     </application>
 
 </manifest>

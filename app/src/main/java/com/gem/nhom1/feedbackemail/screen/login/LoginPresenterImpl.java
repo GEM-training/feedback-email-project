@@ -97,6 +97,7 @@ public class LoginPresenterImpl implements LoginPresenter {
 
             if(save == true){
                 PreferenceUtils.saveToken(mView.getContextBase(), tokenInfoDTO.getAccess_token());
+                Log.d("nghicv", tokenInfoDTO.getAccess_token());
                 PreferenceUtils.saveCurrentUserId(mView.getContextBase(), tokenInfoDTO.getUser().getUserId());
             }
 

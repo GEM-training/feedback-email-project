@@ -1,7 +1,10 @@
 package com.gem.nhom1.feedbackemail.screen.customer.listdealer;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+
 import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -17,6 +20,7 @@ import com.gem.nhom1.feedbackemail.network.callback.BaseCallback;
 import com.gem.nhom1.feedbackemail.network.dto.ListDealerDTO;
 import com.gem.nhom1.feedbackemail.network.dto.TokenInfoDTO;
 import com.gem.nhom1.feedbackemail.network.entities.Dealer;
+import com.gem.nhom1.feedbackemail.screen.customer.listproduct.ProductListActivity;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -28,7 +32,6 @@ import java.util.List;
 public class DealerListPresenterImpl implements DealerListPresenter {
     private DealerListView mView;
     private BaseView baseView;
-
     private int loadDefaultSize = 9;
 
     public DealerListPresenterImpl(DealerListView view){
@@ -56,6 +59,7 @@ public class DealerListPresenterImpl implements DealerListPresenter {
         }
 
     }
+
 
 
     @Override

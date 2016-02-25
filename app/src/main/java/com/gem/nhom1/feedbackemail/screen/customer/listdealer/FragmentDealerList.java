@@ -1,5 +1,6 @@
 package com.gem.nhom1.feedbackemail.screen.customer.listdealer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -7,17 +8,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.gem.nhom1.feedbackemail.adapter.DealerListAdapter;
 import com.gem.nhom1.feedbackemail.base.BaseFragment;
 import com.gem.nhom1.feedbackemail.network.entities.Dealer;
+import com.gem.nhom1.feedbackemail.screen.customer.listproduct.ProductListActivity;
 import com.project.gem.feedbackemail.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnItemClick;
+import butterknife.OnItemSelected;
 
 /**
  * Created by phuongtd on 24/02/2016.
@@ -67,6 +73,18 @@ public class FragmentDealerList extends BaseFragment<DealerListPresenter> implem
                 if (this.currentVisibleItemCount+currentFirstVisibleItem==total && currentScrollState == SCROLL_STATE_IDLE) {
                     getPresenter().onLoadMore(listDealers.get(listDealers.size() -1).getDealerId() , 5);
                 }
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Dealer dealer = listDealers.get(position);
+                Intent intent = new Intent(getActivity(), ProductListActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("dealer", dealer);
+                intent.putExtras(bundle);
+                getActivity().startActivity(intent);
             }
         });
     }
