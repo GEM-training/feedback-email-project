@@ -52,8 +52,6 @@ public class DealerListPresenterImpl implements DealerListPresenter {
             // Lay tu id = 0 , size = 5
             List<Dealer> list = dealerAdapter.getListDealer(-1 ,loadDefaultSize);
 
-            DealerListAdapter dealerListAdapter = new DealerListAdapter(mView.getContextBase() , list);
-
             mView.onLoadDealerSuccess(list);
         }
 
@@ -62,7 +60,17 @@ public class DealerListPresenterImpl implements DealerListPresenter {
 
     @Override
     public void onLoadMore(int startIndex,int pageSize) {
-        ServiceBuilder.getService().getListDealer(Constant.CURRENT_ACCESS_TOKEN, startIndex , pageSize).enqueue(mCallbackMore);
+        if(Constant.offLineMode == false){
+            ServiceBuilder.getService().getListDealer(Constant.CURRENT_ACCESS_TOKEN, startIndex , pageSize).enqueue(mCallbackMore);
+        } else {
+            Toast.makeText(mView.getContextBase() , "Get More Dealer on Offline Mode" , Toast.LENGTH_SHORT).show();
+            DealerAdapter dealerAdapter = new DealerAdapter(mView.getContextBase());
+
+            // Lay tu id = 0 , size = 5
+            List<Dealer> list = dealerAdapter.getListDealer(startIndex ,pageSize);
+
+            mView.onLoadDealerSuccess(list);
+        }
 
     }
 
@@ -90,7 +98,7 @@ public class DealerListPresenterImpl implements DealerListPresenter {
 
             }
 
-            mView.onLoadMoreSuccess(dealerList);
+            mView.onLoadDealerSuccess(dealerList);
 
 
         }

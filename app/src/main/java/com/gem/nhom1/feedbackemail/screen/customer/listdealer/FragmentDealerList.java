@@ -83,14 +83,9 @@ public class FragmentDealerList extends BaseFragment<DealerListPresenter> implem
     }
 
     @Override
-    public void onLoadDealerSuccess(List<Dealer> listDealers) {
-        listDealers.addAll(listDealers);
-        adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onLoadMoreSuccess(List<Dealer> dealerList) {
+    public void onLoadDealerSuccess(List<Dealer> dealerList) {
         listDealers.addAll(dealerList);
         adapter.notifyDataSetChanged();
     }
+
 }
