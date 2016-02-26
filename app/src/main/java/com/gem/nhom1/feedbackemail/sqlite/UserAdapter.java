@@ -1,4 +1,4 @@
-package com.gem.nhom1.feedbackemail.SQLDatabase;
+package com.gem.nhom1.feedbackemail.sqlite;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -74,8 +74,11 @@ public class UserAdapter {
                 null, null, orderBy);
 
 
-        if(c.getCount() ==0 )
+        if(c.getCount() ==0 ){
+            c.close();
             return null;
+        }
+
 
         c.moveToFirst();
 
@@ -114,8 +117,11 @@ public class UserAdapter {
                 null, null, orderBy);
 
 
-        if(c.getCount() ==0 )
+        if(c.getCount() ==0 ){
+            c.close();
             return null;
+        }
+
 
         c.moveToFirst();
 
@@ -134,7 +140,7 @@ public class UserAdapter {
         StaffAdapter staffAdapter = new StaffAdapter(context);
         u.setStaff(staffAdapter.getStaffById(c.getInt(5)));
 
-
+        c.close();
         close();
         return u;
     }

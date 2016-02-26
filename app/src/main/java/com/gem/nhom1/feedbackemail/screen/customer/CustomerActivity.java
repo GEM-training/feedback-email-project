@@ -95,9 +95,6 @@ public class CustomerActivity extends BaseActivity<CustomerPresenter> implements
         } else if (id == R.id.nav_send) {
 
         } else if (id == R.id.logout) {
-            if(getPresenter() == null){
-                Toast.makeText(CustomerActivity.this , "Null" , Toast.LENGTH_SHORT).show();
-            }
             getPresenter().logout();
         }
 

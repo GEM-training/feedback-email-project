@@ -1,4 +1,4 @@
-package com.gem.nhom1.feedbackemail.SQLDatabase;
+package com.gem.nhom1.feedbackemail.sqlite;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -60,6 +60,7 @@ public class StaffAdapter {
                 null, null, orderBy);
 
         if(c.getCount() ==0 ) {
+            c.close();
             close();
             return null;
         }
@@ -71,6 +72,7 @@ public class StaffAdapter {
             staff.setName(c.getString(1));
             staff.setPhone(c.getString(2));
             staff.setAddress(c.getString(3));
+            c.close();
             close();
             return staff;
 

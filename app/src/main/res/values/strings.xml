@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">FeedbackEmail</string>
     <string name="action_settings">Settings</string>
-    <string name="share_preferences_file">com.project.gem.feedbackemail.token</string>
+    <string name="share_preferences_file">com.gem.nhom1.feedbackemail.token</string>
     <string name="signup"><a>Create new account</a></string>
     <string name="title_activity_main">MainActivity</string>
 

@@ -65,7 +65,6 @@ public class ProductListActivity extends BaseActivity<ProductListPresenter> impl
         Intent i = getIntent();
         Bundle bundle = i.getExtras();
         dealer = (Dealer)bundle.getSerializable("dealer");
-        Log.d("nghicv", dealer.getName());
 
         adapter = new ProductListAdapter(getBaseContext(), unitPrices);
         lvProduct.setAdapter(adapter);

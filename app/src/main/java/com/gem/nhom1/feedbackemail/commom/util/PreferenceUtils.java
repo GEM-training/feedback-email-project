@@ -10,10 +10,9 @@ import com.gem.nhom1.feedbackemail.commom.Constant;
  * Created by phuongtd on 23/02/2016.
  */
 public class PreferenceUtils {
+    public static String TOKEN_EMPTY = "";
+    public static int USER_ID_EMPTY = -1;
 
-    private static final String MyPREFERENCES = "MailboxPrfs";
-
-    private static final String CURRENT_CUSTOMER_ID = "customerCurrentID";
 
     public static void saveToken(Context context , String token){
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.share_preferences_file),
@@ -34,13 +33,13 @@ public class PreferenceUtils {
     public static String getToken(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.share_preferences_file),
                 Context.MODE_PRIVATE);
-        return sharedPreferences.getString(Constant.TOKEN_KEY , "");
+        return sharedPreferences.getString(Constant.TOKEN_KEY , TOKEN_EMPTY);
     }
 
     public static int getCurrentUserId(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.share_preferences_file),
                 Context.MODE_PRIVATE);
-        return sharedPreferences.getInt(Constant.CURRENT_USER_ID, -1);
+        return sharedPreferences.getInt(Constant.CURRENT_USER_ID, USER_ID_EMPTY);
     }
 
 }

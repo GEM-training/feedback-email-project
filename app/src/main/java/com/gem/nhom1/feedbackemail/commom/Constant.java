@@ -45,6 +45,12 @@ public class Constant {
 
     //////////////////////////////////////////////////////////////
 
-    public static String CURRENT_ACCESS_TOKEN = "";
+    public static  String CURRENT_ACCESS_TOKEN = "";
+
+
+    ///////////////////////////////////////////////////////////
+
+    public static final String OFFLINE_SUCCESS = "Success offline";
+    public static final String ONLINE_SUCCESS = "Success online";
 
 }

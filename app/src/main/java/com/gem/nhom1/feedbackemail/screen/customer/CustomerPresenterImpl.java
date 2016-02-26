@@ -28,8 +28,8 @@ public class CustomerPresenterImpl implements  CustomerPresenter {
     @Override
     public void logout() {
         if(Constant.offLineMode){
-            PreferenceUtils.saveToken(mView.getContextBase() , "");
-            PreferenceUtils.saveCurrentUserId(mView.getContextBase(), -1);
+            PreferenceUtils.saveToken(mView.getContextBase() , PreferenceUtils.TOKEN_EMPTY);
+            PreferenceUtils.saveCurrentUserId(mView.getContextBase(), PreferenceUtils.USER_ID_EMPTY);
             mView.onLogoutSuccess();
         } else {
             ServiceBuilder.getService()
@@ -48,10 +48,10 @@ public class CustomerPresenterImpl implements  CustomerPresenter {
             mView.onRequestSuccess();
             mView.onLogoutSuccess();
 
-            Constant.CURRENT_ACCESS_TOKEN = "";
+            Constant.CURRENT_ACCESS_TOKEN = PreferenceUtils.TOKEN_EMPTY;
 
-            PreferenceUtils.saveToken(mView.getContextBase(), "");
-            PreferenceUtils.saveCurrentUserId(mView.getContextBase(), -1);
+            PreferenceUtils.saveToken(mView.getContextBase(), PreferenceUtils.TOKEN_EMPTY);
+            PreferenceUtils.saveCurrentUserId(mView.getContextBase(), PreferenceUtils.USER_ID_EMPTY);
         }
     };
 }

@@ -1,4 +1,4 @@
-package com.gem.nhom1.feedbackemail.SQLDatabase;
+package com.gem.nhom1.feedbackemail.sqlite;
 
 import android.content.Context;
 import android.database.SQLException;

@@ -1,4 +1,4 @@
-package com.gem.nhom1.feedbackemail.SQLDatabase;
+package com.gem.nhom1.feedbackemail.sqlite;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -64,6 +64,7 @@ public class DealerAdapter {
 
 
         if(c.getCount() ==0 ){
+            c.close();
             close();
             return null;
         }
@@ -77,6 +78,7 @@ public class DealerAdapter {
         dealer.setName(c.getString(1));
         dealer.setAddress(c.getString(2));
 
+        c.close();
         close();
         return dealer;
 
@@ -100,6 +102,7 @@ public class DealerAdapter {
 
 
         if(c.getCount() ==0 ){
+            c.close();
             close();
             return list;
         }
@@ -118,6 +121,7 @@ public class DealerAdapter {
         }
 
 
+        c.close();
         close();
         return list;
     }
