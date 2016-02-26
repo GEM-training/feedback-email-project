@@ -5,22 +5,17 @@ package com.gem.nhom1.feedbackemail.network.entities;
  */
 public class UnitOfDealer {
     private int unitId;
-    private String type;
-    private int isPart;
-    private int parentId;
 
     private int dealerId;
 
     private double price;
 
     public UnitOfDealer() {
+
     }
 
-    public UnitOfDealer(int unitId, String type, int isPart, int parentId, int dealerId, double price) {
+    public UnitOfDealer(int unitId, int dealerId, double price) {
         this.unitId = unitId;
-        this.type = type;
-        this.isPart = isPart;
-        this.parentId = parentId;
         this.dealerId = dealerId;
         this.price = price;
     }
@@ -31,30 +26,6 @@ public class UnitOfDealer {
 
     public void setUnitId(int unitId) {
         this.unitId = unitId;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public int getIsPart() {
-        return isPart;
-    }
-
-    public void setIsPart(int isPart) {
-        this.isPart = isPart;
-    }
-
-    public int getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(int parentId) {
-        this.parentId = parentId;
     }
 
     public int getDealerId() {

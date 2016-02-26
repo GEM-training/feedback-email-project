@@ -85,23 +85,30 @@ public class SQLAdapter {
             + STAFF_PHONE + " text not null , "
             + STAFF_ADDRESS + " text not null " + " ) ";
 
+     /*  Unit table */
+
+    static final String NAME_TABLE_UNIT = "units";
+    static final String UNIT_ID = "unitId";
+    static final String UNIT_TYPE = "unitType";
+    static final String UNIT_ISPART = "isPart";
+    static final String UNIT_PARENTID = "unitParentId";
+
+    static final String QUERY_CREATE_TABLE_UNIT = " create table " + NAME_TABLE_UNIT + " ( "
+            + UNIT_ID + " integer primary key not null , "
+            + UNIT_TYPE + " text not null ,"
+            + UNIT_ISPART + " integer not null ,"
+            + UNIT_PARENTID + " integer null " + " ) ";
+
     /* UnitOfDealer table */
 
     static final String NAME_TABLE_UNITOFDEALER = "unitOfDealer";
-    static final String UNITOFDEALER_UNITID = "unitId";
     static final String UNITOFDEALER_PRICE = "price";
-    static final String UNITOFDEALER_TYPE = "type";
-    static final String UNITOFDEALER_IS_PART = "isPart";
-    static final String UNITOFDEALER_PARENTID = "parentID";
 
-    static  final String QUERY_CREATE_TABLE_UNITOFDEALER = " crate table " + NAME_TABLE_UNITOFDEALER + " ( "
-            + UNITOFDEALER_UNITID + " integer not null , "
-            + DEALER_ID + " integer not null "
-            + UNITOFDEALER_IS_PART + " integer not null , "
-            + UNITOFDEALER_TYPE + "text not null , "
-            + UNITOFDEALER_PARENTID + " integer null , "
-            + UNITOFDEALER_PRICE + " double not null ,"
-            + " PRIMARY KEY( " + UNITOFDEALER_UNITID + " , " +  DEALER_ID + "  )) ";
+    static  final String QUERY_CREATE_TABLE_UNITOFDEALER = " create table " + NAME_TABLE_UNITOFDEALER + " ( "
+            + UNIT_ID + " integer not null , "
+            + DEALER_ID + " integer not null ,"
+            + UNITOFDEALER_PRICE + " real not null ,"
+            + " PRIMARY KEY( " + UNIT_ID + " , " +  DEALER_ID + "  )) ";
 
 
     private String address;
@@ -131,6 +138,8 @@ public class SQLAdapter {
                 db.execSQL(QUERY_CREATE_TABLE_DEALER);
                 db.execSQL(QUERY_CREATE_TABLE_STAFF);
                 db.execSQL(QUERY_CREATE_TABLE_CUSTOMER);
+                db.execSQL(QUERY_CREATE_TABLE_UNIT);
+                db.execSQL(QUERY_CREATE_TABLE_UNITOFDEALER);
             } catch (SQLException e) {
                 e.printStackTrace();
             }

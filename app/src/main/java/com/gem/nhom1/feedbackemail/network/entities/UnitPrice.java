@@ -5,9 +5,12 @@ package com.gem.nhom1.feedbackemail.network.entities;
  */
 public class UnitPrice {
     private Unit unit;
-    private int price;
+    private double price;
 
-    public UnitPrice(Unit unit, int price) {
+    public UnitPrice() {
+    }
+
+    public UnitPrice(Unit unit, double price) {
         this.unit = unit;
         this.price = price;
     }
@@ -20,11 +23,11 @@ public class UnitPrice {
         this.unit = unit;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 }
