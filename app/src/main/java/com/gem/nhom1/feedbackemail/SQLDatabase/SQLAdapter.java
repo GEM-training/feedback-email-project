@@ -85,6 +85,24 @@ public class SQLAdapter {
             + STAFF_PHONE + " text not null , "
             + STAFF_ADDRESS + " text not null " + " ) ";
 
+    /* UnitOfDealer table */
+
+    static final String NAME_TABLE_UNITOFDEALER = "unitOfDealer";
+    static final String UNITOFDEALER_UNITID = "unitId";
+    static final String UNITOFDEALER_PRICE = "price";
+    static final String UNITOFDEALER_TYPE = "type";
+    static final String UNITOFDEALER_IS_PART = "isPart";
+    static final String UNITOFDEALER_PARENTID = "parentID";
+
+    static  final String QUERY_CREATE_TABLE_UNITOFDEALER = " crate table " + NAME_TABLE_UNITOFDEALER + " ( "
+            + UNITOFDEALER_UNITID + " integer not null , "
+            + DEALER_ID + " integer not null "
+            + UNITOFDEALER_IS_PART + " integer not null , "
+            + UNITOFDEALER_TYPE + "text not null , "
+            + UNITOFDEALER_PARENTID + " integer null , "
+            + UNITOFDEALER_PRICE + " double not null ,"
+            + " PRIMARY KEY( " + UNITOFDEALER_UNITID + " , " +  DEALER_ID + "  )) ";
+
 
     private String address;
 
