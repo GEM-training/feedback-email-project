@@ -3,10 +3,8 @@ package com.gem.nhom1.feedbackemail.screen.splash;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.gem.nhom1.feedbackemail.SQLDatabase.UserAdapter;
+import com.gem.nhom1.feedbackemail.sqlite.UserAdapter;
 import com.gem.nhom1.feedbackemail.commom.Constant;
 import com.gem.nhom1.feedbackemail.commom.util.NetworkUtil;
 import com.gem.nhom1.feedbackemail.commom.util.PreferenceUtils;
@@ -40,8 +38,14 @@ public class SplashActivity extends AppCompatActivity {
         }).start();
     }
 
+    /*
+     * Kiem tra xem co thong tin cua nguoi dung trong phien lam viec truoc ki
+     * Neu co start man hinh profile
+     * Neu khong start man hinh login
+     */
+
     public void detechedAcount() {
-        if(PreferenceUtils.getToken(SplashActivity.this)!="" && PreferenceUtils.getCurrentUserId(SplashActivity.this)!=-1){
+        if(PreferenceUtils.getToken(SplashActivity.this)!= PreferenceUtils.TOKEN_EMPTY && PreferenceUtils.getCurrentUserId(SplashActivity.this)!=PreferenceUtils.USER_ID_EMPTY){
             UserAdapter userAdapter = new UserAdapter(SplashActivity.this);
 
             User user = userAdapter.getUserById(PreferenceUtils.getCurrentUserId(SplashActivity.this));
@@ -79,7 +83,6 @@ public class SplashActivity extends AppCompatActivity {
             }
 
         }
-        Log.d("phuongtd" , "Start Login");
         startActivity(new Intent(SplashActivity.this, LoginActivity.class));
         finish();
 

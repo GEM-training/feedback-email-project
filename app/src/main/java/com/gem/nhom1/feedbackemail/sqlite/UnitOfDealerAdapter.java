@@ -1,4 +1,4 @@
-package com.gem.nhom1.feedbackemail.SQLDatabase;
+package com.gem.nhom1.feedbackemail.sqlite;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,8 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.gem.nhom1.feedbackemail.network.entities.Dealer;
-import com.gem.nhom1.feedbackemail.network.entities.Staff;
 import com.gem.nhom1.feedbackemail.network.entities.UnitOfDealer;
 import com.gem.nhom1.feedbackemail.network.entities.UnitPrice;
 
@@ -88,7 +86,7 @@ public class UnitOfDealerAdapter {
             unitPriceList.add(unitPrice);
         }
 
-
+        c.close();
         close();
         return unitPriceList;
 

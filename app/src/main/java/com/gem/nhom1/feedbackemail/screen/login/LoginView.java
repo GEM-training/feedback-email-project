@@ -8,8 +8,8 @@ import com.gem.nhom1.feedbackemail.network.entities.User;
  * Created by phuongtd on 23/02/2016.
  */
 public interface LoginView extends BaseView<LoginPresenter> {
-    public void showError(String mess);
-    public void onLoginSuccess(TokenInfoDTO  tokenInfoDTO);
+    void showError(String mess);
+    void onLoginSuccess(TokenInfoDTO  tokenInfoDTO);
 
-    public void onLoginSuccessOffLine(User user);
+    void onLoginSuccessOffLine(User user);
 }

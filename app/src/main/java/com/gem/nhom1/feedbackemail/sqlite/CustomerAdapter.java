@@ -1,4 +1,4 @@
-package com.gem.nhom1.feedbackemail.SQLDatabase;
+package com.gem.nhom1.feedbackemail.sqlite;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -74,6 +74,7 @@ public class CustomerAdapter {
             customer.setPhone(c.getString(2));
             customer.setAddress(c.getString(3));
 
+            c.close();
             close();
             return customer;
 

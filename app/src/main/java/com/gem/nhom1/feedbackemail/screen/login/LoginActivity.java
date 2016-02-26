@@ -47,9 +47,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
    /* @Bind(R.id.toolbar)
     Toolbar toolbar;*/
 
-    private final String LENGTH_ERROR = "Username and password more than 6 character";
-    private final String ERROR_CONNECT = "Can not Connect";
-
     @Bind(R.id.tvError)
     TextView tvError;
 
@@ -85,7 +82,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void onLoginSuccess(TokenInfoDTO tokenInfoDTO) {
-        Toast.makeText(this , "Success online" , Toast.LENGTH_LONG).show();
+        Toast.makeText(this , Constant.ONLINE_SUCCESS, Toast.LENGTH_LONG).show();
 
         tvError.setVisibility(View.GONE);
 
@@ -119,8 +116,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void onLoginSuccessOffLine(User user) {
-        Toast.makeText(this , "Success offline" , Toast.LENGTH_LONG).show();
-
+        Toast.makeText(this , Constant.OFFLINE_SUCCESS, Toast.LENGTH_LONG).show();
 
         tvError.setVisibility(View.GONE);
 

@@ -1,12 +1,10 @@
-package com.gem.nhom1.feedbackemail.SQLDatabase;
+package com.gem.nhom1.feedbackemail.sqlite;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
-import com.gem.nhom1.feedbackemail.network.entities.Staff;
 import com.gem.nhom1.feedbackemail.network.entities.Unit;
 
 /**
@@ -65,6 +63,7 @@ public class UnitAdapter {
                 null, null, orderBy);
 
         if(c.getCount() ==0 ) {
+            c.close();
             close();
             return null;
         }
@@ -78,7 +77,7 @@ public class UnitAdapter {
 
         Unit parent = null;
 
-        Integer integer = new Integer(c.getInt(3));
+        Integer integer = Integer.valueOf(c.getInt(3));
 
         if(integer != null){
             parent = getById(integer);
@@ -88,6 +87,7 @@ public class UnitAdapter {
             unit.setUnit(parent);
         }
 
+        c.close();
         close();
         return  unit;
 

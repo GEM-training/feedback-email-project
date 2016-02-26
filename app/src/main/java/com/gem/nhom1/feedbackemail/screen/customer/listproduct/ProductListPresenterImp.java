@@ -1,12 +1,7 @@
 package com.gem.nhom1.feedbackemail.screen.customer.listproduct;
 
-import android.util.Log;
-
-import com.gem.nhom1.feedbackemail.SQLDatabase.DealerAdapter;
-import com.gem.nhom1.feedbackemail.SQLDatabase.UnitAdapter;
-import com.gem.nhom1.feedbackemail.SQLDatabase.UnitOfDealerAdapter;
-import com.gem.nhom1.feedbackemail.adapter.DealerListAdapter;
-import com.gem.nhom1.feedbackemail.base.BaseView;
+import com.gem.nhom1.feedbackemail.sqlite.UnitAdapter;
+import com.gem.nhom1.feedbackemail.sqlite.UnitOfDealerAdapter;
 import com.gem.nhom1.feedbackemail.commom.Constant;
 import com.gem.nhom1.feedbackemail.network.ServiceBuilder;
 import com.gem.nhom1.feedbackemail.network.callback.BaseCallback;
@@ -40,7 +35,7 @@ public class ProductListPresenterImp implements ProductListPresenter {
 
         dealerId = dealer.getDealerId();
 
-        if(Constant.offLineMode == false) {
+        if(!Constant.offLineMode) {
             ServiceBuilder.getService().getListProduct(Constant.CURRENT_ACCESS_TOKEN, dealer.getDealerId() , 0 , sizeDefault).enqueue(baseCallback);
         } else {
             UnitOfDealerAdapter unitOfDealerAdapter = new UnitOfDealerAdapter(productListView.getContextBase());

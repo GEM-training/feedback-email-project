@@ -1,26 +1,14 @@
 package com.gem.nhom1.feedbackemail.screen.customer.listdealer;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-
-import android.widget.AbsListView;
-import android.widget.ListView;
 import android.widget.Toast;
 
-import com.gem.nhom1.feedbackemail.SQLDatabase.DealerAdapter;
-import com.gem.nhom1.feedbackemail.adapter.DealerListAdapter;
+import com.gem.nhom1.feedbackemail.sqlite.DealerAdapter;
 import com.gem.nhom1.feedbackemail.base.BaseView;
 import com.gem.nhom1.feedbackemail.commom.Constant;
-import com.gem.nhom1.feedbackemail.commom.util.NetworkUtil;
-import com.gem.nhom1.feedbackemail.commom.util.PreferenceUtils;
 import com.gem.nhom1.feedbackemail.network.ServiceBuilder;
 import com.gem.nhom1.feedbackemail.network.callback.BaseCallback;
 import com.gem.nhom1.feedbackemail.network.dto.ListDealerDTO;
-import com.gem.nhom1.feedbackemail.network.dto.TokenInfoDTO;
 import com.gem.nhom1.feedbackemail.network.entities.Dealer;
-import com.gem.nhom1.feedbackemail.screen.customer.listproduct.ProductListActivity;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -34,6 +22,8 @@ public class DealerListPresenterImpl implements DealerListPresenter {
     private BaseView baseView;
     private int loadDefaultSize = 9;
 
+    private final String GET_ON_OFFLINE = "Get Dealer on Offline Mode";
+
     public DealerListPresenterImpl(DealerListView view){
         this.mView = view;
         baseView = (BaseView) mView.getContextBase();
@@ -43,16 +33,15 @@ public class DealerListPresenterImpl implements DealerListPresenter {
     @Override
     public void onLoadDealerOnStart() {
 
-        if(Constant.offLineMode == false){
+        if(!Constant.offLineMode){
             baseView.showProgress();
 
             ServiceBuilder.getService().getListDealer(Constant.CURRENT_ACCESS_TOKEN , -1 , loadDefaultSize).enqueue(mCallbackMore);
 
         } else {
-            Toast.makeText(mView.getContextBase() , "Get Dealer on Offline Mode" , Toast.LENGTH_SHORT).show();
+            Toast.makeText(mView.getContextBase() , GET_ON_OFFLINE , Toast.LENGTH_SHORT).show();
             DealerAdapter dealerAdapter = new DealerAdapter(mView.getContextBase());
 
-            // Lay tu id = 0 , size = 5
             List<Dealer> list = dealerAdapter.getListDealer(-1 ,loadDefaultSize);
 
             mView.onLoadDealerSuccess(list);
@@ -64,13 +53,12 @@ public class DealerListPresenterImpl implements DealerListPresenter {
 
     @Override
     public void onLoadMore(int startIndex,int pageSize) {
-        if(Constant.offLineMode == false){
+        if(!Constant.offLineMode){
             ServiceBuilder.getService().getListDealer(Constant.CURRENT_ACCESS_TOKEN, startIndex , pageSize).enqueue(mCallbackMore);
         } else {
-            Toast.makeText(mView.getContextBase() , "Get More Dealer on Offline Mode" , Toast.LENGTH_SHORT).show();
+            Toast.makeText(mView.getContextBase() , GET_ON_OFFLINE , Toast.LENGTH_SHORT).show();
             DealerAdapter dealerAdapter = new DealerAdapter(mView.getContextBase());
 
-            // Lay tu id = 0 , size = 5
             List<Dealer> list = dealerAdapter.getListDealer(startIndex ,pageSize);
 
             mView.onLoadDealerSuccess(list);
@@ -98,8 +86,7 @@ public class DealerListPresenterImpl implements DealerListPresenter {
             for (int i = 0; i < dealerListTemp.size(); i++) {
                     Dealer temp = new Gson().fromJson(new Gson().toJson(dealerListTemp.get(i)), Dealer.class);
                     dealerList.add(temp);
-                    Log.d("phuongtd", "Insert: " + dealerAdapter.insert(temp));
-
+                    dealerAdapter.insert(temp);
             }
 
             mView.onLoadDealerSuccess(dealerList);

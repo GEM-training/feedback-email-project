@@ -34,10 +34,8 @@ public class TokenUtil {
         return new BigInteger(1, crypt.digest()).toString(16);
     }
 
-    public static boolean isExpiration(TokenInfoDTO tokenInfo){
-        if(tokenInfo == null)
-            return false;
-        return tokenInfo.getExpirationTime() < System.currentTimeMillis() ? true : false;
+    public static boolean isExpiration(TokenInfoDTO tokenInfo) {
+        return tokenInfo != null && (tokenInfo.getExpirationTime() < System.currentTimeMillis() ? true : false);
     }
 
 }

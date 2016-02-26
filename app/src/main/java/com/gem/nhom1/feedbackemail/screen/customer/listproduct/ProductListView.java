@@ -10,5 +10,5 @@ import java.util.List;
  * Created by nghicv on 25/02/2016.
  */
 public interface ProductListView extends BaseView<ProductListPresenter> {
-    public void onLoadProductListSuccess(List<UnitPrice> unitPrices);
+    void onLoadProductListSuccess(List<UnitPrice> unitPrices);
 }

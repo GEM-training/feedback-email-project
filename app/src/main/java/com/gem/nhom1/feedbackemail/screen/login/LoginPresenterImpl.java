@@ -1,11 +1,9 @@
 package com.gem.nhom1.feedbackemail.screen.login;
 
-import android.util.Log;
-
-import com.gem.nhom1.feedbackemail.SQLDatabase.CustomerAdapter;
-import com.gem.nhom1.feedbackemail.SQLDatabase.DealerAdapter;
-import com.gem.nhom1.feedbackemail.SQLDatabase.StaffAdapter;
-import com.gem.nhom1.feedbackemail.SQLDatabase.UserAdapter;
+import com.gem.nhom1.feedbackemail.sqlite.CustomerAdapter;
+import com.gem.nhom1.feedbackemail.sqlite.DealerAdapter;
+import com.gem.nhom1.feedbackemail.sqlite.StaffAdapter;
+import com.gem.nhom1.feedbackemail.sqlite.UserAdapter;
 import com.gem.nhom1.feedbackemail.commom.util.DeviceUtils;
 import com.gem.nhom1.feedbackemail.commom.util.NetworkUtil;
 import com.gem.nhom1.feedbackemail.commom.util.PreferenceUtils;
@@ -24,25 +22,26 @@ public class LoginPresenterImpl implements LoginPresenter {
 
     LoginView mView;
 
-    private boolean save = false;
+    private boolean is_save_account = false;
+
+    private String MESSAGE_INPUT_NOT_VALID = "Input is not valid !";
+    private String MESSAGE_LOGIN_NOT_CORRECT = "Username or password not correct !";
 
     public LoginPresenterImpl(LoginView loginView){
         this.mView = loginView;
     }
     @Override
     public void doLogin(String username, String password , boolean remember) {
-        if(validateForm(username , password)==false){
+        if(!validateForm(username, password)){
 
-            mView.showError("Input not valid");
+            mView.showError(MESSAGE_INPUT_NOT_VALID);
 
             return;
         }
 
         mView.showProgress();
 
-        Log.d("phuongtd", "Username: " + username.trim());
-
-        save = remember;
+        is_save_account  = remember;
 
         if(NetworkUtil.isNetworkAvaiable(mView.getContextBase())) {
 
@@ -54,7 +53,7 @@ public class LoginPresenterImpl implements LoginPresenter {
             User user = userAdapter.getUserByUserNamePassWord(username , password);
 
             if(user == null){
-                mView.showError( "Username or password is not valid");
+                mView.showError(MESSAGE_LOGIN_NOT_CORRECT);
                 mView.hideProgress();
             } else {
 
@@ -68,14 +67,10 @@ public class LoginPresenterImpl implements LoginPresenter {
 
         }
 
-
     }
 
     public boolean validateForm(String username, String passWord){
-        if(username.length() < 6 || passWord.length() < 6){
-            return false;
-        }
-        return true;
+        return !(username.length() < 6 || passWord.length() < 6);
     }
 
     private BaseCallback mCallback = new BaseCallback<TokenInfoDTO>() {
@@ -88,16 +83,13 @@ public class LoginPresenterImpl implements LoginPresenter {
         public void onResponse(Object o) {
             TokenInfoDTO tokenInfoDTO = new Gson().fromJson(new Gson().toJson(o) , TokenInfoDTO.class);
 
-            Log.d("phuongtd", "Object 2: " + new Gson().toJson(tokenInfoDTO));
-
             mView.onRequestSuccess();
             mView.onLoginSuccess(tokenInfoDTO);
 
             insertUserIntoSQLite(tokenInfoDTO);
 
-            if(save == true){
+            if(is_save_account){
                 PreferenceUtils.saveToken(mView.getContextBase(), tokenInfoDTO.getAccess_token());
-                Log.d("nghicv", tokenInfoDTO.getAccess_token());
                 PreferenceUtils.saveCurrentUserId(mView.getContextBase(), tokenInfoDTO.getUser().getUserId());
             }
 
@@ -106,60 +98,29 @@ public class LoginPresenterImpl implements LoginPresenter {
         }
     };
 
+    /*
+     * Luu lai thong tin nguoi dung vao SQLite
+     */
+
     private void insertUserIntoSQLite(TokenInfoDTO tokenInfo){
 
         UserAdapter userAdapter= new UserAdapter(mView.getContextBase());
-        int insertUser = (int) userAdapter.insertUser(tokenInfo.getUser());
-
-        if(insertUser == Constant.DUPLICATE_INSERT){
-            Log.d("phuongtd", "User da ton tai khong Insert !");
-        } else if(insertUser == Constant.INSERT_ERROR){
-            Log.d("phuongtd" , "User Insert loi");
-        } else {
-            Log.d("phuongtd" , "User Insert success");
-        }
+        userAdapter.insertUser(tokenInfo.getUser());
 
         if(tokenInfo.getUser().getDealer() != null){
             DealerAdapter dealerAdapter = new DealerAdapter(mView.getContextBase());
-            int insertStaff = (int) dealerAdapter.insert(tokenInfo.getUser().getDealer());
-
-            if(insertStaff == Constant.DUPLICATE_INSERT){
-                Log.d("phuongtd" , "Dealer da ton tai khong Insert !");
-            } else if(insertStaff == Constant.INSERT_ERROR){
-                Log.d("phuongtd" , "Dealer Insert loi");
-            } else {
-                Log.d("phuongtd" , "Dealer Insert success");
-            }
+            dealerAdapter.insert(tokenInfo.getUser().getDealer());
         }
 
         if(tokenInfo.getUser().getCustomer() != null){
             CustomerAdapter customerAdapter = new CustomerAdapter(mView.getContextBase());
-            int innsertCustomer = (int) customerAdapter.insert(tokenInfo.getUser().getCustomer());
-
-            if(innsertCustomer == Constant.DUPLICATE_INSERT){
-                Log.d("phuongtd" , "Customer da ton tai khong Insert !");
-            } else if(innsertCustomer == Constant.INSERT_ERROR){
-                Log.d("phuongtd" , "Customer Insert loi");
-            } else {
-                Log.d("phuongtd" , "Customer Insert success");
-            }
+            customerAdapter.insert(tokenInfo.getUser().getCustomer());
         }
 
         if(tokenInfo.getUser().getStaff() != null){
             StaffAdapter staffAdapter = new StaffAdapter(mView.getContextBase());
-            int insertStaff = (int) staffAdapter.insert(tokenInfo.getUser().getStaff());
-
-            if(insertStaff == Constant.DUPLICATE_INSERT){
-                Log.d("phuongtd" , "Staff da ton tai khong Insert !");
-            } else if(insertStaff == Constant.INSERT_ERROR){
-                Log.d("phuongtd" , "Staff Insert loi");
-            } else {
-                Log.d("phuongtd" , "Staff Insert success");
-            }
+            staffAdapter.insert(tokenInfo.getUser().getStaff());
         }
 
-        User userOffLine = userAdapter.getUserById(tokenInfo.getUser().getUserId());
-
-        Log.d("phuongtd", "User offline: " + new Gson().toJson(userOffLine));
     }
 }
