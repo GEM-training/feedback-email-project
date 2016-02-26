@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.gem.nhom1.feedbackemail.network.entities.Staff;
 import com.gem.nhom1.feedbackemail.network.entities.Unit;
@@ -30,13 +31,16 @@ public class UnitAdapter {
 
     public long insert(Unit unit){
 
+
         open();
 
         ContentValues initialValues = new ContentValues();
-        initialValues.put(SQLAdapter.UNIT_ID, unit.getId());
+        initialValues.put(SQLAdapter.UNIT_ID, unit.getUnitId());
         initialValues.put(SQLAdapter.UNIT_TYPE , unit.getType());
         initialValues.put(SQLAdapter.UNIT_ISPART , unit.getIsPart());
-        initialValues.put(SQLAdapter.UNIT_PARENTID , unit.getUnit().getId());
+
+        if(unit.getUnit() != null)
+        initialValues.put(SQLAdapter.UNIT_PARENTID , unit.getUnit().getUnitId());
 
 
         long kq =  db.insert(SQLAdapter.NAME_TABLE_UNIT, null, initialValues);
@@ -68,11 +72,11 @@ public class UnitAdapter {
 
         c.moveToFirst();
         Unit unit = new Unit();
-        unit.setId(c.getInt(0));
+        unit.setUnitId(c.getInt(0));
         unit.setType(c.getString(1));
         unit.setIsPart(c.getInt(2));
 
-        Unit parent =null;
+        Unit parent = null;
 
         Integer integer = new Integer(c.getInt(3));
 

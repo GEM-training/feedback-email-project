@@ -3,6 +3,8 @@ package com.gem.nhom1.feedbackemail.screen.customer.listproduct;
 import android.util.Log;
 
 import com.gem.nhom1.feedbackemail.SQLDatabase.DealerAdapter;
+import com.gem.nhom1.feedbackemail.SQLDatabase.UnitAdapter;
+import com.gem.nhom1.feedbackemail.SQLDatabase.UnitOfDealerAdapter;
 import com.gem.nhom1.feedbackemail.adapter.DealerListAdapter;
 import com.gem.nhom1.feedbackemail.base.BaseView;
 import com.gem.nhom1.feedbackemail.commom.Constant;
@@ -10,6 +12,7 @@ import com.gem.nhom1.feedbackemail.network.ServiceBuilder;
 import com.gem.nhom1.feedbackemail.network.callback.BaseCallback;
 import com.gem.nhom1.feedbackemail.network.dto.ListProductDTO;
 import com.gem.nhom1.feedbackemail.network.entities.Dealer;
+import com.gem.nhom1.feedbackemail.network.entities.UnitOfDealer;
 import com.gem.nhom1.feedbackemail.network.entities.UnitPrice;
 import com.google.gson.Gson;
 
@@ -22,6 +25,10 @@ import java.util.List;
 public class ProductListPresenterImp implements ProductListPresenter {
     private ProductListView productListView;
 
+    private int sizeDefault = 10;
+
+    private int dealerId;
+
     public ProductListPresenterImp(ProductListView productListView) {
         this.productListView = productListView;
     }
@@ -29,9 +36,18 @@ public class ProductListPresenterImp implements ProductListPresenter {
 
     @Override
     public void doLoadListProduct(Dealer dealer) {
-            productListView.showProgress();
-            ServiceBuilder.getService().getListProduct(Constant.CURRENT_ACCESS_TOKEN, dealer.getDealerId()).enqueue(baseCallback);
-            Log.d("nghicv", dealer.getName());
+        productListView.showProgress();
+
+        dealerId = dealer.getDealerId();
+
+        if(Constant.offLineMode == false) {
+            ServiceBuilder.getService().getListProduct(Constant.CURRENT_ACCESS_TOKEN, dealer.getDealerId() , 0 , sizeDefault).enqueue(baseCallback);
+        } else {
+            UnitOfDealerAdapter unitOfDealerAdapter = new UnitOfDealerAdapter(productListView.getContextBase());
+            productListView.onLoadProductListSuccess(unitOfDealerAdapter.getListUnitOfDealer(dealerId , 0 , sizeDefault));
+            productListView.onRequestSuccess();
+
+        }
 
     }
 
@@ -49,12 +65,42 @@ public class ProductListPresenterImp implements ProductListPresenter {
             List<UnitPrice> unitPrices = new ArrayList<UnitPrice>();
 
             for(int i = 0 ; i< productListTemp.size() ; i++){
-                unitPrices.add(new Gson().fromJson(new Gson().toJson(productListTemp.get(i)), UnitPrice.class));
+                UnitPrice unitPrice = new Gson().fromJson(new Gson().toJson(productListTemp.get(i)), UnitPrice.class);
+
+                unitPrices.add(unitPrice);
+
+                ///
+                saveIntoSqlite(unitPrice);
+
             }
-            ProductListAdapter productListAdapter = new ProductListAdapter(productListView.getContextBase() , unitPrices);
 
             productListView.onLoadProductListSuccess(unitPrices);
 
+
+
         }
     };
+
+    private void saveIntoSqlite(UnitPrice unitPrice){
+
+        // Luu vao SQLtile
+
+        UnitAdapter unitAdapter = new UnitAdapter(productListView.getContextBase());
+        UnitOfDealerAdapter unitOfDealerAdapter = new UnitOfDealerAdapter(productListView.getContextBase());
+        // luu lai san pham vao sqlite
+        long kq1 = unitAdapter.insert(unitPrice.getUnit());
+
+        // luu lai san pham va gia
+        UnitOfDealer  unitOfDealer = new UnitOfDealer();
+
+        unitOfDealer.setPrice(unitPrice.getPrice());
+        unitOfDealer.setUnitId(unitPrice.getUnit().getUnitId());
+        unitOfDealer.setDealerId(dealerId);
+
+        long kq2 = unitOfDealerAdapter.insert(unitOfDealer);
+
+        Log.d("phuongtd" , "Insert unit" + kq1);
+
+        Log.d("phuongtd" , "Insert unit of dealer" + kq2);
+    }
 }

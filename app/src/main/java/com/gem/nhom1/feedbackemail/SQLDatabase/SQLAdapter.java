@@ -104,10 +104,10 @@ public class SQLAdapter {
     static final String NAME_TABLE_UNITOFDEALER = "unitOfDealer";
     static final String UNITOFDEALER_PRICE = "price";
 
-    static  final String QUERY_CREATE_TABLE_UNITOFDEALER = " crate table " + NAME_TABLE_UNITOFDEALER + " ( "
+    static  final String QUERY_CREATE_TABLE_UNITOFDEALER = " create table " + NAME_TABLE_UNITOFDEALER + " ( "
             + UNIT_ID + " integer not null , "
             + DEALER_ID + " integer not null ,"
-            + UNITOFDEALER_PRICE + " real not null"
+            + UNITOFDEALER_PRICE + " real not null ,"
             + " PRIMARY KEY( " + UNIT_ID + " , " +  DEALER_ID + "  )) ";
 
 

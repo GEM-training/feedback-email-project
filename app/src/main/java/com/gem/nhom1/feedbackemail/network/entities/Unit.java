@@ -5,7 +5,8 @@ package com.gem.nhom1.feedbackemail.network.entities;
  */
 public class Unit {
 
-    private int id;
+
+    private int unitId;
     private String type;
     private int isPart;
     private Unit unit;
@@ -14,33 +15,19 @@ public class Unit {
 
     }
 
-    public Unit(int id, String type, int isPart) {
-        this.id = id;
-        this.type = type;
-        this.isPart = isPart;
-    }
-
-    public Unit(int id, String type, int isPart, Unit unit) {
-        this.id = id;
+    public Unit(int unitId, String type, int isPart, Unit unit) {
+        this.unitId = unitId;
         this.type = type;
         this.isPart = isPart;
         this.unit = unit;
     }
 
-    public Unit getUnit() {
-        return unit;
+    public int getUnitId() {
+        return unitId;
     }
 
-    public void setUnit(Unit unit) {
-        this.unit = unit;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setUnitId(int unitId) {
+        this.unitId = unitId;
     }
 
     public String getType() {
@@ -57,5 +44,13 @@ public class Unit {
 
     public void setIsPart(int isPart) {
         this.isPart = isPart;
+    }
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
     }
 }
