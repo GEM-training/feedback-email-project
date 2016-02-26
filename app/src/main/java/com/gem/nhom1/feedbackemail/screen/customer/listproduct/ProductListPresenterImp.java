@@ -88,7 +88,7 @@ public class ProductListPresenterImp implements ProductListPresenter {
         UnitAdapter unitAdapter = new UnitAdapter(productListView.getContextBase());
         UnitOfDealerAdapter unitOfDealerAdapter = new UnitOfDealerAdapter(productListView.getContextBase());
         // luu lai san pham vao sqlite
-        long kq1 = unitAdapter.insert(unitPrice.getUnit());
+        unitAdapter.insert(unitPrice.getUnit());
 
         // luu lai san pham va gia
         UnitOfDealer  unitOfDealer = new UnitOfDealer();
@@ -97,10 +97,7 @@ public class ProductListPresenterImp implements ProductListPresenter {
         unitOfDealer.setUnitId(unitPrice.getUnit().getUnitId());
         unitOfDealer.setDealerId(dealerId);
 
-        long kq2 = unitOfDealerAdapter.insert(unitOfDealer);
+        unitOfDealerAdapter.insert(unitOfDealer);
 
-        Log.d("phuongtd" , "Insert unit" + kq1);
-
-        Log.d("phuongtd" , "Insert unit of dealer" + kq2);
     }
 }
