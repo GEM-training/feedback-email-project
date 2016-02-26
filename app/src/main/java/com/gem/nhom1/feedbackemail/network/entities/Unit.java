@@ -10,6 +10,10 @@ public class Unit {
     private int isPart;
     private Unit unit;
 
+    public Unit(){
+
+    }
+
     public Unit(int id, String type, int isPart) {
         this.id = id;
         this.type = type;
