@@ -69,14 +69,11 @@ public class ProductListPresenterImp implements ProductListPresenter {
 
                 unitPrices.add(unitPrice);
 
-                ///
                 saveIntoSqlite(unitPrice);
 
             }
 
             productListView.onLoadProductListSuccess(unitPrices);
-
-
 
         }
     };
