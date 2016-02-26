@@ -46,14 +46,14 @@ public class ProductListPresenterImp implements ProductListPresenter {
             productListView.onRequestSuccess();
             List<UnitPrice> productListTemp = new Gson().fromJson(new Gson().toJson(o) , ( new ArrayList<UnitPrice>()).getClass());
 
-            List<UnitPrice> list = new ArrayList<UnitPrice>();
+            List<UnitPrice> unitPrices = new ArrayList<UnitPrice>();
 
             for(int i = 0 ; i< productListTemp.size() ; i++){
-                list.add(new Gson().fromJson(new Gson().toJson(productListTemp.get(i)), UnitPrice.class));
+                unitPrices.add(new Gson().fromJson(new Gson().toJson(productListTemp.get(i)), UnitPrice.class));
             }
-            ProductListAdapter productListAdapter = new ProductListAdapter(productListView.getContextBase() , list);
+            ProductListAdapter productListAdapter = new ProductListAdapter(productListView.getContextBase() , unitPrices);
 
-            productListView.onLoadProductListSuccess(productListAdapter);
+            productListView.onLoadProductListSuccess(unitPrices);
 
         }
     };

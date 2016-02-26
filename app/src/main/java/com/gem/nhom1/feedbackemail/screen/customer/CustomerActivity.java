@@ -80,7 +80,7 @@ public class CustomerActivity extends BaseActivity<CustomerPresenter> implements
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_profile) {
             FragmentProfileCustomer customerProfile = new FragmentProfileCustomer();
             ft = fm.beginTransaction();
             ft.replace(R.id.content_menu, customerProfile);
@@ -92,12 +92,6 @@ public class CustomerActivity extends BaseActivity<CustomerPresenter> implements
             ft.replace(R.id.content_menu, dealerList);
             ft.commit();
             toolbar.setTitle("Dealer list");
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
         } else if (id == R.id.nav_send) {
 
         } else if (id == R.id.logout) {
