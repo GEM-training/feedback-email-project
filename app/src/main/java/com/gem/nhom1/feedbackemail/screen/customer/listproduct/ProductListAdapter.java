@@ -50,7 +50,9 @@ public class ProductListAdapter extends BaseAdapter {
         UnitPrice unitPrice = unitPrices.get(position);
 
         TextView tvProductName = (TextView) view.findViewById(R.id.product_name);
+        TextView tvPrice = (TextView) view.findViewById(R.id.price);
         tvProductName.setText(unitPrice.getUnit().getType());
+        tvPrice.setText(unitPrice.getPrice() + "");
 
         return view;
     }
