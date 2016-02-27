@@ -6,9 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
-import com.gem.nhom1.feedbackemail.network.entities.Dealer;
-import com.google.gson.Gson;
+import com.gem.nhom1.feedbackemail.network.entities.Store;
 import com.project.gem.feedbackemail.R;
 
 import java.util.List;
@@ -16,22 +14,22 @@ import java.util.List;
 /**
  * Created by phuongtd on 24/02/2016.
  */
-public class DealerListAdapter extends BaseAdapter {
+public class ListStoreAdapter extends BaseAdapter {
     Context context;
-    List<Dealer> dealerList;
+    List<Store> listStore;
 
-    public DealerListAdapter(Context context , List<Dealer> dealers){
+    public ListStoreAdapter(Context context, List<Store> stores){
         this.context = context;
-        this.dealerList = dealers;
+        this.listStore = stores;
     }
     @Override
     public int getCount() {
-        return dealerList.size();
+        return listStore.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return dealerList.get(position);
+        return listStore.get(position);
     }
 
     @Override
@@ -48,11 +46,11 @@ public class DealerListAdapter extends BaseAdapter {
         TextView tv_name = (TextView) convertView.findViewById(R.id.tv_dealer_name);
         TextView tv_address = (TextView) convertView.findViewById(R.id.tv_dealer_address);
 
-        Dealer dealer = dealerList.get(position);
+        Store store = listStore.get(position);
 
-        tv_id.setText("ID: "+ dealer.getDealerId());
-        tv_name.setText(dealer.getName());
-        tv_address.setText(dealer.getAddress());
+        tv_id.setText("ID: "+ store.getId());
+        tv_name.setText(store.getName());
+        tv_address.setText(store.getAddress());
 
 
         return convertView;

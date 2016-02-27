@@ -1,5 +1,8 @@
 package com.gem.nhom1.feedbackemail.network.dto;
 
+/**
+ * Created by phuong on 2/27/2016.
+ */
 import java.io.Serializable;
 
 /**

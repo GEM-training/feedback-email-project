@@ -2,7 +2,6 @@ package com.gem.nhom1.feedbackemail.network.callback;
 
 
 import com.gem.nhom1.feedbackemail.network.dto.ResponseDTO;
-import com.gem.nhom1.feedbackemail.network.dto.TokenInfoDTO;
 import com.google.gson.Gson;
 import com.gem.nhom1.feedbackemail.commom.Constant;
 
@@ -24,7 +23,7 @@ public abstract class BaseCallback<T> implements Callback<ResponseDTO<T>> {
             // 201 , 200
             ResponseDTO<T> dto = response.body();
 
-            if (dto.getStatus().equals(Constant.RESPONSE_STATUS_SUSSCESS)) {
+            if (dto.getStatus().equals(Constant.RESPONSE_STATUS_SUCCESS)) {
                 onResponse(dto.getData());
             } else {
                 onError(RESULT_ERROR , dto.getMessage());
@@ -32,8 +31,6 @@ public abstract class BaseCallback<T> implements Callback<ResponseDTO<T>> {
         } else {
                 onError(response.code() , response.message());
         }
-
-
     }
 
     @Override

@@ -1,3 +1,4 @@
+package com.gem.nhom1.feedbackemail.sqlite;/*
 package com.gem.nhom1.feedbackemail.sqlite;
 
 import android.content.Context;
@@ -8,11 +9,12 @@ import android.util.Log;
 
 import com.gem.nhom1.feedbackemail.commom.Constant;
 
-/**
- * Created by phuongtd on 19/02/2016.
- */
+
+
+
 public class SQLAdapter {
-     /* User Table*/
+
+
      static final String USER_ID = "userId";
 
      static final  String USERNAME = "username";
@@ -39,7 +41,8 @@ public class SQLAdapter {
             + DEALER_ID + " integer null , "
             + CUSTOMER_ID + " integer null" + " ) ";
 
-    /* CUSTOMER Table */
+
+
 
     static final String NAME_TABLE_CUSTOMER= "customers";
 
@@ -56,7 +59,8 @@ public class SQLAdapter {
             + CUSTOMER_ADDRESS + " text not null" + " )";
 
 
-    /* DEALER Table*/
+
+
 
     static final String NAME_TABLE_DEALER = "dealers";
 
@@ -69,7 +73,8 @@ public class SQLAdapter {
             + DEALER_NAME + " text not null , "
             + DEALER_ADDRESS + " text not null" + " ) ";
 
-    /* Staff table */
+
+
 
     static final String NAME_TABLE_STAFF = "staffs";
 
@@ -85,7 +90,8 @@ public class SQLAdapter {
             + STAFF_PHONE + " text not null , "
             + STAFF_ADDRESS + " text not null " + " ) ";
 
-     /*  Unit table */
+
+
 
     static final String NAME_TABLE_UNIT = "units";
     static final String UNIT_ID = "unitId";
@@ -99,7 +105,8 @@ public class SQLAdapter {
             + UNIT_ISPART + " integer not null ,"
             + UNIT_PARENTID + " integer null " + " ) ";
 
-    /* UnitOfDealer table */
+
+
 
     static final String NAME_TABLE_UNITOFDEALER = "unitOfDealer";
     static final String UNITOFDEALER_PRICE = "price";
@@ -127,7 +134,7 @@ public class SQLAdapter {
     {
         DatabaseHelper(Context context)
         {
-            super(context, Constant.SQL_DB_NAME, null, DATABASE_VERSION);
+            super(context, "localDB", null, DATABASE_VERSION);
         }
 
         @Override
@@ -171,3 +178,4 @@ public class SQLAdapter {
 
 
 }
+*/

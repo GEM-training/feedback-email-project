@@ -1,3 +1,4 @@
+package com.gem.nhom1.feedbackemail.sqlite;/*
 package com.gem.nhom1.feedbackemail.sqlite;
 
 import android.content.ContentValues;
@@ -10,9 +11,9 @@ import com.gem.nhom1.feedbackemail.network.entities.Dealer;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by phuongtd on 19/02/2016.
- */
+
+
+
 public class DealerAdapter {
     private SQLAdapter sqlAdapter;
 
@@ -126,3 +127,4 @@ public class DealerAdapter {
         return list;
     }
 }
+*/

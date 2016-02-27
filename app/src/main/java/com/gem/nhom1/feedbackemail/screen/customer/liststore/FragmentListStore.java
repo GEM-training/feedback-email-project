@@ -1,20 +1,16 @@
-package com.gem.nhom1.feedbackemail.screen.customer.listdealer;
+package com.gem.nhom1.feedbackemail.screen.customer.liststore;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.gem.nhom1.feedbackemail.adapter.DealerListAdapter;
+import com.gem.nhom1.feedbackemail.adapter.ListStoreAdapter;
 import com.gem.nhom1.feedbackemail.base.BaseFragment;
-import com.gem.nhom1.feedbackemail.network.entities.Dealer;
+import com.gem.nhom1.feedbackemail.network.entities.Store;
 import com.gem.nhom1.feedbackemail.screen.customer.listproduct.ProductListActivity;
 import com.project.gem.feedbackemail.R;
 
@@ -22,33 +18,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.OnItemClick;
-import butterknife.OnItemSelected;
 
 /**
  * Created by phuongtd on 24/02/2016.
  */
-public class FragmentDealerList extends BaseFragment<DealerListPresenter> implements DealerListView {
+public class FragmentListStore extends BaseFragment<ListStorePresenter> implements ListStoreView {
 
     @Bind(R.id.list_dealer)
     ListView listView;
-    private DealerListAdapter adapter;
-    List<Dealer> listDealers;
+    private ListStoreAdapter adapter;
+    List<Store> listStore;
     int currentScrollState;
 
+    private int page = 0;
+
+    private int pageSize = 10;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        listDealers = new ArrayList<>();
-        adapter = new DealerListAdapter(getActivity(),listDealers);
+        listStore = new ArrayList<>();
+        adapter = new ListStoreAdapter(getActivity(),listStore);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        getPresenter().onLoadDealerOnStart();
+        getPresenter().onLoadMore(page , pageSize);
 
         listView.setAdapter(adapter);
 
@@ -71,7 +68,7 @@ public class FragmentDealerList extends BaseFragment<DealerListPresenter> implem
             }
             public void onScrollComplete(){
                 if (this.currentVisibleItemCount+currentFirstVisibleItem==total && currentScrollState == SCROLL_STATE_IDLE) {
-                    getPresenter().onLoadMore(listDealers.get(listDealers.size() -1).getDealerId() , 5);
+                    getPresenter().onLoadMore(page , pageSize);
                 }
             }
         });
@@ -79,10 +76,10 @@ public class FragmentDealerList extends BaseFragment<DealerListPresenter> implem
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Dealer dealer = listDealers.get(position);
+                Store store = listStore.get(position);
                 Intent intent = new Intent(getActivity(), ProductListActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("dealer", dealer);
+                bundle.putSerializable("store", store);
                 intent.putExtras(bundle);
                 getActivity().startActivity(intent);
             }
@@ -95,13 +92,14 @@ public class FragmentDealerList extends BaseFragment<DealerListPresenter> implem
     }
 
     @Override
-    public DealerListPresenter onCreatePresenter() {
-        return new DealerListPresenterImpl(this);
+    public ListStorePresenter onCreatePresenter() {
+        return new ListStorePresenterImpl(this);
     }
 
     @Override
-    public void onLoadDealerSuccess(List<Dealer> dealerList) {
-        listDealers.addAll(dealerList);
+    public void onLoadDealerSuccess(List<Store> stores) {
+        page++;
+        listStore.addAll(stores);
         adapter.notifyDataSetChanged();
     }
 

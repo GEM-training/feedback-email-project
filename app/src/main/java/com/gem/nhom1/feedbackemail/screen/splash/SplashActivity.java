@@ -4,15 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.gem.nhom1.feedbackemail.sqlite.UserAdapter;
-import com.gem.nhom1.feedbackemail.commom.Constant;
-import com.gem.nhom1.feedbackemail.commom.util.NetworkUtil;
-import com.gem.nhom1.feedbackemail.commom.util.PreferenceUtils;
-import com.gem.nhom1.feedbackemail.network.entities.User;
+import com.gem.nhom1.feedbackemail.network.Session;
+import com.gem.nhom1.feedbackemail.network.dto.ResponseUserInfoDTO;
 import com.gem.nhom1.feedbackemail.screen.customer.CustomerActivity;
-import com.gem.nhom1.feedbackemail.screen.dealerDetail.DealerDetailActivity;
 import com.gem.nhom1.feedbackemail.screen.login.LoginActivity;
-import com.gem.nhom1.feedbackemail.screen.staffDetail.StaffDetailActivity;
+import com.gem.nhom1.feedbackemail.commom.util.PreferenceUtils;
+import com.gem.nhom1.feedbackemail.screen.roleselect.SelectRoleActivity;
 import com.project.gem.feedbackemail.R;
 
 /**
@@ -29,7 +26,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(2000);
                     detechedAcount();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -39,52 +36,30 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     /*
-     * Kiem tra xem co thong tin cua nguoi dung trong phien lam viec truoc ki
-     * Neu co start man hinh profile
+     * Kiem tra xem co thong tin cua nguoi dung trong phien lam viec truoc ko
      * Neu khong start man hinh login
      */
 
     public void detechedAcount() {
-        if(PreferenceUtils.getToken(SplashActivity.this)!= PreferenceUtils.TOKEN_EMPTY && PreferenceUtils.getCurrentUserId(SplashActivity.this)!=PreferenceUtils.USER_ID_EMPTY){
-            UserAdapter userAdapter = new UserAdapter(SplashActivity.this);
+        ResponseUserInfoDTO userInfoDTO  = PreferenceUtils.getUserInfo(SplashActivity.this);
+        if(userInfoDTO!=null){
+            Session.setUser(userInfoDTO);
 
-            User user = userAdapter.getUserById(PreferenceUtils.getCurrentUserId(SplashActivity.this));
-
-            if(user != null){
-                if(NetworkUtil.isNetworkAvaiable(SplashActivity.this))
-                {
-                    Constant.offLineMode = false;
-                } else {
-                    Constant.offLineMode = true;
-                }
-                Constant.user = user;
-                Constant.CURRENT_ACCESS_TOKEN = PreferenceUtils.getToken(SplashActivity.this);
-
-                if(user.getCustomer()!=null){
-                    Intent intent = new Intent(SplashActivity.this , CustomerActivity.class);
-                    startActivity(intent);
-                    finish();
-                    return;
-                }
-
-                if(user.getDealer()!=null){
-                    Intent intent = new Intent(SplashActivity.this , DealerDetailActivity.class);
-                    startActivity(intent);
-                    finish();
-                    return;
-                }
-
-                if(user.getStaff()!=null){
-                    Intent intent = new Intent(SplashActivity.this , StaffDetailActivity.class);
-                    startActivity(intent);
-                    finish();
-                    return;
-                }
+            if(userInfoDTO.getRole().size() > 1){
+                Intent intent = new Intent(SplashActivity.this, SelectRoleActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+                Intent intent = new Intent(SplashActivity.this, CustomerActivity.class);
+                startActivity(intent);
+                finish();
             }
 
+        } else {
+            Intent intent = new Intent(SplashActivity.this , LoginActivity.class);
+            startActivity(intent);
+            finish();
         }
-        startActivity(new Intent(SplashActivity.this, LoginActivity.class));
-        finish();
 
     }
 
