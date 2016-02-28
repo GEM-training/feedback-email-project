@@ -44,7 +44,7 @@ public class LoginPresenterImpl implements LoginPresenter {
                     .login(new UserInfoDTO(username.trim(), password.trim(), DeviceUtils.getDeviceId(mView.getContextBase()))).enqueue(mCallback);
         } else {
 
-           mView.onRequestError(1 , NETWORK_ERROR);
+           mView.onRequestError(NETWORK_ERROR);
 
         }
 
@@ -57,7 +57,7 @@ public class LoginPresenterImpl implements LoginPresenter {
     private BaseCallback mCallback = new BaseCallback<ResponseUserInfoDTO>() {
         @Override
         public void onError(int errorCode, String errorMessage) {
-            mView.onRequestError(errorCode, errorMessage);
+            mView.onRequestError(errorMessage);
         }
 
         @Override

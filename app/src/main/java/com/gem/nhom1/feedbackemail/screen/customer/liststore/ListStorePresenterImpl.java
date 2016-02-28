@@ -34,7 +34,7 @@ public class ListStorePresenterImpl implements ListStorePresenter {
         if(NetworkUtil.isNetworkAvaiable(mView.getContextBase())){
             ServiceBuilder.getService().getStore(Session.getCurrentUser().getToken() , page , pageSize).enqueue(mCallbackMore);
         } else {
-           baseView.onRequestError(1 , Constant.NET_WORK_ERROR);
+           baseView.onRequestError(Constant.NET_WORK_ERROR);
         }
 
     }
@@ -42,7 +42,7 @@ public class ListStorePresenterImpl implements ListStorePresenter {
     private BaseCallback mCallbackMore = new BaseCallback<ListStoreDTO>() {
         @Override
         public void onError(int errorCode, String errorMessage) {
-            baseView.onRequestError(errorCode, errorMessage);
+            baseView.onRequestError( errorMessage);
         }
         @Override
         public void onResponse(Object o) {

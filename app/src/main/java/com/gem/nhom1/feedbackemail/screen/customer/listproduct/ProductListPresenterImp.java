@@ -38,7 +38,7 @@ public class ProductListPresenterImp implements ProductListPresenter {
             ServiceBuilder.getService().getProductByStore(Session.getCurrentUser().getToken() , store.getId() , page , size).enqueue(baseCallback);
         } else {
 
-           productListView.onRequestError(1 , Constant.NET_WORK_ERROR);
+           productListView.onRequestError(Constant.NET_WORK_ERROR);
 
         }
     }
@@ -46,7 +46,7 @@ public class ProductListPresenterImp implements ProductListPresenter {
     private BaseCallback baseCallback = new BaseCallback<ListProductDTO>() {
         @Override
         public void onError(int errorCode, String errorMessage) {
-            productListView.onRequestError(errorCode, errorMessage);
+            productListView.onRequestError(errorMessage);
         }
 
         @Override

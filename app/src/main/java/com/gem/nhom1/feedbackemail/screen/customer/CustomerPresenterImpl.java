@@ -24,7 +24,7 @@ public class CustomerPresenterImpl implements  CustomerPresenter {
             ServiceBuilder.getService()
                     .logout(Session.getCurrentUser().getToken()).enqueue(mCallback);
         } else{
-            mView.onRequestError(1 , Constant.NET_WORK_ERROR);
+            mView.onRequestError( Constant.NET_WORK_ERROR);
         }
 
 
@@ -34,7 +34,7 @@ public class CustomerPresenterImpl implements  CustomerPresenter {
     private BaseCallback mCallback = new BaseCallback<Object>() {
         @Override
         public void onError(int errorCode, String errorMessage) {
-            mView.onRequestError(errorCode, errorMessage);
+            mView.onRequestError(errorMessage);
         }
 
         @Override
