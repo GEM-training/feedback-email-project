@@ -45,7 +45,7 @@ public class SplashActivity extends AppCompatActivity {
         if(userInfoDTO!=null){
             Session.setUser(userInfoDTO);
 
-            if(userInfoDTO.getRole().size() > 1){
+            if(userInfoDTO.getRoles().size() > 1){
                 Intent intent = new Intent(SplashActivity.this, SelectRoleActivity.class);
                 startActivity(intent);
                 finish();

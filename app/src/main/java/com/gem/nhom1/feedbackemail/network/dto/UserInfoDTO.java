@@ -10,6 +10,18 @@ public class UserInfoDTO extends BaseDTO {
     public String username;
     public String password;
     public String deviceId;
+    public String token;
+
+
+    public UserInfoDTO() {
+    }
+
+    public UserInfoDTO(String username, String password, String deviceId, String token) {
+        this.username = username;
+        this.password = password;
+        this.deviceId = deviceId;
+        this.token = token;
+    }
 
     public String getUsername() {
         return username;
@@ -35,18 +47,11 @@ public class UserInfoDTO extends BaseDTO {
         this.deviceId = deviceId;
     }
 
-    public UserInfoDTO(String username, String password, String deviceId) {
-        this.username = username;
-        this.password = password;
-        this.deviceId = deviceId;
+    public String getToken() {
+        return token;
     }
 
-    @Override
-    public String toString() {
-        return "{" +
-                "\"username\":\"" + username + '\"' +
-                ",\"password\":\"" + password + '\"' +
-                ",\"deviceId\":\"" + deviceId + '\"' +
-                '}';
+    public void setToken(String token) {
+        this.token = token;
     }
 }

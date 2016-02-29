@@ -14,7 +14,9 @@ public class Constant {
 
     public static final String TOKEN  = "token";
 
-    public static final String NAME_ROLE_CUSROMER = "Customer";
-    public static final String NAME_ROLE_STAFF = "Staff";
+    public static final String NAME_ROLE_CUSROMER = "customer";
+    public static final String NAME_ROLE_STAFF = "staff";
+
+    public static final String NAME_ROLE_SALE = "sale";
 
 }

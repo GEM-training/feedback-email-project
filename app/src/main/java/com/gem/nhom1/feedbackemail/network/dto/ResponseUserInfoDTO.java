@@ -11,7 +11,10 @@ import java.util.List;
 public class ResponseUserInfoDTO extends BaseDTO {
     String username;
     String token;
-    List<String> role;
+    List<String> roles;
+
+    public ResponseUserInfoDTO() {
+    }
 
     public String getUsername() {
         return username;
@@ -29,20 +32,11 @@ public class ResponseUserInfoDTO extends BaseDTO {
         this.token = token;
     }
 
-    public List<String> getRole() {
-        return role;
+    public List<String> getRoles() {
+        return roles;
     }
 
-    @Override
-    public String toString() {
-        return "ResponseUserInfoDTO{" +
-                "username='" + username + '\'' +
-                ", token='" + token + '\'' +
-                ", role=" + role +
-                '}';
-    }
-
-    public void setRole(List<String> role) {
-        this.role = role;
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 }

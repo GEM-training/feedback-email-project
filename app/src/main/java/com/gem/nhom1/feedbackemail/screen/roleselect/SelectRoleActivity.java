@@ -39,7 +39,7 @@ public class SelectRoleActivity extends AppCompatActivity {
 
         LayoutInflater inflate = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        final List<String> roles = Session.getCurrentUser().getRole();
+        final List<String> roles = Session.getCurrentUser().getRoles();
 
         for(int i= 0 ; i < roles.size() ; i++){
             LinearLayout layoutRoleItem = (LinearLayout) inflate.inflate(R.layout.item_role_layout , null);
@@ -51,7 +51,15 @@ public class SelectRoleActivity extends AppCompatActivity {
 
 
             ImageView imageView = (ImageView) layoutRoleItem.findViewById(R.id.icon_role);
-            imageView.setImageDrawable(getResources().getDrawable(R.drawable.customer_icon));
+
+            if(roles.get(i).equals(Constant.NAME_ROLE_CUSROMER)){
+                imageView.setImageDrawable(getResources().getDrawable(R.drawable.customer));
+            } else if (roles.get(i).equals(Constant.NAME_ROLE_STAFF)){
+                imageView.setImageDrawable(getResources().getDrawable(R.drawable.staff));
+            } else {
+                imageView.setImageDrawable(getResources().getDrawable(R.drawable.sale));
+            }
+
 
             TextView tv_role_name = (TextView) layoutRoleItem.findViewById(R.id.tv_roleName);
 
@@ -67,7 +75,7 @@ public class SelectRoleActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     } else {
-                        Toast.makeText(SelectRoleActivity.this , "Not Support" , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SelectRoleActivity.this, "Not Support", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
