@@ -29,9 +29,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Bind(R.id.password)
     EditText mPasswordView;
 
-    @Bind(R.id.cb_remember)
-    AppCompatCheckBox mRememberCb;
-
     @Bind(R.id.user_sign_in_button)
     Button btnLogin;
 
@@ -88,6 +85,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @OnClick(R.id.user_sign_in_button)
     void login(){
-        getPresenter().doLogin(mUsernameView.getText().toString() , mPasswordView.getText().toString() , mRememberCb.isChecked());
+        getPresenter().doLogin(mUsernameView.getText().toString() , mPasswordView.getText().toString() , true);
     }
 }
