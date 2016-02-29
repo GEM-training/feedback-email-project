@@ -1,21 +1,26 @@
-package com.gem.nhom1.feedbackemail.network.entities;
+package com.gem.nhom1.feedbackemail.network.dto;
+
+
+import com.gem.nhom1.feedbackemail.base.BaseDTO;
 
 /**
- * Created by vanhop on 2/18/16.
+ * Created by huylv on 19/02/2016.
  */
-public class UserInfo {
+public class UserInfoDTO extends BaseDTO {
+    public String username;
+    public String password;
+    public String deviceId;
+    public String token;
 
-    private String username;
-    private String password;
-    private String deviceId;
 
-    public UserInfo() {
+    public UserInfoDTO() {
     }
 
-    public UserInfo(String username, String password, String deviceId) {
+    public UserInfoDTO(String username, String password, String deviceId, String token) {
         this.username = username;
         this.password = password;
         this.deviceId = deviceId;
+        this.token = token;
     }
 
     public String getUsername() {
@@ -40,5 +45,13 @@ public class UserInfo {
 
     public void setDeviceId(String deviceId) {
         this.deviceId = deviceId;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

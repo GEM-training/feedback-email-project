@@ -13,7 +13,7 @@ public interface BaseView<P extends BasePresenter> {
     P getPresenter();
     P onCreatePresenter();
 
-    void onRequestError(int errorCode, String errorMessage);
+    void onRequestError(String errorMessage);
     void onRequestSuccess();
 
     Context getContextBase();

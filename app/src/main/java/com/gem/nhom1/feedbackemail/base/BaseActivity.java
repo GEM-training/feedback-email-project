@@ -67,7 +67,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     }
 
     @Override
-    public void onRequestError(int errorCode, String errorMessage) {
+    public void onRequestError(String errorMessage) {
         DialogUtils.showErrorAlert(this, errorMessage);
         hideProgress();
     }

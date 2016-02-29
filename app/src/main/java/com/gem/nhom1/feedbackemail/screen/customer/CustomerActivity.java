@@ -10,15 +10,10 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.gem.nhom1.feedbackemail.base.BaseActivity;
-import com.gem.nhom1.feedbackemail.base.BaseView;
-import com.gem.nhom1.feedbackemail.screen.customer.listdealer.FragmentDealerList;
-import com.gem.nhom1.feedbackemail.screen.customer.profile.FragmentProfileCustomer;
+import com.gem.nhom1.feedbackemail.screen.customer.liststore.FragmentListStore;
 import com.gem.nhom1.feedbackemail.screen.login.LoginActivity;
 import com.project.gem.feedbackemail.R;
 
@@ -56,8 +51,8 @@ public class CustomerActivity extends BaseActivity<CustomerPresenter> implements
         fm = getSupportFragmentManager();
         ft = fm.beginTransaction();
 
-        FragmentProfileCustomer fragmentProfile = new FragmentProfileCustomer();
-        ft.replace(R.id.content_menu, fragmentProfile);
+        FragmentListStore fragmentListStore = new FragmentListStore();
+        ft.replace(R.id.content_menu, fragmentListStore);
         ft.commit();
     }
 
@@ -82,17 +77,13 @@ public class CustomerActivity extends BaseActivity<CustomerPresenter> implements
         int id = item.getItemId();
 
         if (id == R.id.nav_profile) {
-            FragmentProfileCustomer customerProfile = new FragmentProfileCustomer();
-            ft = fm.beginTransaction();
-            ft.replace(R.id.content_menu, customerProfile);
-            ft.commit();
-            toolbar.setTitle("Profiles");
+
         } else if (id == R.id.nav_dealers) {
-            FragmentDealerList dealerList = new FragmentDealerList();
+            FragmentListStore dealerList = new FragmentListStore();
             ft = fm.beginTransaction();
             ft.replace(R.id.content_menu, dealerList);
             ft.commit();
-            toolbar.setTitle("Dealer list");
+            toolbar.setTitle("Store list");
         } else if (id == R.id.nav_send) {
 
         } else if (id == R.id.logout) {

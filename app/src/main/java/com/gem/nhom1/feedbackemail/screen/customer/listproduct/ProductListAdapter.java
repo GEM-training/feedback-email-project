@@ -1,14 +1,13 @@
 package com.gem.nhom1.feedbackemail.screen.customer.listproduct;
 
 import android.content.Context;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.gem.nhom1.feedbackemail.network.entities.UnitPrice;
+import com.gem.nhom1.feedbackemail.network.entities.Product;
 import com.project.gem.feedbackemail.R;
 
 import java.util.List;
@@ -18,21 +17,21 @@ import java.util.List;
  */
 public class ProductListAdapter extends BaseAdapter {
     private Context context;
-    private List<UnitPrice> unitPrices;
+    private List<Product> listProduct;
 
-    public ProductListAdapter(Context context, List<UnitPrice> unitPrices) {
+    public ProductListAdapter(Context context, List<Product> products) {
         this.context = context;
-        this.unitPrices = unitPrices;
+        this.listProduct = products;
     }
 
     @Override
     public int getCount() {
-        return unitPrices.size();
+        return listProduct.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return unitPrices.get(position);
+        return listProduct.get(position);
     }
 
     @Override
@@ -47,12 +46,12 @@ public class ProductListAdapter extends BaseAdapter {
             view = LayoutInflater.from(context).inflate(R.layout.product_item, null);
         }
 
-        UnitPrice unitPrice = unitPrices.get(position);
+        Product product = listProduct.get(position);
 
         TextView tvProductName = (TextView) view.findViewById(R.id.product_name);
         TextView tvPrice = (TextView) view.findViewById(R.id.price);
-        tvProductName.setText(unitPrice.getUnit().getType());
-        tvPrice.setText(unitPrice.getPrice() + "");
+        tvProductName.setText(product.getName());
+        tvPrice.setText(product.getDescription());
 
         return view;
     }

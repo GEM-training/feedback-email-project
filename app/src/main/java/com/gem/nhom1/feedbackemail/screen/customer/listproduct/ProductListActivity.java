@@ -14,8 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.gem.nhom1.feedbackemail.base.BaseActivity;
-import com.gem.nhom1.feedbackemail.network.entities.Dealer;
-import com.gem.nhom1.feedbackemail.network.entities.UnitPrice;
+import com.gem.nhom1.feedbackemail.network.entities.Product;
+import com.gem.nhom1.feedbackemail.network.entities.Store;
 import com.project.gem.feedbackemail.R;
 
 import java.util.ArrayList;
@@ -28,9 +28,12 @@ import butterknife.Bind;
  */
 public class ProductListActivity extends BaseActivity<ProductListPresenter> implements ProductListView{
 
-    private Dealer dealer;
-    private List<UnitPrice> unitPrices = new ArrayList<>();
+    private Store store;
+    private List<Product> listProduct = new ArrayList<>();
     private ProductListAdapter adapter;
+
+    private int page = 0;
+    private int pageSize = 10;
 
     @Bind(R.id.lv_product)
     ListView lvProduct;
@@ -57,8 +60,9 @@ public class ProductListActivity extends BaseActivity<ProductListPresenter> impl
     }
 
     @Override
-    public void onLoadProductListSuccess(List<UnitPrice> unitPrices) {
-        this.unitPrices.addAll(unitPrices);
+    public void onLoadProductListSuccess(List<Product> products) {
+        page++;
+        this.listProduct.addAll(products);
         adapter.notifyDataSetChanged();
 
     }
@@ -69,12 +73,12 @@ public class ProductListActivity extends BaseActivity<ProductListPresenter> impl
         setSupportActionBar(toolbar);
         Intent i = getIntent();
         Bundle bundle = i.getExtras();
-        dealer = (Dealer)bundle.getSerializable("dealer");
+        store = (Store)bundle.getSerializable("store");
 
-        adapter = new ProductListAdapter(getBaseContext(), unitPrices);
+        adapter = new ProductListAdapter(getBaseContext(), listProduct);
         lvProduct.setAdapter(adapter);
 
-        getPresenter().doLoadListProduct(dealer);
+        getPresenter().doLoadListProduct(store , page , pageSize);
 
     }
 

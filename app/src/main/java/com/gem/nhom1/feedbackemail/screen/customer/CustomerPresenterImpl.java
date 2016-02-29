@@ -1,19 +1,11 @@
 package com.gem.nhom1.feedbackemail.screen.customer;
 
-import android.content.Context;
-import android.util.Log;
-import android.widget.Toast;
-
 import com.gem.nhom1.feedbackemail.commom.Constant;
-import com.gem.nhom1.feedbackemail.commom.util.DeviceUtils;
 import com.gem.nhom1.feedbackemail.commom.util.NetworkUtil;
 import com.gem.nhom1.feedbackemail.commom.util.PreferenceUtils;
 import com.gem.nhom1.feedbackemail.network.ServiceBuilder;
+import com.gem.nhom1.feedbackemail.network.Session;
 import com.gem.nhom1.feedbackemail.network.callback.BaseCallback;
-import com.gem.nhom1.feedbackemail.network.dto.TokenInfoDTO;
-import com.gem.nhom1.feedbackemail.network.entities.Customer;
-import com.gem.nhom1.feedbackemail.network.entities.UserInfo;
-import com.google.gson.Gson;
 
 /**
  * Created by phuongtd on 23/02/2016.
@@ -27,20 +19,22 @@ public class CustomerPresenterImpl implements  CustomerPresenter {
 
     @Override
     public void logout() {
-        if(Constant.offLineMode){
-            PreferenceUtils.saveToken(mView.getContextBase() , PreferenceUtils.TOKEN_EMPTY);
-            PreferenceUtils.saveCurrentUserId(mView.getContextBase(), PreferenceUtils.USER_ID_EMPTY);
-            mView.onLogoutSuccess();
-        } else {
+
+        if(NetworkUtil.isNetworkAvaiable(mView.getContextBase())){
             ServiceBuilder.getService()
-                    .logout(PreferenceUtils.getToken(mView.getContextBase())).enqueue(mCallback);
+                    .logout(Session.getCurrentUser().getToken()).enqueue(mCallback);
+        } else{
+            mView.onRequestError( Constant.NET_WORK_ERROR);
         }
+
+
+
     }
 
-    private BaseCallback mCallback = new BaseCallback<TokenInfoDTO>() {
+    private BaseCallback mCallback = new BaseCallback<Object>() {
         @Override
         public void onError(int errorCode, String errorMessage) {
-            mView.onRequestError(errorCode, errorMessage);
+            mView.onRequestError(errorMessage);
         }
 
         @Override
@@ -48,10 +42,11 @@ public class CustomerPresenterImpl implements  CustomerPresenter {
             mView.onRequestSuccess();
             mView.onLogoutSuccess();
 
-            Constant.CURRENT_ACCESS_TOKEN = PreferenceUtils.TOKEN_EMPTY;
+            Session.removeUser();
 
-            PreferenceUtils.saveToken(mView.getContextBase(), PreferenceUtils.TOKEN_EMPTY);
-            PreferenceUtils.saveCurrentUserId(mView.getContextBase(), PreferenceUtils.USER_ID_EMPTY);
+            PreferenceUtils.clearUser(mView.getContextBase());
+
+            mView.onLogoutSuccess();
         }
     };
 }

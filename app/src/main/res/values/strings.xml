@@ -10,4 +10,6 @@
 
     <string name="ok">OK</string>
     <string name="title_error">Error !</string>
+
+    <string name="gem_power_by">Power by GEM Vietnam</string>
 </resources>

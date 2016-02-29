@@ -33,6 +33,9 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name="com.gem.nhom1.feedbackemail.screen.customer.listproduct.ProductListActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity android:name="com.gem.nhom1.feedbackemail.screen.roleselect.SelectRoleActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         
     </application>
 

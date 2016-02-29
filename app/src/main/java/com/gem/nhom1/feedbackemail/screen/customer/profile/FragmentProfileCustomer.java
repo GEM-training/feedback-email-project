@@ -36,7 +36,7 @@ public class FragmentProfileCustomer extends BaseFragment<ProfilePresenter> impl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View v = super.onCreateView(inflater, container, savedInstanceState);
-        getPresenter().setLayoutOnCreate(Constant.user.getCustomer());
+        getPresenter().setLayoutOnCreate();
         return v;
     }
 
