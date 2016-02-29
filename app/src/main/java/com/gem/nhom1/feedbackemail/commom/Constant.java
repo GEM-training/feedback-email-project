@@ -11,6 +11,7 @@ public class Constant {
     public static final int SPLASH_TIME_OUT = 1000;
 
     public static final String NET_WORK_ERROR = "Can't connect to the Internet";
+    public static final String CONNECT_TO_SERVER_ERROE = "Connect to server error";
 
     public static final String TOKEN  = "token";
 

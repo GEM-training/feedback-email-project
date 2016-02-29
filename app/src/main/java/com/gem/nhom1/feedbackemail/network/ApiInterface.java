@@ -23,8 +23,8 @@ public interface ApiInterface {
     @POST("/authenticate/login")
     Call<ResponseUserInfoDTO> login(@Body UserInfoDTO user);
 
-    @GET("/logoutuser")
-    Call<Void> logout(@Header(Constant.TOKEN) String access_token);
+    @POST("/authenticate/logout")
+    Call<Void> logout(@Header(Constant.TOKEN) String access_token , @Header("deviceId") String deviceId);
 
     @GET("/store")
     Call<ListStoreDTO> getStore(@Header(Constant.TOKEN) String access_token, @Header("deviceId") String deviceId , @Query("page") int page , @Query("size") int size);
