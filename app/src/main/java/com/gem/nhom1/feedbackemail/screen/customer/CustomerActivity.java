@@ -76,17 +76,13 @@ public class CustomerActivity extends BaseActivity<CustomerPresenter> implements
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_profile) {
-
-        } else if (id == R.id.nav_dealers) {
+        if (id == R.id.nav_dealers) {
             FragmentListStore dealerList = new FragmentListStore();
             ft = fm.beginTransaction();
             ft.replace(R.id.content_menu, dealerList);
             ft.commit();
             toolbar.setTitle("Store list");
-        } else if (id == R.id.nav_send) {
-
-        } else if (id == R.id.logout) {
+        }else if (id == R.id.logout) {
             getPresenter().logout();
         }
 
