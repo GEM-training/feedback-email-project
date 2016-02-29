@@ -66,7 +66,7 @@ public class ProductListPresenterImp implements ProductListPresenter {
 
         @Override
         public void onFailure(Call<ListProductDTO> call, Throwable t) {
-                productListView.onRequestError("Connect to server error !");
+                productListView.onRequestError(Constant.CONNECT_TO_SERVER_ERROE);
         }
     };
 

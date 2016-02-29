@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.gem.nhom1.feedbackemail.commom.logger.LogData;
+import com.gem.nhom1.feedbackemail.commom.logger.LogThread;
 import com.gem.nhom1.feedbackemail.network.Session;
 import com.gem.nhom1.feedbackemail.network.dto.ResponseUserInfoDTO;
 import com.gem.nhom1.feedbackemail.screen.customer.CustomerActivity;
@@ -11,6 +13,8 @@ import com.gem.nhom1.feedbackemail.screen.login.LoginActivity;
 import com.gem.nhom1.feedbackemail.commom.util.PreferenceUtils;
 import com.gem.nhom1.feedbackemail.screen.roleselect.SelectRoleActivity;
 import com.project.gem.feedbackemail.R;
+
+import java.util.Date;
 
 /**
  * Created by phuong on 2/23/2016.
@@ -33,6 +37,10 @@ public class SplashActivity extends AppCompatActivity {
                 }
             }
         }).start();
+
+        new LogThread(SplashActivity.this).start();
+
+        LogData.addLog("Start App at:" + new Date(System.currentTimeMillis()));
     }
 
     /*
@@ -45,17 +53,26 @@ public class SplashActivity extends AppCompatActivity {
         if(userInfoDTO!=null){
             Session.setUser(userInfoDTO);
 
+            LogData.addLog("Detech account success at: " + new Date(System.currentTimeMillis()));
+
             if(userInfoDTO.getRoles().size() > 1){
                 Intent intent = new Intent(SplashActivity.this, SelectRoleActivity.class);
                 startActivity(intent);
                 finish();
             } else {
+                LogData.addLog("Start with role customer at: " + new Date(System.currentTimeMillis()));
+
                 Intent intent = new Intent(SplashActivity.this, CustomerActivity.class);
                 startActivity(intent);
                 finish();
             }
 
+
+
         } else {
+
+            LogData.addLog("Detech account not success at: " + new Date(System.currentTimeMillis()));
+
             Intent intent = new Intent(SplashActivity.this , LoginActivity.class);
             startActivity(intent);
             finish();

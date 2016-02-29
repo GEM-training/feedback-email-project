@@ -11,14 +11,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import com.gem.nhom1.feedbackemail.base.BaseActivity;
 import com.gem.nhom1.feedbackemail.screen.customer.liststore.FragmentListStore;
 import com.gem.nhom1.feedbackemail.screen.login.LoginActivity;
+import com.gem.nhom1.feedbackemail.screen.roleselect.SelectRoleActivity;
 import com.project.gem.feedbackemail.R;
 
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * Created by phuongtd on 23/02/2016.
@@ -32,12 +35,15 @@ public class CustomerActivity extends BaseActivity<CustomerPresenter> implements
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
+    @Bind(R.id.bt_select_role)
+    ImageView btSelectRole;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setSupportActionBar(toolbar);
-
+        
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -54,6 +60,8 @@ public class CustomerActivity extends BaseActivity<CustomerPresenter> implements
         FragmentListStore fragmentListStore = new FragmentListStore();
         ft.replace(R.id.content_menu, fragmentListStore);
         ft.commit();
+
+        toolbar.setTitle("List Store");
     }
 
     @Override
@@ -97,5 +105,11 @@ public class CustomerActivity extends BaseActivity<CustomerPresenter> implements
         Intent intent = new Intent(CustomerActivity.this  , LoginActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    @OnClick(R.id.bt_select_role)
+    public void selectRole(){
+        Intent intent = new Intent(CustomerActivity.this , SelectRoleActivity.class);
+        startActivity(intent);
     }
 }
