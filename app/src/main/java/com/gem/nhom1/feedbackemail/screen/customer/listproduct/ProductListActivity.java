@@ -3,6 +3,8 @@ package com.gem.nhom1.feedbackemail.screen.customer.listproduct;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,7 +38,7 @@ public class ProductListActivity extends BaseActivity<ProductListPresenter> impl
     private int pageSize = 10;
 
     @Bind(R.id.lv_product)
-    ListView lvProduct;
+    RecyclerView lvProduct;
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -75,7 +77,10 @@ public class ProductListActivity extends BaseActivity<ProductListPresenter> impl
         Bundle bundle = i.getExtras();
         store = (Store)bundle.getSerializable("store");
 
-        adapter = new ProductListAdapter(getBaseContext(), listProduct);
+        lvProduct.setHasFixedSize(true);
+
+        lvProduct.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new ProductListAdapter(listProduct);
         lvProduct.setAdapter(adapter);
 
         getPresenter().doLoadListProduct(store , page , pageSize);

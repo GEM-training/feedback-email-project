@@ -42,12 +42,12 @@
                 android:layout_gravity="center_horizontal"/>
 
         </LinearLayout>
-        <ListView
+        <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/lv_product"
             android:layout_alignParentTop="true"
-            ></ListView>
+            ></android.support.v7.widget.RecyclerView>
 
     </RelativeLayout>
 
