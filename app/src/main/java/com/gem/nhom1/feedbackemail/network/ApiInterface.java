@@ -27,8 +27,12 @@ public interface ApiInterface {
     Call<Void> logout(@Header(Constant.TOKEN) String access_token , @Header("deviceId") String deviceId);
 
     @GET("/store")
-    Call<ListStoreDTO> getStore(@Header(Constant.TOKEN) String access_token, @Header("deviceId") String deviceId , @Query("page") int page , @Query("size") int size);
+    Call<ListStoreDTO> getStore(@Header(Constant.TOKEN) String access_token, @Header("deviceId") String deviceId,
+                                @Query("page") int page , @Query("size") int size);
 
     @GET("/store/{id}/product")
-    Call<ListProductDTO> getProductByStore(@Header(Constant.TOKEN) String access_token, @Header("deviceId") String deviceId , @Path("id") Long id, @Query("page") int page, @Query("size") int size);
+    Call<ListProductDTO> getProductByStore(@Header(Constant.TOKEN) String access_token,
+                                           @Header("deviceId") String deviceId , @Path("id") Long id,
+                                           @Query("from") String from, @Query("to") String to,
+                                           @Query("page") int page, @Query("size") int size);
 }

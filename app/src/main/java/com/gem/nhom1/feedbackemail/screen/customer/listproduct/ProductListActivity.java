@@ -82,6 +82,7 @@ public class ProductListActivity extends BaseActivity<ProductListPresenter> impl
         lvProduct.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ProductListAdapter(listProduct);
         lvProduct.setAdapter(adapter);
+        lvProduct.addItemDecoration(new SimpleDividerItemDecoration(this));
 
         getPresenter().doLoadListProduct(store , page , pageSize);
 

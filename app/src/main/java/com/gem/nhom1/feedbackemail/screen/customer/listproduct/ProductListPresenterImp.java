@@ -43,7 +43,7 @@ public class ProductListPresenterImp implements ProductListPresenter {
 
         if(NetworkUtil.isNetworkAvaiable(productListView.getContextBase())) {
             productListView.showProgress();
-            ServiceBuilder.getService().getProductByStore(Session.getCurrentUser().getToken() , DeviceUtils.getDeviceId(productListView.getContextBase()), store.getId() , page , size).enqueue(baseCallback);
+            ServiceBuilder.getService().getProductByStore(Session.getCurrentUser().getToken() , DeviceUtils.getDeviceId(productListView.getContextBase()), store.getId() , "", "", page , size).enqueue(baseCallback);
         } else {
 
            productListView.onRequestError(Constant.NET_WORK_ERROR);

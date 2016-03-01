@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="120dp"
-    android:layout_height="120dp"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/product_itemt_height"
     android:gravity="center_vertical"
-    android:paddingBottom="20dp"
-    android:paddingTop="20dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp">
+    android:paddingTop="@dimen/product_item_pading_top"
+    android:paddingBottom="@dimen/product_item_pading_bottom"
+    android:paddingLeft="@dimen/product_item_pading_left"
+    android:paddingRight="@dimen/product_item_pading_right"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?android:attr/selectableItemBackground">
     <ImageView
         android:id="@+id/img_product"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="@dimen/image_product_with"
+        android:layout_height="@dimen/image_product_height"
         android:src="@drawable/lambo"
         android:scaleType="fitXY"/>
     <LinearLayout
         android:id="@+id/ll_info"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_toRightOf="@+id/img_product"
-        android:layout_marginLeft="10dp">
+        android:layout_marginLeft="@dimen/ll_infor_margin_left">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,19 +31,18 @@
             android:textSize="28sp"
             android:textStyle="bold"/>
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tv_price"
             android:textColor="#E91E63"
             android:textSize="20sp"/>
     </LinearLayout>
     <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/cb_product_size"
+        android:layout_height="@dimen/cb_product_size"
         android:src="@drawable/ic_cb"
         android:scaleType="fitXY"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"/>
-
 
 </RelativeLayout>

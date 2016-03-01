@@ -6,4 +6,14 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="nav_header_vertical_spacing">16dp</dimen>
     <dimen name="nav_header_height">160dp</dimen>
+    <!-- layout list product-->
+    <dimen name="product_item_pading_top">20dp</dimen>
+    <dimen name="product_item_pading_bottom">20dp</dimen>
+    <dimen name="product_item_pading_left">20dp</dimen>
+    <dimen name="product_item_pading_right">20dp</dimen>
+    <dimen name="product_itemt_height">120dp</dimen>
+    <dimen name="image_product_with">100dp</dimen>
+    <dimen name="image_product_height">100dp</dimen>
+    <dimen name="cb_product_size">40dp</dimen>
+    <dimen name="ll_infor_margin_left">15dp</dimen>
 </resources>
