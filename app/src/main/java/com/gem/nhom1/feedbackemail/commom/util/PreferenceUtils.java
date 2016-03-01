@@ -16,9 +16,6 @@ import java.util.List;
  * Created by phuongtd on 23/02/2016.
  */
 public class PreferenceUtils {
-    public static String TOKEN_EMPTY = "";
-    public static int USER_ID_EMPTY = -1;
-
 
     public static void saveUserInfo(Context context , ResponseUserInfoDTO userInfo){
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.share_preferences_file),
@@ -37,23 +34,11 @@ public class PreferenceUtils {
         if(userInfoString == "")
             return null;
         try {
-            ResponseUserInfoDTO userInfoDTO = new Gson().fromJson(userInfoString , ResponseUserInfoDTO.class);
-            return userInfoDTO;
+            return new Gson().fromJson(userInfoString , ResponseUserInfoDTO.class);
+
         } catch (Exception e){
                 return null;
         }
-
-      /*  ResponseUserInfoDTO userInfoDTO= new ResponseUserInfoDTO();
-        List<String> roles = new ArrayList<String>();
-        roles.add("Customer");
-        roles.add("Staff");
-        roles.add("Dealer");
-
-        userInfoDTO.setRole(roles);
-        userInfoDTO.setUsername("phuongtd");
-        userInfoDTO.setToken("sfjsbmf");
-
-        return userInfoDTO;*/
 
     }
 

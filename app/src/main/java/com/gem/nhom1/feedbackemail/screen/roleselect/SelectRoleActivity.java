@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,29 +14,52 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gem.nhom1.feedbackemail.base.BaseActivity;
 import com.gem.nhom1.feedbackemail.commom.Constant;
+import com.gem.nhom1.feedbackemail.commom.logger.LogData;
 import com.gem.nhom1.feedbackemail.network.Session;
 import com.gem.nhom1.feedbackemail.screen.customer.CustomerActivity;
+import com.gem.nhom1.feedbackemail.screen.login.LoginActivity;
 import com.project.gem.feedbackemail.R;
 
 import java.util.List;
+
+import butterknife.Bind;
+import butterknife.OnClick;
 
 
 /**
  * Created by phuong on 2/27/2016.
  */
 
-public class SelectRoleActivity extends AppCompatActivity {
+public class SelectRoleActivity extends BaseActivity<SelectRolePresenter> implements SelectRoleView {
 
+    @Bind(R.id.view_list_role)
     LinearLayout layout_list_role;
+
+    @Bind(R.id.layout_switch_account)
+    LinearLayout layout_swirch_account;
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.select_roles_activity;
+    }
+
+    @Override
+    public SelectRolePresenter onCreatePresenter() {
+        return new SelectRolePresenterImpl(this);
+    }
+
+    @Override
+    public Context getContextBase() {
+        return getBaseContext();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 
-        setContentView(R.layout.select_roles_activity);
-
-        layout_list_role = (LinearLayout) findViewById(R.id.view_list_role);
 
         LayoutInflater inflate = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -71,9 +95,14 @@ public class SelectRoleActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     if (roleName.equals(Constant.NAME_ROLE_CUSROMER)) {
+
+                        LogData.addLog("Select Account with role: " + roleName);
+
                         Intent intent = new Intent(SelectRoleActivity.this, CustomerActivity.class);
                         startActivity(intent);
                         finish();
+
+
                     } else {
                         Toast.makeText(SelectRoleActivity.this, "Not Support", Toast.LENGTH_SHORT).show();
                     }
@@ -82,6 +111,20 @@ public class SelectRoleActivity extends AppCompatActivity {
 
             layout_list_role.addView(layoutRoleItem, lp);
         }
+
+
+    }
+
+    @Override
+    public void changeAccountSuccess() {
+        Intent intent = new Intent(SelectRoleActivity.this  , LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @OnClick(R.id.layout_switch_account)
+    public void changrAccount(){
+        getPresenter().changeAccount();
     }
 }
 

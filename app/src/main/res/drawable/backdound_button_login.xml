@@ -5,8 +5,8 @@
             <corners
                 android:radius="5dp"></corners>
             <gradient
-                android:startColor="@color/colorPrimary"
-                android:endColor="@color/colorPrimary">
+                android:startColor="@color/bg_button_login"
+                android:endColor="@color/bg_button_login">
 
             </gradient>
         </shape>

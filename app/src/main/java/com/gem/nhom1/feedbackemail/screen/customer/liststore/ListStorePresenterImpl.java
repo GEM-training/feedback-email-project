@@ -3,6 +3,7 @@ package com.gem.nhom1.feedbackemail.screen.customer.liststore;
 
 import android.util.Log;
 
+import com.gem.nhom1.feedbackemail.commom.logger.LogData;
 import com.gem.nhom1.feedbackemail.commom.util.DeviceUtils;
 import com.gem.nhom1.feedbackemail.commom.util.NetworkUtil;
 import com.gem.nhom1.feedbackemail.network.Session;
@@ -17,6 +18,7 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,6 +41,10 @@ public class ListStorePresenterImpl implements ListStorePresenter {
 
     @Override
     public void onLoadMore(int page,int pageSize) {
+
+        LogData.addLog("Load list store at: " + new Date(System.currentTimeMillis()));
+
+
         baseView.showProgress();
         if(NetworkUtil.isNetworkAvaiable(mView.getContextBase())){
             Log.d("phuongtd", "Token On Load Store" + Session.getCurrentUser().getToken());

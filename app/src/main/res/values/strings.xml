@@ -22,4 +22,6 @@
 
     <string name="add_unit">+ Add</string>
 
+    <string name="switch_acc">Switch Account</string>
+
 </resources>

@@ -7,8 +7,40 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.project.gem.feedbackemail.activities.MainActivity"
     tools:showIn="@layout/app_bar_main">
+
+    <RelativeLayout
+        android:layout_alignParentBottom="true"
+        android:background="#ccc"
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_marginRight="15dp"
+            android:layout_alignParentRight="true"
+            android:id="@+id/bt_select_role"
+            android:src="@drawable/bt_select_roles"
+            android:layout_width="35dp"
+            android:layout_height="35dp" />
+
+
+        <ImageView
+            android:layout_marginLeft="15dp"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/bt_sync"
+            android:src="@drawable/bt_sync"
+            android:layout_width="35dp"
+            android:layout_height="35dp" />
+
+    </RelativeLayout>
+
     <FrameLayout
+        android:layout_above="@id/footer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/content_menu"></FrameLayout>
+
+
+
 </RelativeLayout>
