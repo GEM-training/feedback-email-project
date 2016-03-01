@@ -54,18 +54,18 @@ public class SplashActivity extends AppCompatActivity {
             Session.setUser(userInfoDTO);
 
             LogData.addLog("Detech account success at: " + new Date(System.currentTimeMillis()));
-
+/*
             if(userInfoDTO.getRoles().size() > 1){
                 Intent intent = new Intent(SplashActivity.this, SelectRoleActivity.class);
                 startActivity(intent);
                 finish();
-            } else {
+            } else {*/
                 LogData.addLog("Start with role customer at: " + new Date(System.currentTimeMillis()));
 
                 Intent intent = new Intent(SplashActivity.this, CustomerActivity.class);
                 startActivity(intent);
                 finish();
-            }
+            //}
 
 
 

@@ -5,5 +5,6 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="bg_login_screen">#104570</color>
+    <color name="bg_login_screen_99">#bf000000</color>
     <color name="bg_button_login">#08bd6b</color>
 </resources>

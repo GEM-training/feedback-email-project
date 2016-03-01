@@ -11,9 +11,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.gem.nhom1.feedbackemail.base.BaseActivity;
+import com.gem.nhom1.feedbackemail.base.SelectRoleView;
 import com.gem.nhom1.feedbackemail.screen.customer.liststore.FragmentListStore;
 import com.gem.nhom1.feedbackemail.screen.login.LoginActivity;
 import com.gem.nhom1.feedbackemail.screen.roleselect.SelectRoleActivity;
@@ -111,8 +115,12 @@ public class CustomerActivity extends BaseActivity<CustomerPresenter> implements
 
     @OnClick(R.id.bt_select_role)
     public void selectRole(){
-        Intent intent = new Intent(CustomerActivity.this , SelectRoleActivity.class);
-        startActivity(intent);
-        finish();
+        RelativeLayout linearLayout = SelectRoleView.getSelectRoleView(this);
+
+        RelativeLayout.LayoutParams layoutParams  = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
+
+        this.addContentView(linearLayout , layoutParams);
+
     }
 }
