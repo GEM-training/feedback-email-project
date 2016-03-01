@@ -70,7 +70,7 @@ public class LogThread extends Thread {
 
             while (true) {
 
-                String log = LogData.getFirstLog();
+               /* String log = LogData.getFirstLog();
                 Log.d("phuongtd-logger", "phuongtd: " + log);
 
 
@@ -96,7 +96,7 @@ public class LogThread extends Thread {
 
                 } catch (IOException e) {
                     e.printStackTrace();
-                }
+                }*/
             }
 
 

@@ -75,9 +75,7 @@ public class SelectRoleView {
                 @Override
                 public void onClick(View view) {
                     if (roleName.equals(Constant.NAME_ROLE_CUSROMER)) {
-
-                        LogData.addLog("Select Account with role: " + roleName);
-
+                        
                         Intent intent = new Intent(activity, CustomerActivity.class);
                         activity.startActivity(intent);
                         activity.finish();
