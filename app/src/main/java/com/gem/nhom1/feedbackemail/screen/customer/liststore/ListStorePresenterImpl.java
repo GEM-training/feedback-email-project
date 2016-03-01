@@ -46,7 +46,7 @@ public class ListStorePresenterImpl implements ListStorePresenter {
     public void onLoadMore(int page,int pageSize) {
 
         if(!is_emplty) {
-            LogData.addLog("Load list store at: " + new Date(System.currentTimeMillis()));
+
 
             if(page == 0){
                 baseView.showProgress();
@@ -79,7 +79,6 @@ public class ListStorePresenterImpl implements ListStorePresenter {
                mView.onLoadDealerSuccess(stores);
                mView.hideProgoressBar();
 
-               LogData.addLog("Load store success at: "+ new Date(System.currentTimeMillis()));
            } else {
                baseView.onRequestError(response.message());
                mView.hideProgoressBar();

@@ -40,7 +40,7 @@ public class SplashActivity extends AppCompatActivity {
 
         new LogThread(SplashActivity.this).start();
 
-        LogData.addLog("Start App at:" + new Date(System.currentTimeMillis()));
+
     }
 
     /*
@@ -53,25 +53,21 @@ public class SplashActivity extends AppCompatActivity {
         if(userInfoDTO!=null){
             Session.setUser(userInfoDTO);
 
-            LogData.addLog("Detech account success at: " + new Date(System.currentTimeMillis()));
-
+/*
             if(userInfoDTO.getRoles().size() > 1){
                 Intent intent = new Intent(SplashActivity.this, SelectRoleActivity.class);
                 startActivity(intent);
                 finish();
-            } else {
-                LogData.addLog("Start with role customer at: " + new Date(System.currentTimeMillis()));
+            } else {*/
 
                 Intent intent = new Intent(SplashActivity.this, CustomerActivity.class);
                 startActivity(intent);
                 finish();
-            }
+            //}
 
 
 
         } else {
-
-            LogData.addLog("Detech account not success at: " + new Date(System.currentTimeMillis()));
 
             Intent intent = new Intent(SplashActivity.this , LoginActivity.class);
             startActivity(intent);

@@ -71,15 +71,15 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     public void onLoginSuccess(ResponseUserInfoDTO userInfoDTO) {
         tvError.setVisibility(View.GONE);
-        if(userInfoDTO.getRoles().size() > 1){
+        /*if(userInfoDTO.getRoles().size() > 1){
             Intent intent = new Intent(LoginActivity.this, SelectRoleActivity.class);
             startActivity(intent);
             finish();
-        } else {
+        } else {*/
             Intent intent = new Intent(LoginActivity.this, CustomerActivity.class);
             startActivity(intent);
             finish();
-        }
+        // }
 
     }
 
