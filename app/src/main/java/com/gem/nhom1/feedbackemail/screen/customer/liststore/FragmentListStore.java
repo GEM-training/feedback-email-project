@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.gem.nhom1.feedbackemail.adapter.ListStoreAdapter;
 import com.gem.nhom1.feedbackemail.base.BaseFragment;
@@ -29,6 +30,9 @@ public class FragmentListStore extends BaseFragment<ListStorePresenter> implemen
     private ListStoreAdapter adapter;
     List<Store> listStore;
     int currentScrollState;
+
+    @Bind(R.id.progress_bar)
+    ProgressBar progressBar;
 
     private int page = 0;
 
@@ -103,4 +107,13 @@ public class FragmentListStore extends BaseFragment<ListStorePresenter> implemen
         adapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void showProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgoressBar() {
+        progressBar.setVisibility(View.GONE);
+    }
 }

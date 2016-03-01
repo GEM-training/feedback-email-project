@@ -43,6 +43,8 @@ public class CustomerActivity extends BaseActivity<CustomerPresenter> implements
         super.onCreate(savedInstanceState);
 
         setSupportActionBar(toolbar);
+
+        getSupportActionBar().setTitle("List Store");
         
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -111,5 +113,6 @@ public class CustomerActivity extends BaseActivity<CustomerPresenter> implements
     public void selectRole(){
         Intent intent = new Intent(CustomerActivity.this , SelectRoleActivity.class);
         startActivity(intent);
+        finish();
     }
 }

@@ -12,4 +12,8 @@ public interface ListStoreView extends BaseFragmentView<ListStorePresenter> {
 
     void onLoadDealerSuccess(List<Store> listStore);
 
+    void showProgressBar();
+
+    void hideProgoressBar();
+
 }

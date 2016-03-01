@@ -42,13 +42,11 @@ public class ListStoreAdapter extends BaseAdapter {
         if(convertView==null)
             convertView = LayoutInflater.from(context).inflate(R.layout.list_dealer_item , parent ,false);
 
-        TextView tv_id = (TextView) convertView.findViewById(R.id.tv_dealer_id);
         TextView tv_name = (TextView) convertView.findViewById(R.id.tv_dealer_name);
         TextView tv_address = (TextView) convertView.findViewById(R.id.tv_dealer_address);
 
         Store store = listStore.get(position);
 
-        tv_id.setText("ID: "+ store.getId());
         tv_name.setText(store.getName());
         tv_address.setText(store.getAddress());
 

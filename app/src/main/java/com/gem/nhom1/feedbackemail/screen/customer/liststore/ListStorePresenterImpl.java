@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,6 +33,8 @@ public class ListStorePresenterImpl implements ListStorePresenter {
     private ListStoreView mView;
     private BaseView baseView;
 
+    private boolean is_emplty = false;
+
     public ListStorePresenterImpl(ListStoreView view){
         this.mView = view;
         baseView = (BaseView) mView.getContextBase();
@@ -42,15 +45,19 @@ public class ListStorePresenterImpl implements ListStorePresenter {
     @Override
     public void onLoadMore(int page,int pageSize) {
 
-        LogData.addLog("Load list store at: " + new Date(System.currentTimeMillis()));
+        if(!is_emplty) {
+            LogData.addLog("Load list store at: " + new Date(System.currentTimeMillis()));
 
-
-        baseView.showProgress();
-        if(NetworkUtil.isNetworkAvaiable(mView.getContextBase())){
-            Log.d("phuongtd", "Token On Load Store" + Session.getCurrentUser().getToken());
-            ServiceBuilder.getService().getStore(Session.getCurrentUser().getToken(), DeviceUtils.getDeviceId(baseView.getContextBase()) , page ,pageSize).enqueue(mCallbackMore);
-        } else {
-           baseView.onRequestError(Constant.NET_WORK_ERROR);
+            if(page == 0){
+                baseView.showProgress();
+            } else {
+                mView.showProgressBar();
+            }
+            if (NetworkUtil.isNetworkAvaiable(mView.getContextBase())) {
+                ServiceBuilder.getService().getStore(Session.getCurrentUser().getToken(), DeviceUtils.getDeviceId(baseView.getContextBase()), page, pageSize).enqueue(mCallbackMore);
+            } else {
+                baseView.onRequestError(Constant.NET_WORK_ERROR);
+            }
         }
 
     }
@@ -63,9 +70,19 @@ public class ListStorePresenterImpl implements ListStorePresenter {
 
                ListStoreDTO listStoreDTO = response.body();
 
-               mView.onLoadDealerSuccess(new ArrayList<Store>(Arrays.asList(listStoreDTO.getContent())));
+               List<Store> stores = new ArrayList<Store>(Arrays.asList(listStoreDTO.getContent()));
+
+               if(stores.size()==0){
+                   is_emplty = true;
+               }
+
+               mView.onLoadDealerSuccess(stores);
+               mView.hideProgoressBar();
+
+               LogData.addLog("Load store success at: "+ new Date(System.currentTimeMillis()));
            } else {
                baseView.onRequestError(response.message());
+               mView.hideProgoressBar();
            }
         }
 
