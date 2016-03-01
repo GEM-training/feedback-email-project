@@ -41,6 +41,11 @@ public class FragmentProfileCustomer extends BaseFragment<ProfilePresenter> impl
     }
 
     @Override
+    public void setToolBar(View view) {
+
+    }
+
+    @Override
     public ProfilePresenter onCreatePresenter() {
         return new ProfilePresentImpl(this);
     }

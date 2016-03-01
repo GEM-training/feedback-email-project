@@ -28,9 +28,11 @@ public abstract class BaseFragment<T  extends BasePresenter> extends Fragment im
         ButterKnife.bind(this ,view);
 
         mPresenter = onCreatePresenter();
-
+        setToolBar(view);
         return view;
     }
+
+    public abstract void setToolBar(View view);
 
     @Override
     public T getPresenter() {

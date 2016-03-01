@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.gem.nhom1.feedbackemail.base.BaseActivity;
+import com.gem.nhom1.feedbackemail.screen.customer.feedback.FeedBackFragment;
 import com.gem.nhom1.feedbackemail.screen.customer.liststore.FragmentListStore;
 import com.gem.nhom1.feedbackemail.screen.login.LoginActivity;
 import com.gem.nhom1.feedbackemail.screen.roleselect.SelectRoleActivity;
@@ -43,9 +44,7 @@ public class CustomerActivity extends BaseActivity<CustomerPresenter> implements
         super.onCreate(savedInstanceState);
 
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setTitle("List Store");
-        
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -94,6 +93,14 @@ public class CustomerActivity extends BaseActivity<CustomerPresenter> implements
             toolbar.setTitle("Store list");
         }else if (id == R.id.logout) {
             getPresenter().logout();
+        } else if(id == R.id.nav_feedback){
+            FeedBackFragment dealerList = new FeedBackFragment(toolbar);
+            ft = fm.beginTransaction();
+            ft.replace(R.id.content_menu, dealerList);
+            ft.commit();
+
+            setSupportActionBar(toolbar);
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

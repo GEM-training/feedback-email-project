@@ -1,5 +1,6 @@
 package com.gem.nhom1.feedbackemail.base;
 
+import android.app.Activity;
 import android.content.Context;
 
 /**
@@ -10,4 +11,5 @@ public interface BaseFragmentView<P extends BasePresenter>{
     P onCreatePresenter();
 
     Context getContextBase();
+
 }

@@ -91,6 +91,11 @@ public class FragmentListStore extends BaseFragment<ListStorePresenter> implemen
     }
 
     @Override
+    public void setToolBar(View view) {
+
+    }
+
+    @Override
     public int setLayout() {
         return R.layout.dealer_list_fragment;
     }
